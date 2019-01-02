@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>TopJohn&#39;s Blog</title>
   <icon>https://www.gravatar.com/avatar/fb5fe15578d6fb10f262d76020929ea8</icon>
-  <subtitle>Coding的路上，至少我乐在其中...</subtitle>
+  <subtitle>在这里，分享技术总结和人生感悟...</subtitle>
   <link href="/feed.xml" rel="self"/>
   
   <link href="https://www.xuanzhangjiong.top/"/>
