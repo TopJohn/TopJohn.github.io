@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          2019年展望 - TopJohn&#39;s Blog
+          Fabric与dep - TopJohn&#39;s Blog
         
     </title>
 
-    <link rel="canonical" href="https://www.xuanzhangjiong.top/2019/01/03/2019年展望/">
+    <link rel="canonical" href="https://www.xuanzhangjiong.top/2019/01/15/Fabric与dep/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -71,7 +71,7 @@
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('http://img.mochain.info/topjohn/blog/post/header.jpg')
+            background-image: url('http://img.mochain.info/topjohn/blog/post/header_dark_red.jpg')
             /*post*/
         
     }
@@ -88,14 +88,16 @@
                     <div class="post-heading">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#随笔" title="随笔">随笔</a>
+                              <a class="tag" href="/tags/#Fabric" title="Fabric">Fabric</a>
+                            
+                              <a class="tag" href="/tags/#Fabric 笔记" title="Fabric 笔记">Fabric 笔记</a>
                             
                         </div>
-                        <h1>2019年展望</h1>
-                        <h2 class="subheading">2019年的展望和规划</h2>
+                        <h1>Fabric与dep</h1>
+                        <h2 class="subheading">Fabric</h2>
                         <span class="meta">
                             Posted by TopJohn on
-                            2019-01-03
+                            2019-01-15
                         </span>
                     </div>
                 
@@ -230,31 +232,22 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h1 id="2019年展望"><a href="#2019年展望" class="headerlink" title="2019年展望"></a>2019年展望</h1><p>2019年对技术追求的想法更为强烈了，希望新的一年自己在技术上能有所突破，在一个领域有所建树。在研究生期间，我曾坚持过1年的博客写作，那时也小有成就，但是工作之后便没有坚持了，折腾了一年多，希望能够重新把这个习惯养成，在这里分享技术总结，分享人生感悟。</p>
-<h2 id="Hyperledger-Fabric"><a href="#Hyperledger-Fabric" class="headerlink" title="Hyperledger Fabric"></a>Hyperledger Fabric</h2><p>因为17年开始参与开源社区，对<code>Hyperledger Fabric</code>项目也算是断断续续有过研究，2019年，我会在这里持续分享Hyperledger Fabric相关的2个系列的原创技术文章，也算是对自己一次系统的复习和总结：</p>
+                <h1 id="Fabric与dep"><a href="#Fabric与dep" class="headerlink" title="Fabric与dep"></a>Fabric与dep</h1><h2 id="个人感受"><a href="#个人感受" class="headerlink" title="个人感受"></a>个人感受</h2><p>接触Golang有2年时间了，从最初学习的时候简单地采用GOPATH开始，作为一个写过几年代码的人就有点奇怪，从Java的Maven到Node.js的npm，Golang的这种代码管理方式有点思维的跳跃。但是也勉强接受了，个人开发来说没什么大问题，所有的第三方包都由自己维护，但是采用Git协作的话就有点不知所云了，每个人都要维护统一的第三方包。后来就采用<a href="https://github.com/kardianos/govendor" target="_blank" rel="noopener">Govendor</a>来统一管理维护项目的第三方包。上述是个人使用经验，可能是我入<code>Golang</code>这行较晚，很多依赖管理工具没赶上潮流吧，自带学Go之后，Govendor便是主流工具。</p>
+<h2 id="Fabric包管理工具的变更"><a href="#Fabric包管理工具的变更" class="headerlink" title="Fabric包管理工具的变更"></a>Fabric包管理工具的变更</h2><p>Govendor也是之前很长一段时间Hyperledger Fabric所采用的依赖管理工具，但是在17年11月22日在<a href="https://jira.hyperledger.org/browse/FAB-7083" target="_blank" rel="noopener">Jira</a>上便开始讨论是否采用dep来进行包依赖管理，毕竟在混乱的年代，第三方的包管理工具不是一个长久之计，dep当时已经成为Go的官方包管理工具的一个候选者，在1.2版本中，Fabric开始采用dep作为依赖管理工具。</p>
+<p>但是在与此同时出现了vgo,然后随着go v1.11的出现，vgo又更名为go modules，真的是百家争鸣那。现在Fabric主项目采用的是dep，而fabric ca项目不知道是因为进度缓慢还是考虑到go modules会发布，还在采用govendor进行包管理。</p>
+<p>在<a href="https://jira.hyperledger.org/browse/FAB-10562" target="_blank" rel="noopener">Jira</a>上，18年6月6日的时候有一个讨论，说的是vgo的提案已经被go官方接受了，Fabric团队需要考虑vgo在未来对Fabric的影响。<strong>当然下述的文字表述仅仅是对历史的一个回顾，现在vgo这个词也已经不存在了。</strong></p>
+<p>Vgo的Roadmap：</p>
 <ul>
-<li><code>Hyperledger Fabric</code>入门与实战</li>
-<li><code>Hyperledger Fabric</code>技术内幕</li>
+<li>18年7月-计划Go v1.11 release(包括‘vgo’的预览版)</li>
+<li>19年1月-计划Go v1.12 release(完全包括‘vgo’)</li>
 </ul>
-<p>同时，闲暇之余，我会翻译<code>Hyperledger Fabric</code>官方文档给大家，同时会翻译一些设计文档以及国外的相关论文，让大家更好地了解<code>Hyperledger Fabric</code>这个项目，同时也算是对自己的一次挑战，看看自己能否坚持下来。</p>
-<ul>
-<li><a href="https://hyperledger-fabric.readthedocs.io/en/latest/" target="_blank" rel="noopener">官方文档的翻译</a></li>
-<li>相关设计文档的翻译</li>
-<li>相关论文的翻译</li>
-</ul>
-<h2 id="容器相关技术"><a href="#容器相关技术" class="headerlink" title="容器相关技术"></a>容器相关技术</h2><p>容器和容器的编排一直感兴趣的技术方向，18年对Docker熟练了，但是 19年希望对相关技术有系统的学习，这块我会边学边记录。</p>
-<ul>
-<li>Docker</li>
-<li>Kubernetes</li>
-<li>Rancher</li>
-</ul>
-<h2 id="Algorithm"><a href="#Algorithm" class="headerlink" title="Algorithm"></a>Algorithm</h2><p>算法一直是我曾经觉得最遥远的，最不实用的，但是接触了区块链之后，很长一段时间只徘徊在工程实现上，没有深入了解算法实现，才醒悟过来。一个有理论保障的算法，才是工程实现的灵魂。一大把年纪了，19年怎么也得看两篇论文学习一下。正好接触的<code>Hyperledger Fabric</code>中涉及了几个方向：</p>
-<ul>
-<li>SBFT</li>
-<li>RAFT</li>
-</ul>
-<h2 id="技术杂谈"><a href="#技术杂谈" class="headerlink" title="技术杂谈"></a>技术杂谈</h2><p>记录一些前端、后端和运维相关的技术分享，聊聊家常。</p>
-<p>我会在我的<a href="https://github.com/TopJohn" target="_blank" rel="noopener">Github</a>上分享学习总结过程中的相关代码，也希望新的一年，能够结交一些新的朋友一起交流技术，聊聊人生。</p>
+<h2 id="Dep-vs-Vgo"><a href="#Dep-vs-Vgo" class="headerlink" title="Dep vs Vgo"></a>Dep vs Vgo</h2><p>dep和vgo主要的差异在于，dep是一个单独的依赖管理工具，而vgo则是go命令的一个替代品。当你运行<code>vgo build</code>时，就像运行<code>go build</code>，但是vgo会自动帮你解决依赖。<br>vgo采用go.mod文件来追踪依赖，而不是dep的Gopkg.lock和Gopkg.toml文件。</p>
+<p>使用vgo同样允许链码相关的依赖在安装的时候能够自动下载并导入到二进制中。这意味着我们可以忽略vendor目录就像node_modules目录一样。</p>
+<h2 id="说说Chaincode中的包管理"><a href="#说说Chaincode中的包管理" class="headerlink" title="说说Chaincode中的包管理"></a>说说Chaincode中的包管理</h2><h3 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h3><p>如果一个用户写了一个带有几个外部依赖的链码程序。他将采用dep去管理依赖和shim层。然而他们并不想提交大量的文件，因为链码程序仅仅是个小的代码库。</p>
+<h3 id="当前的实现"><a href="#当前的实现" class="headerlink" title="当前的实现"></a>当前的实现</h3><p>在进行install的时候，为了保证所有的依赖都被包括进链码的容器里，用户被要求强制提交vendor目录，否则编译将会失败。</p>
+<h3 id="建议的实现"><a href="#建议的实现" class="headerlink" title="建议的实现"></a>建议的实现</h3><p>当链码构建的时候，我们会搜索Gopkg.toml和Gopkg.lock文件。如果它们存在的话，我们会运行<code>dep ensure</code>命令。这将会从相关的源头获取相关的依赖，然后不需要用户提交依赖的前提下将依赖构建进二进制中。</p>
+<p>要值得注意的是，如果用户希望提交vendor目录（比如peer节点无法拉取相应的依赖的情况下），这仍然有效-而且还有个好处是使用<code>dep ensure</code>-将保证提交的依赖是通过校验的。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>个人观点，自从Golang v1.11发布之后go modules的出现，Fabric采用原生go modules替代dep是迟早的事，在<a href="https://github.com/golang/dep" target="_blank" rel="noopener">Github</a>中，已经明确发现了dep现在的迭代只是因为go modules还不太稳定。想必在19年Fabric会逐渐替换dep以及Fabric CA中的govendor，希望go modules可以终结Golang混乱的包管理机制。</p>
 
                 
 
@@ -262,10 +255,10 @@
                 <!-- Pager -->
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/2019/01/15/Fabric与dep/" data-toggle="tooltip" data-placement="top" title="Fabric与dep">&larr; Previous Post</a>
-                        </li>
                     
+                        <li class="next">
+                            <a href="/2019/01/03/2019年展望/" data-toggle="tooltip" data-placement="top" title="2019年展望">Next Post &rarr;</a>
+                        </li>
                     
                 </ul>
 
@@ -294,7 +287,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#2019年展望"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">2019年展望</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Hyperledger-Fabric"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">Hyperledger Fabric</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#容器相关技术"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">容器相关技术</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Algorithm"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">Algorithm</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#技术杂谈"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">技术杂谈</span></a></li></ol></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Fabric与dep"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Fabric与dep</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#个人感受"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">个人感受</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Fabric包管理工具的变更"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">Fabric包管理工具的变更</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Dep-vs-Vgo"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">Dep vs Vgo</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#说说Chaincode中的包管理"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">说说Chaincode中的包管理</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#场景"><span class="toc-nav-number">1.4.1.</span> <span class="toc-nav-text">场景</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#当前的实现"><span class="toc-nav-number">1.4.2.</span> <span class="toc-nav-text">当前的实现</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#建议的实现"><span class="toc-nav-number">1.4.3.</span> <span class="toc-nav-text">建议的实现</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#总结"><span class="toc-nav-number">1.5.</span> <span class="toc-nav-text">总结</span></a></li></ol></li></ol>
         
         </div>
       </aside>
@@ -314,7 +307,9 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#随笔" title="随笔">随笔</a>
+                          <a class="tag" href="/tags/#Fabric" title="Fabric">Fabric</a>
+                        
+                          <a class="tag" href="/tags/#Fabric 笔记" title="Fabric 笔记">Fabric 笔记</a>
                         
                     </div>
                 </section>
@@ -353,8 +348,8 @@
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "TopJohn";
-    var disqus_identifier = "https://www.xuanzhangjiong.top/2019/01/03/2019年展望/";
-    var disqus_url = "https://www.xuanzhangjiong.top/2019/01/03/2019年展望/";
+    var disqus_identifier = "https://www.xuanzhangjiong.top/2019/01/15/Fabric与dep/";
+    var disqus_url = "https://www.xuanzhangjiong.top/2019/01/15/Fabric与dep/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
