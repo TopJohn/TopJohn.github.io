@@ -6,7 +6,7 @@
   <link href="/feed.xml" rel="self"/>
   
   <link href="https://www.xuanzhangjiong.top/"/>
-  <updated>2019-01-24T03:25:18.000Z</updated>
+  <updated>2019-01-27T08:10:01.000Z</updated>
   <id>https://www.xuanzhangjiong.top/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Golang依赖管理之dep</title>
+    <link href="https://www.xuanzhangjiong.top/2019/01/27/Golang%E4%BE%9D%E8%B5%96%E7%AE%A1%E7%90%86%E4%B9%8Bdep/"/>
+    <id>https://www.xuanzhangjiong.top/2019/01/27/Golang依赖管理之dep/</id>
+    <published>2019-01-27T08:10:01.000Z</published>
+    <updated>2019-01-27T08:10:01.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;Golang依赖管理之dep&quot;&gt;&lt;a href=&quot;#Golang依赖管理之dep&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Golang" scheme="https://www.xuanzhangjiong.top/tags/Golang/"/>
+    
+  </entry>
   
   <entry>
     <title>Fabric架构演变之路</title>
