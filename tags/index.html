@@ -142,14 +142,14 @@
 
                         
                         <li>
-                            <a href="/tags/">tags</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/tags/">tags</a>
                         </li>
                         
                      -->
@@ -217,20 +217,48 @@
             <!-- 标签云 -->
             <div id="tag_cloud" class="tags">
                 
+                    <a href="#随笔" title="随笔" rel="1">随笔</a>
+                
                     <a href="#Fabric" title="Fabric" rel="2">Fabric</a>
                 
                     <a href="#Fabric 笔记" title="Fabric 笔记" rel="2">Fabric 笔记</a>
                 
                     <a href="#Fabric 技术内幕" title="Fabric 技术内幕" rel="1">Fabric 技术内幕</a>
                 
-                    <a href="#随笔" title="随笔" rel="1">随笔</a>
-                
                     <a href="#Golang" title="Golang" rel="1">Golang</a>
+                
+                    <a href="#Git" title="Git" rel="1">Git</a>
                 
             </div>
 
             <!-- 标签列表 -->
 
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="随笔">
+                    <span class="tag-text">随笔</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2019/01/03/2019年展望/">
+                        <h2 class="post-title">
+                            2019年展望
+                        </h2>
+                        
+                            <h3 class="post-subtitle">
+                                2019年的展望和规划
+                            </h3>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
             
             <div class="one-tag-list">
                 <span class="fa fa-tag listing-seperator" id="Fabric">
@@ -349,32 +377,6 @@
             </div>
             
             <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="随笔">
-                    <span class="tag-text">随笔</span>
-                </span>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/2019/01/03/2019年展望/">
-                        <h2 class="post-title">
-                            2019年展望
-                        </h2>
-                        
-                            <h3 class="post-subtitle">
-                                2019年的展望和规划
-                            </h3>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-            </div>
-            
-            <div class="one-tag-list">
                 <span class="fa fa-tag listing-seperator" id="Golang">
                     <span class="tag-text">Golang</span>
                 </span>
@@ -391,6 +393,32 @@
                         
                             <h3 class="post-subtitle">
                                 讲解Golang依赖管理工具dep的使用，It's not the last one,though.
+                            </h3>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="Git">
+                    <span class="tag-text">Git</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2019/01/30/一个成功的Git分支模型/">
+                        <h2 class="post-title">
+                            一个成功的Git分支模型
+                        </h2>
+                        
+                            <h3 class="post-subtitle">
+                                看过Vincent Driessen的A successful Git Branching model这篇文章，很棒，借机翻译巩固一下！
                             </h3>
                         
                     </a>

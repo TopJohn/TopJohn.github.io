@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="写个博客，记录自己在开发过程中的点点滴滴...">
+    <meta name="keyword" content="Golang Docker Kubernetes Java Hyperledger-Fabric Blockchain">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          一个成功的Git分支模型 - TopJohn&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://www.xuanzhangjiong.top/2019/01/30/一个成功的Git分支模型/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <link rel="stylesheet" href="/css/about.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('http://img.mochain.info/topjohn/blog/post/header_dark_red.jpg')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header">
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Git" title="Git">Git</a>
+                            
+                        </div>
+                        <h1>一个成功的Git分支模型</h1>
+                        <h2 class="subheading">看过Vincent Driessen的A successful Git Branching model这篇文章，很棒，借机翻译巩固一下！</h2>
+                        <span class="meta">
+                            Posted by TopJohn on
+                            2019-01-30
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">TopJohn&#39;s Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <!-- <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+                        
+                     -->
+                    
+                    
+                        <li>
+                            <a href="/">home</a>
+                        </li>
+                      
+                        <li>
+                            <a href="/archive">archives</a>
+                        </li>
+                      
+                        <li>
+                            <a href="/tags">tags</a>
+                        </li>
+                      
+                        <li>
+                            <a href="/about">about</a>
+                        </li>
+                      
+
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <blockquote>
+<p>本文翻译至：<a href="https://nvie.com/posts/a-successful-git-branching-model/" target="_blank" rel="noopener">https://nvie.com/posts/a-successful-git-branching-model/</a><br>版权归作者所有，商业使用请联系作者</p>
+</blockquote>
+<h1 id="一个成功的Git分支模型"><a href="#一个成功的Git分支模型" class="headerlink" title="一个成功的Git分支模型"></a>一个成功的Git分支模型</h1><p>在这篇文章中，我将介绍一下在一年前非常成功的不仅是工作也包括私人项目的开发模型。我一直想写关于开发模型相关的内容，但是从来没有像现在这么强烈。在这里，我并不想将任何项目的细节，仅仅是想表达关于分支策略以及发布管理相关的内容。<br><img src="http://img.mochain.info/topjohn/blog/git-model@2x.png" alt="git-model"></p>
+<h2 id="为什么选择git"><a href="#为什么选择git" class="headerlink" title="为什么选择git?"></a>为什么选择git?</h2><p>有关Git与集中式源代码控制系统的优缺点讨论，请参阅<a href="https://git.wiki.kernel.org/index.php/GitSvnComparsion" target="_blank" rel="noopener">网站</a>。在代码的控制系统中，硝烟弥漫。作为一个开发者，在今天，相比于其他工具我更喜欢Git。Git真的改变了开发者对合并和分支的想法。从我来看经典的CVS/Subversion世界，合并/分支通常被认为是令人害怕的（“小心合并冲突，它们会咬你！”），而且是每过一段时间都会做的事情。</p>
+<p>但是对于Git来说，这些操作是极其廉价和简单的，它们真的被认为是您日常工作流程中的核心部分之一。例如，在CVS/Subversion<a href="http://svnbook.red-bean.com/" target="_blank" rel="noopener">书籍</a>中，分支和合并在后续的章节中首次讨论（而且是对于高级用户），但是在<a href="https://pragprog.com/titles/tsgit/pragmatic-version-control-using-git" target="_blank" rel="noopener">Git</a>书籍中，它们在第三章中就出现了（基础部分）。</p>
+<p>由于其简单和重复的性质，分支和合并变得不再那么可怕。版本控制工具应该比其他任何东西更有助于分支/合并。</p>
+<p>当我们有了足够的了解，让我们进入开发模型中去。我将在这里呈现的模型实质上只是一套每个团队成员都应该遵循的软件开发模式。</p>
+<h2 id="分散但集中"><a href="#分散但集中" class="headerlink" title="分散但集中"></a>分散但集中</h2><p>我们使用的仓库和分支模型配合得不错，是一个可信的中心化的仓库，这里指的是初始化的远程仓库。不过要注意，这是唯一的一个被认为是中央库的仓库（因为Git是一个分布式的版本管理系统，在技术层面上来讲没有一个中心化的仓库）。我们会把这个仓库称为origin（原始库），因为它的名字对所有用户来说都比较熟悉。</p>
+<p><img src="http://img.mochain.info/topjohn/blog/centr-decentr@2x.png" alt="centr-decentr"></p>
+<p>每一个开发者将代码拉取或者推送到origin（原始库）中。但是除了集中式的推拉关系之外，每个开发者也可以从其他节点获取变更来形成子团队。举个例子，当两个或者更多的开发者一起开发一个新特性，这将变得非常有用，可以避免过早地将代码推送到原始库中。在上图中，Alice和Bob是一个子团队，Alice和David是一个子团队，Clair和David是一个子团队。</p>
+<p>在技术上，这意味着Alice定义了一个远程分支，叫做bob，指向了Bob的仓库，反之亦然。</p>
+<h2 id="主分支"><a href="#主分支" class="headerlink" title="主分支"></a>主分支</h2><p>在核心部分，开发模式很大程度受到了传统模型的影响。中央库一直维护2个可以无限延伸的分支：</p>
+<ul>
+<li>master 分支</li>
+<li>develop 分支</li>
+</ul>
+<p><img src="http://img.mochain.info/topjohn/blog/main-branches@2x.png" alt="main-branches"></p>
+<p>在原始库中，master分支应该被所有用户所熟知。和master分支并行的还有另一个分支叫做develop分支。</p>
+<p>我们把origin/master分支作为主分支，这个分支代码的HEAD指针总是指向生产版本代码的一个准备状态。</p>
+<p>我们把origin/develop分支作为一个反映下一次需要交付的代码变更的分支。有人会叫develop分支为“集成分支”。这是所有夜间自动构建的出处。</p>
+<p>当源代码在develop分支中到达一个稳定的状态之后，已经准备好发布了，那么所有的变更应该以某种方式被合并回master分支。同时打上版本号。这个操作会在后续进行详细讲解。</p>
+<p>因此，每次当变更被合并到主分支的时候，将定义一个新的生产版本。我们对此非常严格，因此从理论上来说，我们可以使用Git hook脚本在每次对master分支进行提交代码的时候进行构建和在你的生产服务器上发布你的软件。</p>
+<h2 id="辅助分支"><a href="#辅助分支" class="headerlink" title="辅助分支"></a>辅助分支</h2><p>接下，来，除了master分支和develop分支你的开发模型上需要使用一系列的辅助分支来帮助团队的成员平行地开发，轻松地追踪一些特性，为生产发布做准备，并帮助快速修复生产版本代码的问题。不像主分支，这些分支的生命周期是有限的，因为它们最终将会被移除。</p>
+<p>我们使用不同类型的分支：</p>
+<ul>
+<li>Feature 分支</li>
+<li>Release 分支</li>
+<li>Hotfix 分支</li>
+</ul>
+<p>这些分支每一个都有特定的目的以及严格的规则，例如什么分支可以作为它们的原始分支，什么分支可以作为他们合并的目标。接下来我们将展开讨论。</p>
+<p>从技术角度来讲，这些分支绝对不是“特殊的”。这些分支的类型取决于我们如何去使用它们。它们同样是平凡的Git分支。</p>
+<h3 id="功能分支（feature-branches）"><a href="#功能分支（feature-branches）" class="headerlink" title="功能分支（feature branches）"></a>功能分支（feature branches）</h3><p>功能分支可能从develop分支分离出来，但是必须合并到develop分支中去。</p>
+<p>功能分支的命名规范：</p>
+<p>除了master,develop,release-<em>,或者hotfix-</em>之外的名字都可以。</p>
+<p><img src="http://img.mochain.info/topjohn/blog/fb@2x.png" alt="fb"></p>
+<p>功能分支（或者有时候叫做主题分支）是被用来开发即将发布或者未来版本的新功能的分支。在开发新功能的时候，目标的需要合并的发布版本可能在那个时候还不确定。功能分支的本质是它存在于新功能开发的过程中，最终将被合并到develop开发分支中去（为一个发布版本添加一个新特性）或者被丢弃（在实验情况令人失望的情况下）。</p>
+<p>功能分支通常仅存在于开发人员的仓库中，而不是远程的原始库中。</p>
+<h4 id="创建一个功能分支"><a href="#创建一个功能分支" class="headerlink" title="创建一个功能分支"></a>创建一个功能分支</h4><p>当要开发一个新功能的时候，一般都是从develop分支检出一个新分支。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> git checkout -b myfeature develop</span><br><span class="line">Switched to a new branch "myfeature"</span><br></pre></td></tr></table></figure>
+<h4 id="合并一个已经完成的分支到develop分支"><a href="#合并一个已经完成的分支到develop分支" class="headerlink" title="合并一个已经完成的分支到develop分支"></a>合并一个已经完成的分支到develop分支</h4><p>完成的功能将会被合并到develop分支，以确保将它们添加到即将发布的版本中；</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> git checkout develop</span><br><span class="line">Switched to branch 'develop'</span><br><span class="line"><span class="meta">$</span> git merge --no-ff myfeature</span><br><span class="line">Updating ea1b82a..05e9557</span><br><span class="line">(Summary of changes)</span><br><span class="line"><span class="meta">$</span> git branch -d myfeature</span><br><span class="line">Deleted branch myfeature (was 05e9557).</span><br><span class="line"><span class="meta">$</span> git push origin develop</span><br></pre></td></tr></table></figure>
+<p>–no-ff标志-将导致创建一个新的commit标志，即使合并可以使用fast-forward模式。这可以避免丢失功能分支的历史信息并将新特性和所有的提交合并到一起。比较：</p>
+<p><img src="http://img.mochain.info/topjohn/blog/merge-without-ff@2x.png" alt="merge-without-ff"></p>
+<p>在后一种情况，是不可能从Git历史中看到哪些提交记录实现了这个功能-你必须通过手动读取所有的log记录才能获取到相关信息。恢复整个功能（即一组提交），在后一种情况下是真的很头疼，但是如果使用了–no-ff标志就很容易完成。</p>
+<p>虽然将多处几个（空的）提交记录，但是它的收益远大于成本。</p>
+<h2 id="发布分支（Release-branches）"><a href="#发布分支（Release-branches）" class="headerlink" title="发布分支（Release branches）"></a>发布分支（Release branches）</h2><p>可能一个release分支是从develop分支切出来的，但是它必须被合并到develop或者master分支上去，分支的命名惯例一般是：release-*</p>
+<p>Release分支用于支持新的生产版本的发布。它允许在最后做一些点缀或者小修改。此外，它们允许修复小错误并且准备发布的元数据（例如版本号，构建日期等）。通过在发布分支上完成所有这些工作，develop分支将更明确地准备下一个大版本的发布。</p>
+<p>从develop分支创建release分支的关键时刻是develop分支达到了一个想要发布的理想状态。至少这次想要发布的特性必须被合并到develop分支在切出release分支之前。所有打算在未来发布的版本中特性需要在release分支切出来之后在合并进去。</p>
+<p>在release分支开始的时候为即将发布的版本分配一个版本号–而不是在release分支之前。直到那一刻，develop分支反映的变化都是为了下一次发版，但是至于下一次发版是0.3还是1.0是不清楚的，在release分支切出来之前。这个决定是在release分支开始的时候根据项目的规定定的，版本号也是根据项目的要求定的。</p>
+<h3 id="创建一个release分支"><a href="#创建一个release分支" class="headerlink" title="创建一个release分支"></a>创建一个release分支</h3><p>Release分支从develop分支创建。举个例子，假设1.1。5版本是当前的生产分支，我们即将推出一个大版本。目前develop分支的状态是已经好为下一个release做好了准备，并且决定下一个版本将是1.2版（而不是1.1.6或者2.0）。所以我们切出分支，并且附上一个新的版本号：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> git checkout -b release-1.2 develop</span><br><span class="line">Switched to a new branch "release-1.2"</span><br><span class="line"><span class="meta">$</span> ./bump-version.sh 1.2</span><br><span class="line">Files modified successfully, version bumped to 1.2.</span><br><span class="line"><span class="meta">$</span> git commit -a -m "Bumped version number to 1.2"</span><br><span class="line">[release-1.2 74d9424] Bumped version number to 1.2</span><br><span class="line">1 files changed, 1 insertions(+), 1 deletions(-)</span><br></pre></td></tr></table></figure>
+<p>在创建并切换到release分支之后，我们设置了版本号。这里，bump-version.sh虚构了一个shell脚本，改变一些文件来指向一个新的版本。（这里当然可以手动修改一些文件-来表明某些文件变了。）然后，设置的版本号就被提交了。</p>
+<p>这个新分支会存在一段时间，直到发布版本被正式推出。在这段时间，问题修复将在这个分支进行（而不是在develop分支）。在这里进行一些大的新特性的添加是不被允许的。它们必须被合并到develop分支，等待下一次大版本的发布。</p>
+<h3 id="完成release分支"><a href="#完成release分支" class="headerlink" title="完成release分支"></a>完成release分支</h3><p>当release分支的状态到达了一个真正的发布版本的时候，我们需要进行一些操作，以便完成这次发布。首先，release分支需要被合并到master分支中（因为根据定义master上的每一次提交都是一次新的发布，记住）。接下来，在master上的这个提交必须被打上标记，以便将来参考此历史版本。最终，在release分支上的变更需要合并到develop分支上去，以便后续的发布能够包含这些问题修复。</p>
+<p>Git中的前两步是：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> git checkout master</span><br><span class="line">Switched to branch 'master'</span><br><span class="line"><span class="meta">$</span> git merge --no-ff release-1.2</span><br><span class="line">Merge made by recursive.</span><br><span class="line">(Summary of changes)</span><br><span class="line"><span class="meta">$</span> git tag -a 1.2</span><br></pre></td></tr></table></figure></p>
+<p>这次发布就算完成了，标记将用于未来的引用。</p>
+<blockquote>
+<p>编辑：你可能还想以加密方式用-s或者-u <key>标志来对标记进行签名。</key></p>
+</blockquote>
+<p>在Git中，为了保持这次发布中的变更，我们需要将这些变更合并到develop分支中去：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> git checkout develop</span><br><span class="line">Switched to branch 'develop'</span><br><span class="line"><span class="meta">$</span> git merge --no-ff release-1.2</span><br><span class="line">Merge made by recursive.</span><br><span class="line">(Summary of changes)</span><br></pre></td></tr></table></figure>
+<p>这个步骤可能导致一些合并冲突（可能由于我们改变了版本号）。如果发生了，需要修复重新提交。</p>
+<p>现在我们已经完成，发布分支或许需要被移除，因为我们不再需要这个分支：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> git branch -d release-1.2</span><br><span class="line">Deleted branch release-1.2 (was ff452fe).</span><br></pre></td></tr></table></figure>
+<h2 id="热修复分支（Hotfix-branches）"><a href="#热修复分支（Hotfix-branches）" class="headerlink" title="热修复分支（Hotfix branches）"></a>热修复分支（Hotfix branches）</h2><p>热修复分支可能来源于master分支，但是必须被合并到develop和master分支，分支命名惯例：hotfix-*</p>
+<p><img src="http://img.mochain.info/topjohn/blog/hotfix-branches@2x.png" alt="hotfix-branches"></p>
+<p>Hotfix分支非常像release分支，它们都是为一个新的生产分支做准备的，尽管Hotfix是计划之外的。它们源于生产版本一些不被期望的状态。在生产版本出现了严重的错误需要立刻被修复，一个热修复分支需要根据master分支上生产版本的标记进行切出。</p>
+<p>本质是团队的其他成员可以继续在develop分支上开发，与此同时需要有一个人来在Hotfix分支上进行bugfix。</p>
+<h3 id="创建热修复分支（hotfix-branch）"><a href="#创建热修复分支（hotfix-branch）" class="headerlink" title="创建热修复分支（hotfix branch）"></a>创建热修复分支（hotfix branch）</h3><p>热修复分支从master分支上创建。举个例子，1.2版本是当前运行的生产版本，由于严重的错误导致了一些问题。但是现在develop分支是不稳定的。我们需要切出一个hotfix分支开始修复问题：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> git checkout -b hotfix-1.2.1 master</span><br><span class="line">Switched to a new branch "hotfix-1.2.1"</span><br><span class="line"><span class="meta">$</span> ./bump-version.sh 1.2.1</span><br><span class="line">Files modified successfully, version bumped to 1.2.1.</span><br><span class="line"><span class="meta">$</span> git commit -a -m "Bumped version number to 1.2.1"</span><br><span class="line">[hotfix-1.2.1 41e61bb] Bumped version number to 1.2.1</span><br><span class="line">1 files changed, 1 insertions(+), 1 deletions(-)</span><br></pre></td></tr></table></figure>
+<p>在创建完分支之后不要忘记更新版本号！</p>
+<p>接下来，修复错误，提交一个或者多个记录。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> git commit -m "Fixed severe production problem"</span><br><span class="line">[hotfix-1.2.1 abbe5d6] Fixed severe production problem</span><br><span class="line">5 files changed, 32 insertions(+), 17 deletions(-)</span><br></pre></td></tr></table></figure>
+<h3 id="完成热修复分支"><a href="#完成热修复分支" class="headerlink" title="完成热修复分支"></a>完成热修复分支</h3><p>当完成了，bugfix需要合并到master分支，但是为了保障下次发布版本能够包含bugfix，同样需要被合并到develop分支。<br>这和release分支的实现是类似的。</p>
+<p>首先，更新master分支并打上发布标签：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> git checkout master</span><br><span class="line">Switched to branch 'master'</span><br><span class="line"><span class="meta">$</span> git merge --no-ff hotfix-1.2.1</span><br><span class="line">Merge made by recursive.</span><br><span class="line">(Summary of changes)</span><br><span class="line"><span class="meta">$</span> git tag -a 1.2.1</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>编辑：你可能还想以加密方式用-s或者-u <key>标志来对标记进行签名。</key></p>
+</blockquote>
+<p>接下来，将bugfix合并到开发分支，同样：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> git checkout develop</span><br><span class="line">Switched to branch 'develop'</span><br><span class="line"><span class="meta">$</span> git merge --no-ff hotfix-1.2.1</span><br><span class="line">Merge made by recursive.</span><br><span class="line">(Summary of changes)</span><br></pre></td></tr></table></figure>
+<p>规则的一个例外是：当一个release分支已经存在的情况下，热修复分支的变动需要合并到release分支中，而不是develop分支。<br>在release分支发布完成的时候，如果将错误修复合并到了release分支同样也会反映到develop分支中最终。（如果develop分支立刻需要这个问题修复而且等不及release分支修复，那么你可以安然地合并问题修复到develop分支中。）</p>
+<p>最终，移除这个临时的hotfix分支：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> git branch -d hotfix-1.2.1</span><br><span class="line">Deleted branch hotfix-1.2.1 (was abbe5d6).</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>虽然这个分支模型没有什么令人震惊的地方，但是在文章开头的这张大图在你的项目中是异常有用的。这形成了一个优雅的思维模型，而且是非常容易让人理解的，允许团队成员建立一个共同的分支和发布的模型。</p>
+<p>此处提供一个高质量的PDF版本。把它挂墙上以便随时参考。</p>
+<p>更新：如果有人需要的话：这里是文章中Git图片的源文件<a href="http://github.com/downloads/nvie/gitflow/Git-branching-model-src.key.zip" target="_blank" rel="noopener">gitflow-model.src.key</a></p>
+<p><a href="https://nvie.com/files/Git-branching-model.pdf" target="_blank" rel="noopener"><img src="http://img.mochain.info/topjohn/blog/pdf@2x.png"><div style=" text-align:center;"><a href="https://nvie.com/files/Git-branching-model.pdf" target="_blank" rel="noopener">Git-branching-model</a></div></a></p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/2019/01/27/Golang依赖管理之dep/" data-toggle="tooltip" data-placement="top" title="Golang依赖管理之dep">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                    <div class="comment">
+                        <div id="disqus_thread" class="disqus-thread"></div>
+                    </div>
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#一个成功的Git分支模型"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">一个成功的Git分支模型</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#为什么选择git"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">为什么选择git?</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#分散但集中"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">分散但集中</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#主分支"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">主分支</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#辅助分支"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">辅助分支</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#功能分支（feature-branches）"><span class="toc-nav-number">1.4.1.</span> <span class="toc-nav-text">功能分支（feature branches）</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#创建一个功能分支"><span class="toc-nav-number">1.4.1.1.</span> <span class="toc-nav-text">创建一个功能分支</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#合并一个已经完成的分支到develop分支"><span class="toc-nav-number">1.4.1.2.</span> <span class="toc-nav-text">合并一个已经完成的分支到develop分支</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#发布分支（Release-branches）"><span class="toc-nav-number">1.5.</span> <span class="toc-nav-text">发布分支（Release branches）</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#创建一个release分支"><span class="toc-nav-number">1.5.1.</span> <span class="toc-nav-text">创建一个release分支</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#完成release分支"><span class="toc-nav-number">1.5.2.</span> <span class="toc-nav-text">完成release分支</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#热修复分支（Hotfix-branches）"><span class="toc-nav-number">1.6.</span> <span class="toc-nav-text">热修复分支（Hotfix branches）</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#创建热修复分支（hotfix-branch）"><span class="toc-nav-number">1.6.1.</span> <span class="toc-nav-text">创建热修复分支（hotfix branch）</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#完成热修复分支"><span class="toc-nav-number">1.6.2.</span> <span class="toc-nav-text">完成热修复分支</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#总结"><span class="toc-nav-number">1.7.</span> <span class="toc-nav-text">总结</span></a></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Git" title="Git">Git</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://tech.hyperchain.cn" target="_blank">Qtech</a></li>
+                    
+                        <li><a href="http://www.liqilei.com/" target="_blank">李启雷的博客</a></li>
+                    
+                        <li><a href="http://qyuan.top/" target="_blank">清源的博客</a></li>
+                    
+                        <li><a href="https://www.chenquan.me/" target="_blank">Codestack</a></li>
+                    
+                        <li><a href="https://yushuangqi.com" target="_blank">虞双齐的博客</a></li>
+                    
+                        <li><a href="https://blog.terryding.com/" target="_blank">terryding</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus embedded js code start (one page only need to embed once) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "TopJohn";
+    var disqus_identifier = "https://www.xuanzhangjiong.top/2019/01/30/一个成功的Git分支模型/";
+    var disqus_url = "https://www.xuanzhangjiong.top/2019/01/30/一个成功的Git分支模型/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus embedded js code start end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/topjohn">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/xuanzhangjiong">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://github.com/TopJohn">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; TopJohn 2019 
+                    <br>
+                    本站文章，未经允许，不得转载。
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://www.xuanzhangjiong.top">TopJohn</a> | 
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="91px" height="20px" src="https://ghbtns.com/github-btn.html?user=TopJohn&repo=hexo-theme-topjohn&type=star&count=true">
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://www.xuanzhangjiong.top/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-66905395-1';
+    var _gaDomain = 'https://wwww.xuanzhangjiong.top';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'c2d1c0062682434e5ebc3ef3275eee5f';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<!-- <img src="https://www.xuanzhangjiong.top/img/icon_wechat.png" width="0" height="0" /> -->
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
