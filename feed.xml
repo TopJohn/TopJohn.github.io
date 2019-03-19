@@ -6,7 +6,7 @@
   <link href="/feed.xml" rel="self"/>
   
   <link href="https://www.xuanzhangjiong.top/"/>
-  <updated>2019-03-12T07:33:47.000Z</updated>
+  <updated>2019-03-19T06:02:02.000Z</updated>
   <id>https://www.xuanzhangjiong.top/</id>
   
   <author>
@@ -15,6 +15,58 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>寻找一种易于理解的一致性算法（扩展版)</title>
+    <link href="https://www.xuanzhangjiong.top/2019/03/19/%E5%AF%BB%E6%89%BE%E4%B8%80%E7%A7%8D%E6%98%93%E4%BA%8E%E7%90%86%E8%A7%A3%E7%9A%84%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95%EF%BC%88%E6%89%A9%E5%B1%95%E7%89%88/"/>
+    <id>https://www.xuanzhangjiong.top/2019/03/19/寻找一种易于理解的一致性算法（扩展版/</id>
+    <published>2019-03-19T06:02:02.000Z</published>
+    <updated>2019-03-19T06:02:02.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;本文转自：&lt;a href=&quot;https://github.com/maemual/raft-zh_cn/blob/master/raft-zh_cn.md&quot; target=&quot;_blank&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Algorithm" scheme="https://www.xuanzhangjiong.top/tags/Algorithm/"/>
+    
+      <category term="Raft" scheme="https://www.xuanzhangjiong.top/tags/Raft/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Raft Consensus Algorithm</title>
+    <link href="https://www.xuanzhangjiong.top/2019/03/14/Raft-Consensus-Algorithm/"/>
+    <id>https://www.xuanzhangjiong.top/2019/03/14/Raft-Consensus-Algorithm/</id>
+    <published>2019-03-14T08:30:26.000Z</published>
+    <updated>2019-03-14T08:30:26.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;Raft-Consensus-Algorithm&quot;&gt;&lt;a href=&quot;#Raft-Consensus-Algorithm&quot; class=&quot;headerlink&quot; title=&quot;Raft Consensus Algorithm&quot;&gt;&lt;/a&gt;Raft
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Algorithm" scheme="https://www.xuanzhangjiong.top/tags/Algorithm/"/>
+    
+      <category term="Consensus" scheme="https://www.xuanzhangjiong.top/tags/Consensus/"/>
+    
+  </entry>
   
   <entry>
     <title>超级账本-如何贡献</title>
