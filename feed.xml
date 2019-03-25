@@ -36,11 +36,11 @@
     </summary>
     
     
+      <category term="Raft" scheme="https://www.xuanzhangjiong.top/tags/Raft/"/>
+    
       <category term="Algorithm" scheme="https://www.xuanzhangjiong.top/tags/Algorithm/"/>
     
       <category term="Consensus" scheme="https://www.xuanzhangjiong.top/tags/Consensus/"/>
-    
-      <category term="Raft" scheme="https://www.xuanzhangjiong.top/tags/Raft/"/>
     
   </entry>
   
@@ -141,9 +141,9 @@
     
       <category term="Fabric" scheme="https://www.xuanzhangjiong.top/tags/Fabric/"/>
     
-      <category term="Fabric 笔记" scheme="https://www.xuanzhangjiong.top/tags/Fabric-%E7%AC%94%E8%AE%B0/"/>
-    
       <category term="Fabric 技术内幕" scheme="https://www.xuanzhangjiong.top/tags/Fabric-%E6%8A%80%E6%9C%AF%E5%86%85%E5%B9%95/"/>
+    
+      <category term="Fabric 笔记" scheme="https://www.xuanzhangjiong.top/tags/Fabric-%E7%AC%94%E8%AE%B0/"/>
     
   </entry>
   

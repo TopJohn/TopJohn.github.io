@@ -71,7 +71,7 @@
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('http://img.mochain.info/topjohn/blog/post/computer-background.jpg')
+            background-image: url('http://img.mochain.info/topjohn/blog/post/yellow-wall-background.jpg')
             /*post*/
         
     }
@@ -90,9 +90,9 @@
                             
                               <a class="tag" href="/tags/#Fabric" title="Fabric">Fabric</a>
                             
-                              <a class="tag" href="/tags/#Fabric 笔记" title="Fabric 笔记">Fabric 笔记</a>
-                            
                               <a class="tag" href="/tags/#Fabric 技术内幕" title="Fabric 技术内幕">Fabric 技术内幕</a>
+                            
+                              <a class="tag" href="/tags/#Fabric 笔记" title="Fabric 笔记">Fabric 笔记</a>
                             
                         </div>
                         <h1>Fabric架构演变之路</h1>
@@ -146,7 +146,7 @@
 
                         
                         <li>
-                            <a href="/tags/">tags</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -160,7 +160,7 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/tags/">tags</a>
                         </li>
                         
                      -->
@@ -245,7 +245,7 @@
 <li>P2P：基于Google的Grpc框架的底层网络通信层。</li>
 <li>Event Stream：事件订阅发布组建，用于接收交易及区块事件。</li>
 </ul>
-<p>在Fabric v0.6中采用的共识算法是PBFT算法（Practical Byzantine Fault Tolerance）,可以在信任程度较低的场景下避免拜占庭问题。但是由于算法本身特性限制，n&gt;=3f+1，才能容忍一个拜占庭节点，因此在v0.6版本下，vp节点数量至少是4个。在v0.6版本中，节点角色分为VP(Validating Peer)、NVP(None validating Peer)以及用于签发证书的Membership节点3种。当然Fabric从第一个版本v0.6.0-preview开始就采用基于docker的运行时环境，为部署减少了许多麻烦，屏蔽了操作系统的差异。当然最主要的一点也许是由于Chaincode的设计机制导致的，整套生产环境的链码的部署和运行都是基于docker的，也许是出于docker稳定以及相对安全的运行环境的考量。Fabric的智能合约设计理论上可以支持认可开发语言，只要实现了相应的接口。因为它是基于Peer节点和链码容器的一个双向通信完成相应的交互的。</p>
+<p>在Fabric v0.6中采用的共识算法是PBFT算法（Practical Byzantine Fault Tolerance）,可以在信任程度较低的场景下避免拜占庭问题。但是由于算法本身特性限制，n&gt;=3f+1，才能容忍一个拜占庭节点，因此在v0.6版本下，vp节点数量至少是4个。在v0.6版本中，节点角色分为VP(Validating Peer)、NVP(None validating Peer)以及用于签发证书的Membership节点3种。当然Fabric从第一个版本v0.6.0-preview开始就采用基于docker的运行时环境，为部署减少了许多麻烦，屏蔽了操作系统的差异。当然最主要的一点也许是由于Chaincode的设计机制导致的，整套生产环境的链码的部署和运行都是基于docker的，也许是出于docker稳定以及相对安全的运行环境的考量。Fabric的智能合约设计理论上可以支持任何开发语言，只要实现了相应的接口。因为它是基于Peer节点和链码容器的一个双向通信完成相应的交互的。</p>
 <p>下图是一张Fabric v0.6版本的网络拓扑图<br><img src="http://img.mochain.info/topjohn/blog/post/topology.png" alt="topology"></p>
 <p>在这张图中包含了VP和NVP 2种角色，NVP在这里会分担VP的部分工作，接收来自客户端发过来的交易进行校验同时将交易请求转发至共识节点VP，由VP节点进行真正的共识，将交易写入区块。在这里NVP可以分担共识节点VP的处理交易的压力，可以提升共识的性能。</p>
 <p>下图为Fabric v0.6的交易流程图<br><img src="http://img.mochain.info/topjohn/blog/post/flow.png" alt="flow"></p>
@@ -381,9 +381,9 @@
                        
                           <a class="tag" href="/tags/#Fabric" title="Fabric">Fabric</a>
                         
-                          <a class="tag" href="/tags/#Fabric 笔记" title="Fabric 笔记">Fabric 笔记</a>
-                        
                           <a class="tag" href="/tags/#Fabric 技术内幕" title="Fabric 技术内幕">Fabric 技术内幕</a>
+                        
+                          <a class="tag" href="/tags/#Fabric 笔记" title="Fabric 笔记">Fabric 笔记</a>
                         
                     </div>
                 </section>
@@ -407,6 +407,8 @@
                         <li><a href="https://yushuangqi.com" target="_blank">虞双齐的博客</a></li>
                     
                         <li><a href="https://blog.terryding.com/" target="_blank">terryding</a></li>
+                    
+                        <li><a href="" target="_blank"></a></li>
                     
                 </ul>
                 
