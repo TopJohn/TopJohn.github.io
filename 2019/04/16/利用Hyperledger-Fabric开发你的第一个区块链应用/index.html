@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="写个博客，记录自己在开发过程中的点点滴滴...">
+    <meta name="keyword" content="Golang Docker Kubernetes Java Hyperledger-Fabric Blockchain">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          利用Hyperledger Fabric开发你的第一个区块链应用 - TopJohn&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://www.xuanzhangjiong.top/2019/04/16/利用Hyperledger-Fabric开发你的第一个区块链应用/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <link rel="stylesheet" href="/css/about.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('http://img.mochain.info/topjohn/blog/post/yellow-background.jpg')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header">
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Fabric" title="Fabric">Fabric</a>
+                            
+                              <a class="tag" href="/tags/#Hyperledger Fabric入门与实战" title="Hyperledger Fabric入门与实战">Hyperledger Fabric入门与实战</a>
+                            
+                              <a class="tag" href="/tags/#Fabric笔记" title="Fabric笔记">Fabric笔记</a>
+                            
+                        </div>
+                        <h1>利用Hyperledger Fabric开发你的第一个区块链应用</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by TopJohn on
+                            2019-04-16
+                        </span>
+                        <br>
+                        <span id="busuanzi_container_page_pv">
+                            本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+                          </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">TopJohn&#39;s Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <!-- <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+                        
+                     -->
+                    
+                    
+                        <li>
+                            <a href="/">home</a>
+                        </li>
+                      
+                        <li>
+                            <a href="/archive">archives</a>
+                        </li>
+                      
+                        <li>
+                            <a href="/tags">tags</a>
+                        </li>
+                      
+                        <li>
+                            <a href="/about">about</a>
+                        </li>
+                      
+
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="利用Hyperledger-Fabric开发你的第一个区块链应用"><a href="#利用Hyperledger-Fabric开发你的第一个区块链应用" class="headerlink" title="利用Hyperledger Fabric开发你的第一个区块链应用"></a>利用Hyperledger Fabric开发你的第一个区块链应用</h1><blockquote>
+<p>本文示例源于<code>fabric-samples</code>中的<code>fabcar</code><br><a href="https://github.com/hyperledger/fabric-samples" target="_blank" rel="noopener">https://github.com/hyperledger/fabric-samples</a></p>
+</blockquote>
+<p>在这个例子中，我们通过一个简单的示例程序来了解Fabric应用是如何运行的。在这个例子中使用的应用程序和智能合约（链码）统称为<code>FabCar</code>。这个例子很好地提供了一个开始用于理解<code>Hyperledger Fabric</code>。在这里，你将学会如何开发一个应用程序和智能合约来查询和更新账本，如何利用<code>CA</code>来生成一个应用程序需要的用于和区块链交互的X.509证书。</p>
+<p>我们使用应用程序SDk来执行智能合约中的查询更新账本的操作，这些操作在智能合约中借助底层接口实现。</p>
+<p>我们将通过3个步骤来进行讲解：</p>
+<ol>
+<li><strong>搭建开发环境</strong>。我们的应用程序需要和网络交互，因此我们需要一个智能合约和应用程序使用的基础网络。</li>
+</ol>
+<p><img src="https://hyperledger-fabric.readthedocs.io/en/latest/_images/AppConceptsOverview.png" alt=""></p>
+<ol start="2">
+<li><p><strong>学习一个简单的智能合约，FabCar</strong>。我们使用<strong>JavaScript</strong>开发智能合约。我们通过查看智能合约来学习应用程序如何使用智能合约发送交易，如何使用智能合约来查询和更新账本。</p>
+</li>
+<li><p><strong>使用FabCar开发一个简单的应用程序</strong>。我们的应用程序会使用<code>FabCar</code>智能合约来查询及更新账本上的汽车资产。我们将进入应用程序的代码中去了解如何创建交易，包括查询一辆汽车的信息，查询一批汽车的信息以及创建一辆汽车。</p>
+</li>
+</ol>
+<h2 id="设置区块链网络"><a href="#设置区块链网络" class="headerlink" title="设置区块链网络"></a>设置区块链网络</h2><blockquote>
+<p>注意：下面的部分需要进入你克隆到本地的<code>fabric-samples</code>仓库的<code>first-network</code>子目录。</p>
+</blockquote>
+<p>如果你已经学习了<code>Building Your First Network</code>，你应该已经下载了<code>fabric-samples</code>而且已经运行起了一个网络。在你进行本教程之前，你需要停止这个网络：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./byfn.sh down</span><br></pre></td></tr></table></figure></p>
+<p>如果你之前运行过这个教程，使用下面的命令关掉所有停止或者运行的容器。注意，这将关掉<strong>所有</strong>的容器，不论是否和Fabric有关。<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker rm -f $(docker ps -aq)</span><br><span class="line">docker rmi -f $(docker images | grep fabcar | awk '&#123;print $3&#125;')</span><br></pre></td></tr></table></figure></p>
+<p>如果你没有这个网络和应用相关的开发环境和构件，请访问<a href="https://hyperledger-fabric.readthedocs.io/en/latest/prereqs.html" target="_blank" rel="noopener"> Prerequisites</a>页面，确保你的机器安装了必要的依赖。</p>
+<p>接下来，如果你还没有这样做的话，请浏览<a href="https://hyperledger-fabric.readthedocs.io/en/latest/install.html" target="_blank" rel="noopener"> Install Samples, Binaries and Docker Images</a>页面，跟着上面的操作进行。当你克隆了<code>fabric-samples</code>仓库，下载了最新的稳定版Fabric镜像和相关工具之后回到教程。</p>
+<p>如果你使用的是Mac OS和Mojava，你需要安装<a href="https://hyperledger-fabric.readthedocs.io/en/latest/tutorial/installxcode.html" target="_blank" rel="noopener">Xcode</a>。</p>
+<h2 id="启动网络"><a href="#启动网络" class="headerlink" title="启动网络"></a>启动网络</h2><blockquote>
+<p>下面的部分需要进入<code>fabric-samples</code>仓库的<code>fabcar</code>子目录。</p>
+</blockquote>
+<p>使用<code>startFabric.sh</code>来启动你的网络。这个命令将启动一个区块链网络，这个网络由peer节点、排序节点、证书授权服务等组成。同时也将安装和初始化javascript版本的<code>FabCar</code>智能合约，我们的应用程序将通过它来操作账本。我们将通过本教程学习更过关于这些组件的内容。<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./startFabric.sh javascript</span><br></pre></td></tr></table></figure></p>
+<p>现在，我们已经运行起来了一个示例网络，还安装和初始化了<code>FabCar</code>智能合约。为了运行我们的应用程序，我们需要安装一些依赖，同时让我们看一下它们是如何工作的。</p>
+<h2 id="安装应用程序"><a href="#安装应用程序" class="headerlink" title="安装应用程序"></a>安装应用程序</h2><blockquote>
+<p>注意：下边的章节需要进入你克隆到本地的<code>fabric-samples</code>仓库的<code>fabcar/javascript</code>子目录。<br>下面的命令来安装应用程序所需的Fabric有关的依赖。大概将话费1分钟左右的时间：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<p>这个指令用于安装应用程序所需的依赖，这些依赖被定义在<code>package.json</code>中。其中最重要的是<code>fabric-network</code>类；它使得应用程序可以使用身份、钱包和连接到通道的网关，以及提交交易和等待通知。本教程也将使用<code>fabric-ca-client</code>类来注册用户以及他们的授权证书，生成一个<code>fabric-network</code>使用的合法的身份。</p>
+<p>一旦<code>npm install</code>执行成功，运行应用程序所需的一切就准备好了。在这个教程中，你将主要使用<code>fabcar/javascript</code>目录下的JavaScript文件来操作应用程序。让我们来了解一下里面有哪些文件：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls</span><br></pre></td></tr></table></figure></p>
+<p>你将看到下列文件：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">enrollAdmin.js  node_modules       package.json  registerUser.js</span><br><span class="line">invoke.js       package-lock.json  query.js      wallet</span><br></pre></td></tr></table></figure></p>
+<p>里面也有一些其他编程语言的文件，比如<code>fabcar/typescript</code>目录中。当你使用过JavaScript示例之后-其实都是类似的。</p>
+<p>如果你在使用Mac OS而且运行的是Mojava你需要<code>[安装Xcode](https://hyperledger-fabric.readthedocs.io/en/latest/tutorial/installxcode.html)</code>。</p>
+<h2 id="登记管理员用户"><a href="#登记管理员用户" class="headerlink" title="登记管理员用户"></a>登记管理员用户</h2><blockquote>
+<p>下面的部分涉及执行和CA服务器通讯的过程。你在执行下面的程序的时候，打开一个终端执行<code>docker logs -f ca.example.com</code>来查看CA的日志，会是十分有帮助的。</p>
+</blockquote>
+<p>当我们创建网络的时候，一个叫<code>admin</code>的用户已经被授权服务器（CA）创建为<strong>登记员</strong>。我们第一步要做的是使用<code>enroll.js</code>程序为<code>admin</code>生成私钥，公钥和x.509证书。这个程序使用一个证书签名请求 (CSR)–先在本地生成私钥和公钥，然后把公钥发送到CA，CA会发布一个应用程序使用的证书。这三个凭证会保存在钱包中，以便于我们以管理员的身份使用CA。</p>
+<p>接下来我们会注册和登记一个新的应用程序用户，我们将使用这个用户来通过应用程序和区块链进行交互。</p>
+<p>让我们登记一个<code>admin</code>用户：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node enrollAdmin.js</span><br></pre></td></tr></table></figure>
+<p>这个命令将CA管理员证书保存在<code>wallet</code>目录。</p>
+<h2 id="注册和登记user1"><a href="#注册和登记user1" class="headerlink" title="注册和登记user1"></a>注册和登记<code>user1</code></h2><p>现在我们在钱包里放了管理员的证书，我们可以登记一个新用户–user1–用这个用户来查询和更新账本：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node registerUser.js</span><br></pre></td></tr></table></figure>
+<p>和登记管理员类似，这个程序使用了CSR来登记<code>user1</code>并把它的证书保存到<code>admin</code>所在的钱包中。现在我们有了2个独立的用户–<code>admin</code>和<code>user1</code>–它们都将用于我们的应用程序。</p>
+<p>接下来是账本交互时间…</p>
+<h2 id="查询账本"><a href="#查询账本" class="headerlink" title="查询账本"></a>查询账本</h2><p>区块链网络中的每个节点都拥有一个账本的副本，应用程序可以通过执行智能合约查询账本上的最新舒徐来实现查询账本操作，将结果返回给应用程序。</p>
+<p>这是一个如何查询的简单阐述：</p>
+<p><img src="https://hyperledger-fabric.readthedocs.io/en/latest/_images/write_first_app.diagram.1.png" alt=""></p>
+<p>应用程序使用查询从ledger读取数据。最常见的就是查询当前账本中的最新值–世界状态。世界状态是一个键值对的集合，应用程序可以根据一个键或者多个键来查询数据。而且，当键值对是以JSON形式存在的时候，世界状态可以通过配置使用数据库（例如CouchDB）来支持富查询。这个特性对于查询匹配特定的键的值是很有帮助的，比如查询一个人的所有汽车。</p>
+<p>首先，让我们使用<code>query.js</code>程序来查询账本上的所有汽车。这个程序使用我们的第二个身份–<code>user1</code>–来操作账本。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node query.js</span><br></pre></td></tr></table></figure>
+<p>输出结果如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Wallet path: ...fabric-samples/fabcar/javascript/wallet</span><br><span class="line">Transaction has been evaluated, result is:</span><br><span class="line">[&#123;"Key":"CAR0", "Record":&#123;"colour":"blue","make":"Toyota","model":"Prius","owner":"Tomoko"&#125;&#125;,</span><br><span class="line">&#123;"Key":"CAR1", "Record":&#123;"colour":"red","make":"Ford","model":"Mustang","owner":"Brad"&#125;&#125;,</span><br><span class="line">&#123;"Key":"CAR2", "Record":&#123;"colour":"green","make":"Hyundai","model":"Tucson","owner":"Jin Soo"&#125;&#125;,</span><br><span class="line">&#123;"Key":"CAR3", "Record":&#123;"colour":"yellow","make":"Volkswagen","model":"Passat","owner":"Max"&#125;&#125;,</span><br><span class="line">&#123;"Key":"CAR4", "Record":&#123;"colour":"black","make":"Tesla","model":"S","owner":"Adriana"&#125;&#125;,</span><br><span class="line">&#123;"Key":"CAR5", "Record":&#123;"colour":"purple","make":"Peugeot","model":"205","owner":"Michel"&#125;&#125;,</span><br><span class="line">&#123;"Key":"CAR6", "Record":&#123;"colour":"white","make":"Chery","model":"S22L","owner":"Aarav"&#125;&#125;,</span><br><span class="line">&#123;"Key":"CAR7", "Record":&#123;"colour":"violet","make":"Fiat","model":"Punto","owner":"Pari"&#125;&#125;,</span><br><span class="line">&#123;"Key":"CAR8", "Record":&#123;"colour":"indigo","make":"Tata","model":"Nano","owner":"Valeria"&#125;&#125;,</span><br><span class="line">&#123;"Key":"CAR9", "Record":&#123;"colour":"brown","make":"Holden","model":"Barina","owner":"Shotaro"&#125;&#125;]</span><br></pre></td></tr></table></figure>
+<p>让我们近距离看一下这个程序。使用文本编辑器（如atom或者visual studio）打开<code>query.js</code>。</p>
+<p>应用程序开始的时候就从<code>fabric-network</code>模块引入了两个关键的类<code>FileSystemWallet</code>和<code>Gateway</code>。这两个类将用于定位钱包中<code>user1</code>的身份，并且使用这个身份连接网络：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; FileSystemWallet, Gateway &#125; = <span class="built_in">require</span>(<span class="string">'fabric-network'</span>);</span><br></pre></td></tr></table></figure>
+<p>应用程序使用网关连接网络：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> gateway = <span class="keyword">new</span> Gateway();</span><br><span class="line"><span class="keyword">await</span> gateway.connect(ccp, &#123; wallet, <span class="attr">identity</span>: <span class="string">'user1'</span> &#125;);</span><br></pre></td></tr></table></figure>
+<p>这段代码创建了一个新的网关，然后通过它来让应用程序连接网络。<code>cpp</code>描述了网关通过<code>wallet</code>中的<code>user1</code>来连接网络。打开 <code>../../basic-network/connection.json</code>来查看<code>cpp</code>是如何解析一个JSON文件的：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> ccpPath = path.resolve(__dirname, <span class="string">'..'</span>, <span class="string">'..'</span>, <span class="string">'basic-network'</span>, <span class="string">'connection.json'</span>);</span><br><span class="line"><span class="keyword">const</span> ccpJSON = fs.readFileSync(ccpPath, <span class="string">'utf8'</span>);</span><br><span class="line"><span class="keyword">const</span> ccp = <span class="built_in">JSON</span>.parse(ccpJSON);</span><br></pre></td></tr></table></figure>
+<p>如果你想了解更多关于连接配置文件的结构以及它是怎么定义网络的，请查阅<a href="https://hyperledger-fabric.readthedocs.io/en/latest/developapps/connectionprofile.html" target="_blank" rel="noopener"> the connection profile topic</a></p>
+<p>一个网络可以被拆分成很多个通道，代码中下一个很重要的地方是将应用程序连接到特定的通道<code>mychannel</code>上：</p>
+<p>在这个通道中，我们可以通过<code>fabcar</code>智能合约来和账本进行交互：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> contract = network.getContract(<span class="string">'fabcar'</span>);</span><br></pre></td></tr></table></figure>
+<p>在<code>fabcar</code>中有许多不同的交易，我们的应用程序先使用<code>queryAllCars</code>交易来查询账本的世界状态：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> result = <span class="keyword">await</span> contract.evaluateTransaction(<span class="string">'queryAllCars'</span>);</span><br></pre></td></tr></table></figure>
+<p><code>evaluateTransaction</code>方法呈现了一种和区块链网络中的智能合约交互的最简单的方法。它只是根据配置文件中的定义连接一个节点，然后向节点发送请求，在节点内执行该请求。智能合约查询了节点账本上的所有汽车，然后把结果返回给应用程序。这次交互并没有更新账本。</p>
+<h2 id="FabCar智能合约"><a href="#FabCar智能合约" class="headerlink" title="FabCar智能合约"></a>FabCar智能合约</h2><p>让我们看一看<code>FabCar</code>智能合约里的交易。进入<code>fabric-samples</code>下的子目录<code>chaincode/fabcar/javascript/lib</code>，然后用你的编辑器打开<code>fabcar.js</code>。</p>
+<p>看一下我们的智能合约是如何通过<code>Contract</code>类来定义的：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FabCar</span> <span class="keyword">extends</span> <span class="title">Contract</span> </span>&#123;...</span><br></pre></td></tr></table></figure>
+<p>在这个类结构中，你将看到定义了以下交易： <code>initLedger</code>，<code>queryCar</code>，<code>queryAllCars</code>，<code>createCar</code>和<code>changeCarOwner</code>。例如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> queryCar(ctx, carNumber) &#123;...&#125;</span><br><span class="line"><span class="keyword">async</span> queryAllCars(ctx) &#123;...&#125;</span><br></pre></td></tr></table></figure>
+<p>让我们更进一步看一下 queryAllCars ，看一下它是怎么和账本交互的。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> queryAllCars(ctx) &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> startKey = <span class="string">'CAR0'</span>;</span><br><span class="line">  <span class="keyword">const</span> endKey = <span class="string">'CAR999'</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> iterator = <span class="keyword">await</span> ctx.stub.getStateByRange(startKey, endKey);</span><br></pre></td></tr></table></figure>
+<p>这段代码定义了 queryAllCars 将要从账本获取的汽车的范围。从 CAR0 到 CAR999 的每一辆车 – 一共 1000 辆车，假定每个键都被合适地锚定了 – 将会作为查询结果被返回。 代码中剩下的部分，通过迭代将查询结果打包成 JSON 并返回给应用。</p>
+<p>下边将展示应用程序如何调用智能合约中的不同交易。每一个交易都使用一组 API 比如 getStateByRange 来和账本进行交互。了解更多API请阅读<a href="https://fabric-shim.github.io/master/index.html?redirect=true" target="_blank" rel="noopener">detail</a>。</p>
+<p><img src="https://hyperledger-fabric.readthedocs.io/en/latest/_images/RunningtheSample.png" alt=""></p>
+<p>你可以看到我们的<code>queryAllCars</code>交易，还有另一个叫做<code>createCar</code>。我们稍后将在教程中使用他们来更新账本，和添加新的区块。</p>
+<p>但是在那之前，返回到<code>query</code>程序，更改<code>evaluateTransaction</code>的请求来查询为<code>CAR4</code>。<code>query</code>程序现在如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> result = <span class="keyword">await</span> contract.evaluateTransaction(<span class="string">'queryCar'</span>, <span class="string">'CAR4'</span>);</span><br></pre></td></tr></table></figure></p>
+<p>保存程序，然后返回到<code>fabcar/javascript</code>目录。现在，再次运行<code>query</code>程序：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node query.js</span><br></pre></td></tr></table></figure></p>
+<p>你应该会看到如下所示：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Wallet path: ...fabric-samples/fabcar/javascript/wallet</span><br><span class="line">Transaction has been evaluated, result is:</span><br><span class="line">&#123;"colour":"black","make":"Tesla","model":"S","owner":"Adriana"&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如果你查看一下之前<code>queryAllCars</code>的交易结果，你会看到<code>CAR4</code>是<code>Adriana</code>的<code>黑色 Tesla model S</code>，也就是这里返回的结果，是一样的。</p>
+<p>我们可以使用<code>queryCar</code>交易来查询任意汽车，使用它的键（比如<code>CAR0</code>）得到车辆的制造商、型号、颜色和车主等相关信息。</p>
+<p>非常好。现在你应该已经了解了智能合约中基础的查询交易，也手动修改了查询程序中的参数。</p>
+<p>是时候进行更新账本了。</p>
+<h2 id="更新账本"><a href="#更新账本" class="headerlink" title="更新账本"></a>更新账本</h2><p>现在我们已经完成一些账本的查询操作，添加了一些代码，我们已经准备好更新账本了。有很 的更新操作我们可以做，但是我们从创建一辆新车开始。</p>
+<p>从一个应用程序的角度来说，更新一个账本很简单。应用程序向区块链网络提交一个交易， 当交易被验证和提交后，应用程序会收到一个交易成功的提醒。但是在底层，区块链网络中各组件中不同的共识程序协同工作，来保证账本的每一个更新提案都是合法的，而且有一个大家一致认可的顺序。</p>
+<p><img src="https://hyperledger-fabric.readthedocs.io/en/latest/_images/RunningtheSample.png" alt=""></p>
+<p>上图中，我们可以看到完成这项工作的主要组件。同时，多个节点中每一个节点都拥有一份账本的副本，并可选的拥有一份智能合约的副本，网络中也有一个排序服务。排序服务保证网络中交易的一致性；它也将连接到网络中不同的应用程序的交易以定义好的顺序生成区块。</p>
+<p>我们对账本的的第一个更新是创建一辆新车。我们有一个单独的程序叫做<code>invoke.js</code>，用来更新账本。和查询一样，使用一个编辑器打开程序定位到我们构建和提交交易到网络的代码段：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">await</span> contract.submitTransaction(<span class="string">'createCar'</span>, <span class="string">'CAR12'</span>, <span class="string">'Honda'</span>, <span class="string">'Accord'</span>, <span class="string">'Black'</span>, <span class="string">'Tom'</span>);</span><br></pre></td></tr></table></figure></p>
+<p>看一下应用程序如何调用智能合约的交易<code>createCar</code>来创建一辆车主为Tom的黑色Honda Accord汽车。我们使用<code>CAR12</code>作为这里的键，这也说明了我们不必使用连续的键。</p>
+<p>保存并运行程序：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node invoke.js</span><br></pre></td></tr></table></figure></p>
+<p>如果执行成功，你将看到类似输出：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Wallet path: ...fabric-samples/fabcar/javascript/wallet</span><br><span class="line">2018-12-11T14:11:40.935Z - info: [TransactionEventHandler]: _strategySuccess: strategy success for transaction "9076cd4279a71ecf99665aed0ed3590a25bba040fa6b4dd6d010f42bb26ff5d1"</span><br><span class="line">Transaction has been submitted</span><br></pre></td></tr></table></figure></p>
+<p>注意<code>inovke</code>程序使用的是<code>submitTransaction</code>API和区块链网络交互的，而不是<code>evaluateTransaction</code>。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">await</span> contract.submitTransaction(<span class="string">'createCar'</span>, <span class="string">'CAR12'</span>, <span class="string">'Honda'</span>, <span class="string">'Accord'</span>, <span class="string">'Black'</span>, <span class="string">'Tom'</span>);</span><br></pre></td></tr></table></figure>
+<p><code>submitTransaction</code>比<code>evaluateTransaction</code>要复杂的多。不只是和单个节点交互，SDK将把<code>submitTransaction</code>提案发送到区块链网络中每一个必要的组织的节点。每一个节点都将根据这个提案执行请求的智能合约，并生成一个该节点签名的交易响应并返回给SDK 。SDK将所有经过签名的交易响应收集到一个交易中，这个交易将会被发送到排序节点。排序节点搜集并排序每个应用的交易，并把这些交易放入到一个交易区块。然后排序节点将这些区块分发到网络中的节点，每一笔交易都会在节点中进行验证和提交。最后，SDK会后到提醒，并把控制权返回给应用程序。</p>
+<blockquote>
+<p><code>submitTransaction</code>也会包括一个监听器用于确保交易已经被校验和提交到账本里了。应用程序需要利用监听器或者使用<code>submitTransaction</code>接口，它内部已经实现了监听器。如果没有监听器，你可能无法确定交易是否被排序校验以及提交。</p>
+</blockquote>
+<p>应用程序中的这些工作由<code>submitTransaction</code>完成！应用程序、智能合约、节点和排序服务一起工作来保证网络中账本一致性的程序被称为共识。</p>
+<p>为了查看这个被写入账本的交易，返回到<code>query.js</code>并将参数<code>CAR4</code>更改为<code>CAR12</code>。</p>
+<p>换句话说就是将：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> result = <span class="keyword">await</span> contract.evaluateTransaction(<span class="string">'queryCar'</span>, <span class="string">'CAR4'</span>);</span><br></pre></td></tr></table></figure>
+<p>改为：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> result = <span class="keyword">await</span> contract.evaluateTransaction(<span class="string">'queryCar'</span>, <span class="string">'CAR12'</span>);</span><br></pre></td></tr></table></figure>
+<p>再次保存，然后查询：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node query.js</span><br></pre></td></tr></table></figure></p>
+<p>将返回：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Wallet path: ...fabric-samples/fabcar/javascript/wallet</span><br><span class="line">Transaction has been evaluated, result is:</span><br><span class="line">&#123;"colour":"Black","make":"Honda","model":"Accord","owner":"Tom"&#125;</span><br></pre></td></tr></table></figure></p>
+<p>恭喜。你创建了一辆汽车并验证了它记录在账本上！</p>
+<p>现在我们已经完成了，我们假设Tom很大方，想把他的Honda Accord送给一个叫Dave的人。</p>
+<p>为了完成这个，返回到<code>invoke.js</code>然后利用输入的参数，将智能合约的交易从<code>createCar</code>改为<code>changeCarOwner</code>：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">await</span> contract.submitTransaction(<span class="string">'changeCarOwner'</span>, <span class="string">'CAR12'</span>, <span class="string">'Dave'</span>);</span><br></pre></td></tr></table></figure></p>
+<p>第一个参数 —<code>CAR12</code>— 表示将要易主的车。第二个参数 —<code>Dave</code>— 表示车的新主人。</p>
+<p>再次保存并执行程序：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node invoke.js</span><br></pre></td></tr></table></figure>
+<p>现在我们来再次查询账本，以确定Dave和<code>CAR12</code>键已经关联起来了：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node query.js</span><br></pre></td></tr></table></figure></p>
+<p>将返回如下结果：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Wallet path: ...fabric-samples/fabcar/javascript/wallet</span><br><span class="line">Transaction has been evaluated, result is:</span><br><span class="line">&#123;"colour":"Black","make":"Honda","model":"Accord","owner":"Dave"&#125;</span><br></pre></td></tr></table></figure>
+<p><code>CAR12</code>的主人已经从Tom变成了Dave。</p>
+<blockquote>
+<p>在实际的应用中，智能合约有权限控制逻辑。举个例子，只有有权限的用户可以创建新车，只有车子的拥有者可以转移车辆所属权。</p>
+</blockquote>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>现在我们已经完成了账本的查询和更新，你也应该比较了解如何通过智能合约和区块链进行交互来查询账本和更新账本了。在教程中已经讲解了查询和更新的智能合约，API和SDK，想必你对其他商业场景也有了一定的了解和认识。</p>
+<p>通过<code>FabCar</code>这个例子，我们可以快速学习如何基于<code>Node SDK</code>开发应用程序。</p>
+<p><img src="http://img.mochain.info/topjohn/blog/awesome_blockchain.jpg" alt="AwesomeBlockchain"></p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/2019/04/11/Hyperledger-Fabric-2-0-Alpha发布了！/" data-toggle="tooltip" data-placement="top" title="Hyperledger Fabric 2.0 Alpha发布了！">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                    <div class="comment">
+                        <div id="disqus_thread" class="disqus-thread"></div>
+                    </div>
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#利用Hyperledger-Fabric开发你的第一个区块链应用"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">利用Hyperledger Fabric开发你的第一个区块链应用</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#设置区块链网络"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">设置区块链网络</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#启动网络"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">启动网络</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#安装应用程序"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">安装应用程序</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#登记管理员用户"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">登记管理员用户</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#注册和登记user1"><span class="toc-nav-number">1.5.</span> <span class="toc-nav-text">注册和登记user1</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#查询账本"><span class="toc-nav-number">1.6.</span> <span class="toc-nav-text">查询账本</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#FabCar智能合约"><span class="toc-nav-number">1.7.</span> <span class="toc-nav-text">FabCar智能合约</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#更新账本"><span class="toc-nav-number">1.8.</span> <span class="toc-nav-text">更新账本</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#总结"><span class="toc-nav-number">1.9.</span> <span class="toc-nav-text">总结</span></a></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Fabric" title="Fabric">Fabric</a>
+                        
+                          <a class="tag" href="/tags/#Hyperledger Fabric入门与实战" title="Hyperledger Fabric入门与实战">Hyperledger Fabric入门与实战</a>
+                        
+                          <a class="tag" href="/tags/#Fabric笔记" title="Fabric笔记">Fabric笔记</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://tech.hyperchain.cn" target="_blank">Qtech</a></li>
+                    
+                        <li><a href="http://www.liqilei.com/" target="_blank">李启雷的博客</a></li>
+                    
+                        <li><a href="http://qyuan.top/" target="_blank">清源的博客</a></li>
+                    
+                        <li><a href="https://www.chenquan.me/" target="_blank">Codestack</a></li>
+                    
+                        <li><a href="https://yushuangqi.com" target="_blank">虞双齐的博客</a></li>
+                    
+                        <li><a href="https://blog.terryding.com/" target="_blank">terryding</a></li>
+                    
+                        <li><a href="https://learnblockchain.cn/" target="_blank">深入浅出区块链</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus embedded js code start (one page only need to embed once) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "TopJohn";
+    var disqus_identifier = "https://www.xuanzhangjiong.top/2019/04/16/利用Hyperledger-Fabric开发你的第一个区块链应用/";
+    var disqus_url = "https://www.xuanzhangjiong.top/2019/04/16/利用Hyperledger-Fabric开发你的第一个区块链应用/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus embedded js code start end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/topjohn">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/xuanzhangjiong">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://github.com/TopJohn">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; TopJohn 2019 
+                    <br>
+                    本站文章，未经允许，不得转载。
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://www.xuanzhangjiong.top">TopJohn</a> | 
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="91px" height="20px" src="https://ghbtns.com/github-btn.html?user=TopJohn&repo=hexo-theme-topjohn&type=star&count=true">
+                    </iframe>
+                    <br>
+                    <span id="busuanzi_container_site_pv">
+                        本站总访问量<span id="busuanzi_value_site_pv"></span>次
+                    </span>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://www.xuanzhangjiong.top/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-66905395-1';
+    var _gaDomain = 'https://wwww.xuanzhangjiong.top';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'c2d1c0062682434e5ebc3ef3275eee5f';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<!-- <img src="https://www.xuanzhangjiong.top/img/icon_wechat.png" width="0" height="0" /> -->
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

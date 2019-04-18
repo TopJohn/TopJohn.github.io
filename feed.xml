@@ -6,7 +6,7 @@
   <link href="/feed.xml" rel="self"/>
   
   <link href="https://www.xuanzhangjiong.top/"/>
-  <updated>2019-04-11T05:21:13.000Z</updated>
+  <updated>2019-04-16T03:04:46.000Z</updated>
   <id>https://www.xuanzhangjiong.top/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>利用Hyperledger Fabric开发你的第一个区块链应用</title>
+    <link href="https://www.xuanzhangjiong.top/2019/04/16/%E5%88%A9%E7%94%A8Hyperledger-Fabric%E5%BC%80%E5%8F%91%E4%BD%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%8C%BA%E5%9D%97%E9%93%BE%E5%BA%94%E7%94%A8/"/>
+    <id>https://www.xuanzhangjiong.top/2019/04/16/利用Hyperledger-Fabric开发你的第一个区块链应用/</id>
+    <published>2019-04-16T03:04:46.000Z</published>
+    <updated>2019-04-16T03:04:46.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;利用Hyperledger-Fabric开发你的第一个区块链应用&quot;&gt;&lt;a href=&quot;#利用Hyperledger-Fabric开发你的第一个区块链应用&quot; class=&quot;headerlink&quot; title=&quot;利用Hyperledger
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Fabric" scheme="https://www.xuanzhangjiong.top/tags/Fabric/"/>
+    
+      <category term="Hyperledger Fabric入门与实战" scheme="https://www.xuanzhangjiong.top/tags/Hyperledger-Fabric%E5%85%A5%E9%97%A8%E4%B8%8E%E5%AE%9E%E6%88%98/"/>
+    
+      <category term="Fabric笔记" scheme="https://www.xuanzhangjiong.top/tags/Fabric%E7%AC%94%E8%AE%B0/"/>
+    
+  </entry>
   
   <entry>
     <title>Hyperledger Fabric 2.0 Alpha发布了！</title>
