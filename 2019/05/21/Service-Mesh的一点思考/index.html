@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          Hyperledger Fabric 2.0 Alpha发布了！ - TopJohn&#39;s Blog
+          Service Mesh的一点思考 - TopJohn&#39;s Blog
         
     </title>
 
-    <link rel="canonical" href="https://www.xuanzhangjiong.top/2019/04/11/Hyperledger-Fabric-2-0-Alpha发布了！/">
+    <link rel="canonical" href="https://www.xuanzhangjiong.top/2019/05/21/Service-Mesh的一点思考/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -71,7 +71,7 @@
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('http://img.mochain.info/topjohn/blog/post/white-background.jpg')
+            background-image: url('http://img.mochain.info/topjohn/blog/post/mesh.jpg')
             /*post*/
         
     }
@@ -88,16 +88,14 @@
                     <div class="post-heading">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#Fabric" title="Fabric">Fabric</a>
-                            
-                              <a class="tag" href="/tags/#Fabric News" title="Fabric News">Fabric News</a>
+                              <a class="tag" href="/tags/#架构" title="架构">架构</a>
                             
                         </div>
-                        <h1>Hyperledger Fabric 2.0 Alpha发布了！</h1>
-                        <h2 class="subheading">Fabric v2.0 和 v1.4.1-rc1在这几天已经发布了，新增了许多特性！</h2>
+                        <h1>Service Mesh的一点思考</h1>
+                        <h2 class="subheading">微服务，服务网格这些新概念下传统后端技术的变革</h2>
                         <span class="meta">
                             Posted by TopJohn on
-                            2019-04-11
+                            2019-05-21
                         </span>
                         <br>
                         <span id="busuanzi_container_page_pv">
@@ -236,50 +234,9 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h1 id="Hyperledger-Fabric-2-0-Alpha发布了！"><a href="#Hyperledger-Fabric-2-0-Alpha发布了！" class="headerlink" title="Hyperledger Fabric 2.0 Alpha发布了！"></a>Hyperledger Fabric 2.0 Alpha发布了！</h1><p>随着近期Fabric v1.4.1 LTS的发布，Fabric项目目前工作的重点正在向1.4.1和2.0的正式版推进。v2.0.0是2019年的主要目标，重点集中在更多的新特性上，包括增强的链码生命周期管理，raft共识机制，以此来循序渐进地迁移至拜占庭容错算法，以及更强大的token支持。近期发布的2.0版本建议大家仅作为尝鲜之用，生产环境暂时不要考虑。</p>
-<h2 id="Fabric-chaincode-lifecycle"><a href="#Fabric-chaincode-lifecycle" class="headerlink" title="Fabric chaincode lifecycle"></a>Fabric chaincode lifecycle</h2><p>Fabric 2.0 Alpha介绍了分布式治理链码的特性，包括在你的节点上安装链码以及在一个通道中启动链码的新流程。新的Fabric生命周期允许多组织对链码的参数达成共识，例如链码在开始和账本进行交互前的背书策略。新的模型在之前的生命周期上进行了改进：</p>
-<ul>
-<li><p>多个组织必须同意链码的参数：在Fabric 1.x版本中，一个组织能够为所有其他通道成员设置链码参数（例如背书策略）。新的Fabric链码生命周期将变得更灵活，提供了中心化的信任模型（例如之前版本的生命周期模型）以及去中心化的要求足够多的组织同意才能生效的模型。</p>
-</li>
-<li><p>更安全的链码升级过程：在之前的链码生命周期中，升级链码可以由单个组织进行发布，从而尚未安装新链码的通道成员将可能产生风险。新的模型要求只有足够数量的组织批准后才能允许升级链码。</p>
-</li>
-<li><p>更轻松的背书策略升级：Fabric生命周期允许你在没有重新打包或者安装链码的情况下，变更背书策略。用户可以体验到默认的要求通道内大多数成员同意的策略的好处。这个策略会在通道添加或者移除组织的时候自动更新。</p>
-</li>
-<li><p>可检查的链码包：Fabric生命周期将链码以易于阅读的tar文件的形式打包。这样可以更加轻松地检查链码代码包并协调跨多个组织安装。</p>
-</li>
-<li><p>使用同一个安装包启动多个链码：在之前的生命周期管理中一个通道上的链码可以使用名字和版本来指定一个安装的链码。在现在的版本中你可以使用一个链码安装包在同一个通道或者不同的通道使用不同的名字进行多次部署。</p>
-</li>
-</ul>
-<h3 id="使用新的链码生命周期"><a href="#使用新的链码生命周期" class="headerlink" title="使用新的链码生命周期"></a>使用新的链码生命周期</h3><p>可以使用下列教程来开始使用新的链码生命周期：</p>
-<ul>
-<li><p><a href="https://hyperledger-fabric.readthedocs.io/en/latest/chaincode4noah.html" target="_blank" rel="noopener">Chaindoce for Operators</a>：提供了安装和定义链码所需步骤的详细概述，以及新模型可用的功能。</p>
-</li>
-<li><p><a href="https://hyperledger-fabric.readthedocs.io/en/latest/build_network.html" target="_blank" rel="noopener">Building Your First Network</a>：如果你想立即开始使用新的生命周期，BYFN教程已经更新为使用新的链码生命周期来安装和定义链码了。</p>
-</li>
-<li><p><a href="https://hyperledger-fabric.readthedocs.io/en/latest/private_data_tutorial.html" target="_blank" rel="noopener">Using Private Data in Fabric</a>：已经更新演示如何通过新的链码生命周期来使用隐私数据集合。</p>
-</li>
-<li><p><a href="https://hyperledger-fabric.readthedocs.io/en/latest/endorsement-policies.html" target="_blank" rel="noopener">Endorsement policies</a>：了解使用新的链码生命周期如何使用通道配置中的策略作为背书策略。</p>
-</li>
-</ul>
-<h3 id="限制"><a href="#限制" class="headerlink" title="限制"></a>限制</h3><p>Fabric v2.0 Alpha版本中链码生命周期尚未完成。具体来说，请注意Alpha版本中的以下限制：</p>
-<ul>
-<li>尚不支持CouchDB索引</li>
-<li>使用新生命周期定义的链码还不能通过服务发现来发现</li>
-</ul>
-<p>这些限制在后期将被解决。</p>
-<h2 id="FabToken"><a href="#FabToken" class="headerlink" title="FabToken"></a>FabToken</h2><p>Fabric 2.0 Alpha还为用户提供了在Fabric通道上轻松将资产转化为token的功能。FabToken是一种token管理系统，它使用Unspent Transaction Output（UTXO）模型，利用Hyperledger Fabric提供的身份和成员服务基础设施来发布传输和兑换token。</p>
-<ul>
-<li><a href="https://hyperledger-fabric.readthedocs.io/en/latest/token/FabToken.html" target="_blank" rel="noopener">使用FabToken</a>：这个操作指南提供了有关如何在Fabric网络上使用token的详细概述。该指南还包含有如何使用<a href="https://hyperledger-fabric.readthedocs.io/en/latest/commands/token.html" target="_blank" rel="noopener">token</a>CLI创建和传输token的示例。</li>
-</ul>
-<h2 id="Alpine-images"><a href="#Alpine-images" class="headerlink" title="Alpine images"></a>Alpine images</h2><p>从v2.0开始，Hyperledger Fabric Docker镜像将会使用Alpine Linux操作系统，一种面向安全的轻量级的Linux发行版。这意味着Docker镜像现在将会小很多，提供更快的下载和启动时间，以及在主机系统上占用更少的磁盘空间。Alpine Linux的设计初衷是考虑到安全性，而Alpine的发行版的极简主义特性大大降低了安全漏洞的风险。</p>
-<h2 id="Raft-排序服务"><a href="#Raft-排序服务" class="headerlink" title="Raft 排序服务"></a>Raft 排序服务</h2><p><a href="https://raft.github.io/raft.pdf" target="_blank" rel="noopener">Raft</a>是v1.4.1中引入的，它是一种基于<a href="https://coreos.com/etcd/" target="_blank" rel="noopener">etcd</a>的崩溃容错（CFT）排序服务。Raft遵循“领导者和追随者”模型，其中每个通道都会选举一个leader，而且它的决策会复制给追随者。和基于Kafka的排序服务相比，基于Raft的排序服务将变得更容易设置和管理，并且它的设计允许遍布全球的组织成为分散的排序服务贡献节点。</p>
-<ul>
-<li><a href="https://hyperledger-fabric.readthedocs.io/en/latest/orderer/ordering_service.html" target="_blank" rel="noopener">The Ordering Service</a>：描述Fabric中排序服务的作用以及三种排序服务实现的概述：Solo、Kafka和Raft。</li>
-<li><a href="https://hyperledger-fabric.readthedocs.io/en/latest/raft_configuration.html" target="_blank" rel="noopener">Configuring and operating a Raft ordering service</a>：展示部署基于Raft的排序服务时所需注意的配置参数和注意事项。</li>
-<li><a href="https://hyperledger-fabric.readthedocs.io/en/latest/orderer_deploy.html" target="_blank" rel="noopener">Setting up an ordering node</a>：描述部署排序服务节点的过程，与排序服务的实现无关。</li>
-<li><a href="https://hyperledger-fabric.readthedocs.io/en/latest/build_network.html" target="_blank" rel="noopener">Building Your First Network</a>：已经更新，允许使用基于Raft的排序服务来构建样本网络。</li>
-</ul>
-<p><img src="http://img.mochain.info/topjohn/blog/awesome_blockchain.jpg" alt="AwesomeBlockchain"></p>
+                <h1 id="Service-Mesh的一点思考"><a href="#Service-Mesh的一点思考" class="headerlink" title="Service Mesh的一点思考"></a>Service Mesh的一点思考</h1><p>近几年，随着云计算技术的发展，容器、Kubernetes技术的成熟，Service Mesh微服务架构正在悄然崛起。微服务架构，简化了由于业务不断扩张导致的系统复杂度，解耦了各个模块的代码，使得各个子系统更易于维护和扩展，降低了服务器单机压力。随之而来的是如何有效地管理众多的服务，使得这么多的微服务能够协同作战。在微服务体系结构中，我们需要处理各个系统间的交互，需要监控整个系统的健康，处理警报、日志、负载均衡等一系列问题。</p>
+<p>Service Mesh（服务网格）则正是为了解决微服务中的诸多基础问题而生的。例如负载均衡、服务发现、统一身份认证、断路和降级、健康检查等基础服务，都由Service Mesh框架统一提供，具体的微服务则更专注于业务层面，通过代理服务的形式将诸多的基础功能从微服务中解耦。谈Service Mesh，更多的是谈理念而不是实现，谈后端技术架构的规划，而不是业务，将原来中心化的单机系统，拆分成解耦合的相对去中心的微服务的架构，由传统的单兵作战改为多听从指挥的军队式的管理模式。从而提升了系统的扩展性，以应对更大规模的并发也无压力，实现横向扩展。</p>
+<p>微服务将原有的代码调用方式从直接调用改为了远程方法调用，解耦代码牺牲的是性能，当然在当业务量不断增大的情况下，牺牲内网的一点网络延迟换来的收益还是非常值得的，借助Grpc服务可以很好地实现服务间地调用。借助Docker简化整个系统运行时的部署运维压力，通过Kubernetes来统一编排容器以更好地实现服务网络，实现后端系统的治理，将一个个微服务放进容器，由Service Mesh提供底层统一的基础服务，各业务层微服务统一接受底层基础服务的管理，例如服务发现，健康检查，日志监控等实现一套完善的可扩展的，复杂度相对较低的后端系统架构，而Kubernetes、Docker这些技术为Service Mesh提供了一个高效、零污染的部署环境，更高效地辅助Service Mesh的发展。</p>
 
                 
 
@@ -287,13 +244,9 @@
                 <!-- Pager -->
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/2019/04/16/利用Hyperledger-Fabric开发你的第一个区块链应用/" data-toggle="tooltip" data-placement="top" title="利用Hyperledger Fabric开发你的第一个区块链应用">&larr; Previous Post</a>
-                        </li>
-                    
                     
                         <li class="next">
-                            <a href="/2019/03/19/寻找一种易于理解的一致性算法（扩展版/" data-toggle="tooltip" data-placement="top" title="寻找一种易于理解的一致性算法（扩展版)">Next Post &rarr;</a>
+                            <a href="/2019/04/16/利用Hyperledger-Fabric开发你的第一个区块链应用/" data-toggle="tooltip" data-placement="top" title="利用Hyperledger Fabric开发你的第一个区块链应用">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -323,7 +276,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Hyperledger-Fabric-2-0-Alpha发布了！"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Hyperledger Fabric 2.0 Alpha发布了！</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Fabric-chaincode-lifecycle"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">Fabric chaincode lifecycle</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#使用新的链码生命周期"><span class="toc-nav-number">1.1.1.</span> <span class="toc-nav-text">使用新的链码生命周期</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#限制"><span class="toc-nav-number">1.1.2.</span> <span class="toc-nav-text">限制</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#FabToken"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">FabToken</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Alpine-images"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">Alpine images</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Raft-排序服务"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">Raft 排序服务</span></a></li></ol></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Service-Mesh的一点思考"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Service Mesh的一点思考</span></a></li></ol>
         
         </div>
       </aside>
@@ -343,9 +296,7 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#Fabric" title="Fabric">Fabric</a>
-                        
-                          <a class="tag" href="/tags/#Fabric News" title="Fabric News">Fabric News</a>
+                          <a class="tag" href="/tags/#架构" title="架构">架构</a>
                         
                     </div>
                 </section>
@@ -386,8 +337,8 @@
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "TopJohn";
-    var disqus_identifier = "https://www.xuanzhangjiong.top/2019/04/11/Hyperledger-Fabric-2-0-Alpha发布了！/";
-    var disqus_url = "https://www.xuanzhangjiong.top/2019/04/11/Hyperledger-Fabric-2-0-Alpha发布了！/";
+    var disqus_identifier = "https://www.xuanzhangjiong.top/2019/05/21/Service-Mesh的一点思考/";
+    var disqus_url = "https://www.xuanzhangjiong.top/2019/05/21/Service-Mesh的一点思考/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
