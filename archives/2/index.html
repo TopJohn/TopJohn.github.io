@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          Raft Consensus Algorithm - TopJohn&#39;s Blog
+          TopJohn&#39;s Blog
         
     </title>
 
-    <link rel="canonical" href="https://www.xuanzhangjiong.top/2019/03/14/Raft-Consensus-Algorithm/">
+    <link rel="canonical" href="https://www.xuanzhangjiong.top/archives/2/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -71,8 +71,10 @@
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('')
-            /*post*/
+            /* background-image: url('/http://img.mochain.info/topjohn/blog/header.jpg')  */
+            background-image: url('http://img.mochain.info/topjohn/blog/header.jpg') 
+
+            /*config*/
         
     }
     
@@ -85,20 +87,10 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 
-                    <div class="post-heading">
-                        <div class="tags">
-                            
-                              <a class="tag" href="/tags/#Algorithm" title="Algorithm">Algorithm</a>
-                            
-                              <a class="tag" href="/tags/#Consensus" title="Consensus">Consensus</a>
-                            
-                        </div>
-                        <h1>Raft Consensus Algorithm</h1>
-                        <h2 class="subheading"></h2>
-                        <span class="meta">
-                            Posted by TopJohn on
-                            2019-03-14
-                        </span>
+                    <div class="site-heading">
+                        <h1>TopJohn&#39;s Blog</h1>
+                        <!--<hr class="small">-->
+                        <span class="subheading">在这里，分享技术总结和人生感悟...</span>
                     </div>
                 
 
@@ -144,14 +136,14 @@
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
@@ -219,182 +211,273 @@
 
 
     <!-- Main Content -->
-    <!-- Modify by Yu-Hsuan Yen -->
+    <!-- Main Content -->
+<div class="container">
+    <div class="row">
+        
 
-<!-- Post Content -->
-<article>
-    <div class="container">
-        <div class="row">
-
-            <!-- Post Container -->
+<!-- USE SIDEBAR -->
+    <!-- Post Container -->
             <div class="
-                col-lg-8 col-lg-offset-2
-                col-md-10 col-md-offset-1
-                post-container">
+                col-lg-8 col-lg-offset-1
+                col-md-8 col-md-offset-1
+                col-sm-12
+                col-xs-12
+                post-container
+            ">
+            
+                <!-- Main Content -->
 
-                <h1 id="Raft-Consensus-Algorithm"><a href="#Raft-Consensus-Algorithm" class="headerlink" title="Raft Consensus Algorithm"></a>Raft Consensus Algorithm</h1><p>这篇文章记录我在学习Raft算法过程中的思考，用通俗易懂的方式来讲解Raft算法的实现原理。</p>
-<p>相关学习链接我会贴在文章最后，供大家参考学习。</p>
-<p>参考文献：</p>
-<ul>
-<li><a href="https://raft.github.io/" target="_blank" rel="noopener">https://raft.github.io/</a></li>
-<li><a href="http://thesecretlivesofdata.com/raft/" target="_blank" rel="noopener">http://thesecretlivesofdata.com/raft/</a></li>
-<li><a href="https://raft.github.io/raft.pdf" target="_blank" rel="noopener">https://raft.github.io/raft.pdf</a></li>
-<li><a href="https://www.cnblogs.com/softidea/p/6517959.html" target="_blank" rel="noopener">https://www.cnblogs.com/softidea/p/6517959.html</a></li>
-<li><a href="https://infoq.cn/article/raft-paper" target="_blank" rel="noopener">https://infoq.cn/article/raft-paper</a></li>
-<li><a href="https://github.com/maemual/raft-zh_cn/blob/master/raft-zh_cn.md" target="_blank" rel="noopener">https://github.com/maemual/raft-zh_cn/blob/master/raft-zh_cn.md</a></li>
+
+<div class="post-preview">
+
+    <a href="/2019/01/03/2019年展望/">
+        <h2 class="post-title">
+            2019年展望
+        </h2>
+        <h3 class="post-subtitle">
+            2019年的展望和规划
+        </h3>
+        <div class="post-content-preview">
+            2019年展望2019年对技术追求的想法更为强烈了，希望新的一年自己在技术上能有所突破，在一个领域有所建树。在研究生期间，我曾坚持过1年的博客写作，那时也小有成就，但是工作之后便没有坚持了，折腾了一年多，希望能够重新把这个习惯养成，在这里分享技术总结，分享人生感悟。
+Hyperledger Fabric因为17年开始参与开源社区，对Hyperledger Fabric项目也算是断断续续有过研......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by TopJohn on
+            2019-01-03
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#随笔" title="随笔">随笔</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+
+
+<!-- Pager -->
+
+<ul class="pager">
+    
+        <li class="previous">
+            <a href="/">&larr; Newer Posts</a>
+        </li>
+    
+    
 </ul>
 
-                
 
-                <hr>
-                <!-- Pager -->
-                <ul class="pager">
-                    
-                        <li class="previous">
-                            <a href="/2019/03/19/寻找一种易于理解的一致性算法（扩展版/" data-toggle="tooltip" data-placement="top" title="寻找一种易于理解的一致性算法（扩展版)">&larr; Previous Post</a>
-                        </li>
-                    
-                    
-                        <li class="next">
-                            <a href="/2019/03/12/超级账本-如何贡献/" data-toggle="tooltip" data-placement="top" title="超级账本-如何贡献">Next Post &rarr;</a>
-                        </li>
-                    
-                </ul>
 
-                <!-- duoshuo Share start -->
+                <!-- 如果开启评论功能 -->
                 
-                <!-- 多说 Share end-->
-
-                <!-- 多说评论框 start -->
-                
-                <!-- 多说评论框 end -->
-
-                <!-- disqus comment start -->
-                
-                    <div class="comment">
-                        <div id="disqus_thread" class="disqus-thread"></div>
-                    </div>
-                
-                <!-- disqus comment end -->
             </div>
+
+          <!-- Sidebar Container -->
+<div class="
+    col-lg-3 col-lg-offset-0
+    col-md-3 col-md-offset-0
+    col-sm-12
+    col-xs-12
+    sidebar-container
+">
+    
+        <!-- Featured Tags -->
+
+<section>
+    <!-- no hr -->
+    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+    <div class="tags">
+        
             
-            <!-- Tabe of Content -->
-            <!-- Table of Contents -->
-
-    
-      <aside id="sidebar">
-        <div id="toc" class="toc-article">
-        <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Raft-Consensus-Algorithm"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Raft Consensus Algorithm</span></a></li></ol>
+            
+            <a href="/tags/#Fabric" title="Fabric" rel="6">Fabric</a>
+            
         
-        </div>
-      </aside>
-    
-
-                
-            <!-- Sidebar Container -->
-            <div class="
-                col-lg-8 col-lg-offset-2
-                col-md-10 col-md-offset-1
-                sidebar-container">
-
-                <!-- Featured Tags -->
-                
-                <section>
-                    <!-- no hr -->
-                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
-                    <div class="tags">
-                       
-                          <a class="tag" href="/tags/#Algorithm" title="Algorithm">Algorithm</a>
-                        
-                          <a class="tag" href="/tags/#Consensus" title="Consensus">Consensus</a>
-                        
-                    </div>
-                </section>
-                
-
-                <!-- Friends Blog -->
-                
-                <hr>
-                <h5>FRIENDS</h5>
-                <ul class="list-inline">
-
-                    
-                        <li><a href="https://tech.hyperchain.cn" target="_blank">Qtech</a></li>
-                    
-                        <li><a href="http://www.liqilei.com/" target="_blank">李启雷的博客</a></li>
-                    
-                        <li><a href="http://qyuan.top/" target="_blank">清源的博客</a></li>
-                    
-                        <li><a href="https://www.chenquan.me/" target="_blank">Codestack</a></li>
-                    
-                        <li><a href="https://yushuangqi.com" target="_blank">虞双齐的博客</a></li>
-                    
-                        <li><a href="https://blog.terryding.com/" target="_blank">terryding</a></li>
-                    
-                </ul>
-                
-            </div>
-        </div>
+            
+            <a href="/tags/#Fabric 笔记" title="Fabric 笔记" rel="3">Fabric 笔记</a>
+            
+        
+            
+            <a href="/tags/#Fabric 技术内幕" title="Fabric 技术内幕" rel="2">Fabric 技术内幕</a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
     </div>
-</article>
+</section>
 
+        <hr>
+    
+        <!-- Short About -->
+<section class="visible-md visible-lg">
+    <h5><a href="/about/">ABOUT ME</a></h5>
+    <div class="short-about">
 
+        
+            <!-- <img id = "avatar_pic" src="/http://img.mochain.info/topjohn/blog/face.jpg" /> -->
+            <img id="avatar_pic" src="http://img.mochain.info/topjohn/blog/face.jpg">
+        
 
+        
+            <p>I&#39;m TopJohn, a developer who likes freedom.</p>
+        
 
-<!-- disqus embedded js code start (one page only need to embed once) -->
-<script type="text/javascript">
-    /* * * CONFIGURATION VARIABLES * * */
-    var disqus_shortname = "TopJohn";
-    var disqus_identifier = "https://www.xuanzhangjiong.top/2019/03/14/Raft-Consensus-Algorithm/";
-    var disqus_url = "https://www.xuanzhangjiong.top/2019/03/14/Raft-Consensus-Algorithm/";
+        <!-- SNS Link -->
+        <ul class="list-inline">
+            
+                <li>
+                    <a href="/feed.xml">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                        </span>
+                    </a>
+                </li>
+            
+            
+            
+                <li>
+                    <a target="_blank" href="https://www.zhihu.com/people/topjohn">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa  fa-stack-1x fa-inverse">知</i>
+                        </span>
+                    </a>
+                </li>
+            
 
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-<!-- disqus embedded js code start end -->
+            
+                <li>
+                    <a target="_blank" href="http://weibo.com/xuanzhangjiong">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                        </span>
+                    </a>
+                </li>
+            
 
+            
 
+            
+                <li>
+                    <a target="_blank" href="https://github.com/TopJohn">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                        </span>
+                    </a>
+                </li>
+            
+            
+            
+            
+        </ul>
+    </div>
+</section>
+        <hr>
+    
+        
+  <h5>ARCHIEVEMENT</h5>
+  <div class="widget">
+    <ul>
+      
+        <li><a href="https://fabric-docs-cn-topjohn.readthedocs.io" target="_blank">Fabric官方文档中文版</a></li>
+      
+    </ul>
+  </div>
 
+        <hr>
+    
+        
+  <h5>RECENT POSTS</h5>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a href="/2019/05/21/Service-Mesh的一点思考/">Service Mesh的一点思考</a>
+        </li>
+      
+        <li>
+          <a href="/2019/04/16/利用Hyperledger-Fabric开发你的第一个区块链应用/">利用Hyperledger Fabric开发你的第一个区块链应用</a>
+        </li>
+      
+        <li>
+          <a href="/2019/04/11/Hyperledger-Fabric-2-0-Alpha发布了！/">Hyperledger Fabric 2.0 Alpha发布了！</a>
+        </li>
+      
+        <li>
+          <a href="/2019/03/22/Hyperledger-Fabric：一种分布式操作系统-基于准入控制的区块链/">Hyperledger Fabric：一种分布式操作系统-基于准入控制的区块链</a>
+        </li>
+      
+        <li>
+          <a href="/2019/03/19/寻找一种易于理解的一致性算法（扩展版/">寻找一种易于理解的一致性算法（扩展版)</a>
+        </li>
+      
+    </ul>
+  </div>
 
-<!-- async load function -->
-<script>
-    function async(u, c) {
-      var d = document, t = 'script',
-          o = d.createElement(t),
-          s = d.getElementsByTagName(t)[0];
-      o.src = u;
-      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
-      s.parentNode.insertBefore(o, s);
-    }
-</script>
-<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
-<script>
-    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
-        anchors.options = {
-          visible: 'hover',
-          placement: 'left',
-          icon: 'ℬ'
-        };
-        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
-    })
-</script>
-<style>
-    /* place left on bigger screen */
-    @media all and (min-width: 800px) {
-        .anchorjs-link{
-            position: absolute;
-            left: -0.75em;
-            font-size: 1.1em;
-            margin-top : -0.1em;
-        }
-    }
-</style>
+        <hr>
+    
+        <!-- Friends Blog -->
 
+<h5>FRIENDS</h5>
+<ul class="list-inline">
+
+    
+        <li><a href="https://tech.hyperchain.cn" target="_blank">Qtech</a></li>
+    
+        <li><a href="http://www.liqilei.com/" target="_blank">李启雷的博客</a></li>
+    
+        <li><a href="http://qyuan.top/" target="_blank">清源的博客</a></li>
+    
+        <li><a href="https://www.chenquan.me/" target="_blank">Codestack</a></li>
+    
+        <li><a href="https://yushuangqi.com" target="_blank">虞双齐的博客</a></li>
+    
+        <li><a href="https://blog.terryding.com/" target="_blank">terryding</a></li>
+    
+        <li><a href="https://learnblockchain.cn/" target="_blank">深入浅出区块链</a></li>
+    
+</ul>
+
+        <hr>
+    
+        
+    <h5>ARCHIVES</h5>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a><span class="archive-list-count">5</span></li></ul>
+    </div>
+
+        <hr>
+    
+</div>
+
+        
+    </div>
+</div>
 
 
     <!-- Footer -->
@@ -465,6 +548,10 @@
                     re-Ported by <a href="http://www.xuanzhangjiong.top">TopJohn</a> | 
                     <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="91px" height="20px" src="https://ghbtns.com/github-btn.html?user=TopJohn&repo=hexo-theme-topjohn&type=star&count=true">
                     </iframe>
+                    <br>
+                    <span id="busuanzi_container_site_pv">
+                        本站总访问量<span id="busuanzi_value_site_pv"></span>次
+                    </span>
                 </p>
             </div>
         </div>
@@ -570,6 +657,8 @@
       var s = document.getElementsByTagName("script")[0];
       s.parentNode.insertBefore(hm, s);
     })();
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
 </script>
 
 
