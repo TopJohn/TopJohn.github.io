@@ -6,7 +6,7 @@
   <link href="/feed.xml" rel="self"/>
   
   <link href="https://www.xuanzhangjiong.top/"/>
-  <updated>2019-05-21T08:04:57.000Z</updated>
+  <updated>2019-09-21T06:07:10.000Z</updated>
   <id>https://www.xuanzhangjiong.top/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>FastFabric:提升Hyperledger Fabric性能到20000TPS</title>
+    <link href="https://www.xuanzhangjiong.top/2019/09/21/FastFabric-%E6%8F%90%E5%8D%87Hyperledger-Fabric%E6%80%A7%E8%83%BD%E5%88%B020000TPS/"/>
+    <id>https://www.xuanzhangjiong.top/2019/09/21/FastFabric-提升Hyperledger-Fabric性能到20000TPS/</id>
+    <published>2019-09-21T06:07:10.000Z</published>
+    <updated>2019-09-21T06:07:10.000Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;blockquote&gt;
+&lt;p&gt;本文翻译自：&lt;a href=&quot;https://arxiv.org/pdf/1901.00910.pdf&quot; target=&quot;_blank&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Fabric" scheme="https://www.xuanzhangjiong.top/tags/Fabric/"/>
+    
+      <category term="Fabric 技术内幕" scheme="https://www.xuanzhangjiong.top/tags/Fabric-%E6%8A%80%E6%9C%AF%E5%86%85%E5%B9%95/"/>
+    
+  </entry>
   
   <entry>
     <title>Service Mesh的一点思考</title>

@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="写个博客，记录自己在开发过程中的点点滴滴...">
+    <meta name="keyword" content="Golang Docker Kubernetes Java Hyperledger-Fabric Blockchain">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          FastFabric:提升Hyperledger Fabric性能到20000TPS - TopJohn&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://www.xuanzhangjiong.top/2019/09/21/FastFabric-提升Hyperledger-Fabric性能到20000TPS/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <link rel="stylesheet" href="/css/about.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('http://img.mochain.info/topjohn/blog/post/alvaro-bernal-RgIKRYhmG2k-unsplash.jpg')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header">
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Fabric" title="Fabric">Fabric</a>
+                            
+                              <a class="tag" href="/tags/#Fabric 技术内幕" title="Fabric 技术内幕">Fabric 技术内幕</a>
+                            
+                        </div>
+                        <h1>FastFabric:提升Hyperledger Fabric性能到20000TPS</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by TopJohn on
+                            2019-09-21
+                        </span>
+                        <br>
+                        <span id="busuanzi_container_page_pv">
+                            本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+                          </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">TopJohn&#39;s Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <!-- <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+                        
+                     -->
+                    
+                    
+                        <li>
+                            <a href="/">home</a>
+                        </li>
+                      
+                        <li>
+                            <a href="/archive">archives</a>
+                        </li>
+                      
+                        <li>
+                            <a href="/tags">tags</a>
+                        </li>
+                      
+                        <li>
+                            <a href="/about">about</a>
+                        </li>
+                      
+
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <blockquote>
+<p>本文翻译自：<a href="https://arxiv.org/pdf/1901.00910.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1901.00910.pdf</a><br>版权归作者所有，商业使用请联系作者</p>
+</blockquote>
+<h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>预计区块链技术将对各种行业产生重大影响。然而，阻碍它们的一个问题是它们有限的交易吞吐量，特别是与诸如分布式数据库系统之类的已建立的解决方在本文中，我们重新构建了一个现代许可的区块链系统Hyperledger Fabric，以将交易吞吐量从每秒3,000次增加到20,000次。我们专注于超出共识机制的性能瓶颈，我们提出架构更改，以减少交易排序和验证期间的计算和I / O开销，从而大大提高吞吐量。值得注意的是，我们的优化是完全即插即用的，不需要对Hyperledger Fabric进行任何界面更改。</p>
+<h2 id="1-介绍"><a href="#1-介绍" class="headerlink" title="1. 介绍"></a>1. 介绍</h2><p>区块链等分布式账本技术提供了一种以安全和可验证的方式进行交易的方法，而无需可信任的第三方。因此，人们普遍认为区块链将对金融、房地产、公共管理、能源和交通行业产生重大影响[1]。但是，为了在实践中可行，区块链必须支持与现有数据库管理系统支持的交易率相当的交易率，这可以提供一些相同的交易保证。</p>
+<p>与不限制网络成员资格的无权限区块链相比，我们专注于许可的区块链，其中所有参与节点的身份都是已知的。许可的区块链适用于许多应用领域，包括融资;例如，Ripple区块链旨在提供类似于当前SWIFT系统的货币兑换和跨银行交易的支付网络。</p>
+<p>从技术角度来看，我们观察到这两种区块链之间的重要区别。无权区块链的无信任性质要求工作或利益证明，或昂贵的全球规模的拜占庭 - 容错共识机制[2]。最近的许多工作都集中在使这些更有效。另一方面，许可的区块链通常将共识和交易验证委托给选定的节点组，从而减轻了共识算法的负担。虽然在这种情况下，共识仍然是一个瓶颈，但最近正在解决这个问题https：//ripple.com工作[3]，[4]，激励我们超越共识来确定进一步的绩效改进。</p>
+<p>在本文中，我们批判性地研究了Hyperledger Fabric 1.2的设计，因为据报道它是最快的开源许可区块链[5]。虽然已经有一些关于优化Hyperledger Fabric的工作，例如，使用积极的缓存[6]，但我们并不知道任何先前关于重新构建系统的工作2。因此，我们基于通用系统设计技术设计并实现了几种架构优化，这些技术将端到端交易吞吐量提高了近7倍，从每秒3,000到20,000个交易处理，同时减少了块延迟。我们的具体贡献如下：</p>
+<p>1）从数据中分离元数据：Fabric中的共识层接收整个交易作为输入，但只需要交易ID来决定交易顺序。我们重新设计Fabric的交易排序服务，仅使用交易ID，从而大大提高了吞吐量。</p>
+<p>2）并行和缓存：交易验证的某些方面可以并行化，而其他方面可以从缓存数据中受益。我们重新设计了Fabric的验证服务，通过积极缓存调度器中的未编组块并通过并行化尽可能多的验证步骤，包括认可策略验证和语法验证。</p>
+<p>3）利用存储器层次结构在关键路径上进行快速数据访问：Fabric维护世界状态的键值存储可以用轻量级内存数据结构代替，其缺乏耐久性保证可以通过区块链本身进行补偿。我们围绕轻量级哈希表重新设计Fabric的数据管理层，该表可以更快地访问关键交易验证路径上的数据，从而将不可变块的存储推迟到写优化存储集群。 4）资源分离：提交者和背书者的对等角色争夺资源。我们介绍了一种将这些角色转移到单独硬件的架构。</p>
+<p>重要的是，我们的优化不会违反Fabric的任何API或模块化边界，因此它们可以合并到Fabric版本2.0的计划版本中[7]。</p>
+<p>2有关相关工作的详细调查，请参阅第V节。</p>
+<p>我们还概述了未来工作的几个方向，与我们提出的优化一起，有可能达到Visa等信用卡公司所要求的每秒50,000笔交易[2]。</p>
+<p>在本文的其余部分，第二部分简要概述了Hyperledger Fabric，第三部分介绍了我们的改进设计，第四部分讨论了实验结果，第五部分介绍了我们在先前工作中的贡献，第六部分总结了未来的发展方向工作。</p>
+<h2 id="2-Fabric架构"><a href="#2-Fabric架构" class="headerlink" title="2. Fabric架构"></a>2. Fabric架构</h2><p>作为由Linux Foundation托管的开源Hyperledger项目的一个项目，Fabric是最活跃开发的许可区块链系统之一[8]。由于Androulaki等[9]详细描述了交易流程，因此我们仅提供一个简短的概要，重点介绍我们在第III节中提出改进的系统部分。</p>
+<p>为了避免智能合约确定性的陷阱并允许即插即用的系统组件替换，Fabric的结构与其他常见的区块链系统不同。交易遵循执行顺序提交流模式而不是公共顺序执行提交模式。客户端交易首先在沙箱中执行以确定它们的读写集，即由交易读取和写入的健值对集。然后，交易由排序服务排序，并最终验证并提交给区块链。此工作流程由分配了特定角色的节点实现，如下所述。</p>
+<p>A. 节点类型</p>
+<p>客户端发起交易，即对区块链的读取和写入，发送到Fabric节点。节点是Peer或排序者Orderer;一些Peer也是背书者。所有Peer都将块提交到区块链的本地副本，并将相应的更改应用于维护当前世界状态快照的状态数据库。允许背书者节点根据链码，Fabric的智能合约版本中捕获的业务规则来证明交易有效。排序者仅负责决定交易顺序，而不是正确性或有效性。</p>
+<p>B. 交易流程</p>
+<p>客户将其交易发送给一些背书者。每个背书者在沙箱中执行交易，并计算相应的读写集以及访问的每个键的版本号。每个背书者还使用业务规则来验证交易的正确性。客户等待足够数量的认可，然后将这些响应发送给排序服务的Orderer。排序者首先就进入的交易的顺序达成共识，然后将消息队列分成块。块被传递给Peer节点，然后Peer验证并提交它们。由于其许可性质，所有节点必须已知并向成员服务提供商（MSP）注册，否则其他节点将忽略它们。</p>
+<p>C. 实现细节</p>
+<p>为了讨论第III节中的改进，我们现在仔细研究一下orderer和peer架构。</p>
+<p>1）排序者：在收到来自背书者的回复后，客户端创建包含标题和有效负载的交易提议。标题包括交易ID和通道ID。有效负载包括读写集和相应的版本号，以及支持的Peer节点的签名。交易提议使用客户的凭证签署并发送到排序服务。</p>
+<p>排序服务的两个目标是（a）在交易顺序上达成共识，以及（b）将包含有序交易的块交付给提交者Peer节点。Fabric目前使用Apache Kafka（基于ZooKeeper [10]）来实现容错崩溃的共识。</p>
+<p>排序者收到交易提案时，它会检查客户是否有权提交交易。如果是，则orderer将交易提议发布到Kafka集群，其中每个Fabric通道都映射到Kafka主题以创建相应的不可变的交易序列顺序。然后，每个排序者根据每个块允许的最大交易数或块超时周期将从Kafka接收的交易组装成块。使用orderer的凭证对块进行签名，并使用gRPC [11]将其传递给Peer节点。</p>
+<p>2）Peer：从排序服务接收消息时，Peer首先从区块的头部和元数据检查其语法结构。然后检查orderer的签名是否符合指定的策略。任何这些测试失败的区块都会被立即丢弃。</p>
+<p>在初始校验之后，区块被推入队列，保证其添加到区块链。但是，在此之前，区块会依次执行两个验证步骤和最后一个提交步骤。</p>
+<p>在第一个验证步骤中，将解压缩块中的所有交易，检查其语法并验证其认可。未通过此测试的交易将被视为无效，但会保留在块中。此时，只有善意创建的交易仍然有效。</p>
+<p>在第二个验证步骤中，Peer确保有效交易之间的相互作用不会导致无效的世界状态。回想一下，每个交易都带有一组需要从世界状态数据库（它的读取集）读取的键，以及它将写入数据库（它的写集）的一组键和值，以及它们记录的版本号通过背书者。在第二个验证步骤中，交易的读写集中的每个键仍必须具有相同的版本号。从任何先前交易中写入该Key会更新版本号并使交易无效。这可以防止双重支出。</p>
+<p>在最后一步中，Peer将块（现在包括其交易的验证标志）写入文件系统。</p>
+<p>Fabric被虚拟化为多个通道，由通道ID识别。</p>
+<p>Key及其值（即世界状态）将保留在LevelDB或CouchDB中，具体取决于应用程序的配置。此外，每个块及其交易的索引都存储在LevelDB中以加速数据访问。</p>
+<h2 id="3-设计"><a href="#3-设计" class="headerlink" title="3. 设计"></a>3. 设计</h2><p>本节介绍我们对Fabric 1.2版的体系结构和实现的更改。该版本于2018年7月发布，随后于2018年9月发布1.3版，2019年1月发布1.4版。但是，最近发布的版本中引入的更改不会影响我们的提议，因此我们预计在将我们的工作与新版本集成时不会有任何困难。重要的是，我们的改进使各个模块的接口和职责保持不变，这意味着我们的更改与现有的Peer或排序服务实现兼容。此外，我们的改进是相互正交的，因此可以单独实施。对于Orderer和Peer，我们按照从最小到最大的性能影响的升序来描述我们的提议，与其对Fabric的各自更改相比。</p>
+<p>A. 准备</p>
+<p>使用拜占庭容错（BFT）一致性算法是HyperLedger中的关键性能瓶颈[2]。这是因为BFT一致性算法不能很好地与参与者的数量成比例。在我们的工作中，我们选择超越这个明显的瓶颈有三个原因：</p>
+<p>•可以说，在许可的区块链中使用BFT协议并不像在无权限的系统中那么重要，因为所有参与者都是已知的并且被激励以保持系统以诚实的方式运行。</p>
+<p>•正在广泛研究BFT共识[12]，我们预计未来一两年内将出现更高吞吐量的解决方案。</p>
+<p>•实际上，Fabric 1.2不使用BFT共识协议，而是依赖于Kafka进行交易排序，如前所述。</p>
+<p>出于这些原因，我们的工作目标不是使用更好的BFT一致性算法来提高orderer性能，而是为了缓解当共识不再是瓶颈时出现的新问题。我们首先对排序服务提出两项改进，然后对Peer进行一系列改进。</p>
+<p>B. Orderer改进I：从有效负载中分离交易头</p>
+<p>在Fabric 1.2中，使用Apache Kafka的订购者将整个交易发送给Kafka进行订购。交易的长度可能是几千字节，导致高通信开销，从而影响整体性能。但是，就交易订单达成共识只需要交易ID，因此我们可以通过仅向Kafka集群发送交易ID来获得订货人吞吐量的显着改善。</p>
+<p>具体而言，在从客户端接收交易时，我们的订货人从标题中提取交易ID并发布图1.新的订货人架构。传入的交易同时处理。他们的TransactionID被发送到Kafka集群进行订购。当接收到有序的TransactionID时，订货人用它们的有效负载重新组装它们并将它们收集到块中。</p>
+<p><img src="http://img.mochain.info/topjohn/blog/post/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202019-09-19%20%E4%B8%8B%E5%8D%885.44.28.png" alt=""></p>
+<p>这个ID到Kafka集群。排序者将相应的有效负载分别存储在本地数据结构中，并在从Kafka收回ID时重新组装交易。随后，与Fabric一样，orderer将交易集分段为块并将它们传递给Peer。值得注意的是，我们的方法适用于任何共识实现，并且不需要对现有排序界面进行任何修改，从而允许我们利用现有的Fabric客户端和Peer代码。</p>
+<p>C. Orderer改进II：消息流水线</p>
+<p>在Fabric 1.2中，订购服务逐个处理来自任何给定客户端的传入交易。当交易到达时，识别其相应的信道，根据一组规则检查其有效性，并最终将其转发到共识系统，例如，卡夫卡;只有这样才能处理下一个交易。相反，我们实现了一个可以同时处理多个传入交易的流水线机制，即使它们来自使用相同gRPC连接的同一客户端。为此，我们维护一个线程池，它并行处理传入的请求，每个传入的请求都有一个线程。线程调用Kafka API来发布交易ID，并在成功时向客户端发送响应。订货人完成的剩余处理与Fabric 1.2相同。</p>
+<p>图1总结了新的排序设计，包括交易ID与有效负载的分离以及由于并行消息处理导致的横向扩展。</p>
+<p>D. Peer任务</p>
+<p>回忆一下第II-C2节，在从排序者接收块时，Fabric Peer按顺序执行以下任务：</p>
+<p>•验证收到消息的合法性•验证块中每个交易的块头和每个认可签名•验证交易的读写集•更新LevelDB或CouchDB中的世界状态•将区块链日志存储在文件系统中，与LevelDB中的相应索引</p>
+<p>我们的目标是在交易流程的关键路径上最大化交易吞吐量。为此，我们进行了广泛的调用图分析，以确定性能瓶颈。</p>
+<p><img src="http://img.mochain.info/topjohn/blog/post/%E6%88%AA%E5%B1%8F2019-09-20%E4%B8%8B%E5%8D%884.22.49.png" alt=""></p>
+<p>图2.新的Peer结构。快速Peer使用内存中的哈希表来存储世界状态。验证通道完全并发，并行验证多个块及其交易。代言人角色和持久存储被分成可扩展的集群，并由快速Peer给出经过验证的块。通道的所有部分都使用缓存中的未编组块。</p>
+<p>我们做出以下观察。首先，验证交易的读写集需要快速访问world状态。因此，我们可以通过使用内存中的哈希表而不是数据库来加速该过程（第III-E节）。其次，交易流程不需要区块链日志，因此我们可以在交易流程结束时将其存储到专用存储和数据分析服务器（第III-F节）。第三，如果Peer也是背书者，则需要处理新的交易提案。但是，提交者和背书者角色是不同的，这使得为每项任务专用不同的物理硬件成为可能（第III-G节）。第四，必须在Peer验证和解决传入的块和交易。最重要的是，必须按顺序完成通过交易写入集验证状态更改，阻止所有其他任务。因此，尽可能加快这项任务非常重要（第III-H节）。</p>
+<p>最后，通过缓存协议缓冲区[13]解块的结果（第III-I节），可以获得显着的性能提升。我们在图2中详细介绍了这种架构重新设计，包括其他提出的Peer改进。</p>
+<p>E. Peer改进I：用哈希表替换世界状态数据库</p>
+<p>必须为每个交易按顺序查找和更新世界状态数据库，以保证所有Peer的一致性。因此，对此数据存储的更新以尽可能高的交易速率发生是至关重要的。</p>
+<p>我们认为，对于常见情况，例如跟踪分类帐上的钱包或资产，世界状态可能相对较小。即使需要存储数十亿个密钥，大多数服务器也可以轻松地将它们保存在内存中。因此，我们建议使用内存中的哈希表而不是LevelDB / CouchDB来存储世界状态。这样可以在更新世界状态时消除硬盘访问。它还消除了由于区块链本身的冗余保证而不必要的昂贵的数据库系统保证（即，ACID属性），进一步提高了性能。当然，由于使用易失性存储器，这种替换易受节点故障的影响，因此必须通过稳定存储来增强内存中的哈希表。我们在第III-F节讨论了这个问题。</p>
+<p>F.Peer改进II：使用对等集群存储块</p>
+<p>通过定义，块是不可变的。这使它们非常适合仅附加数据存储。通过将数据存储与对等任务的其余部分分离，我们可以设想用于块和世界状态备份的多种类型的数据存储，包括在其文件系统中存储块和世界状态备份的单个服务器，如Fabric目前所做的那样;数据库或键值存储，如LevelDB或CouchDB。为了实现最大扩展，我们建议使用分布式存储集群。请注意，使用此解决方案，每个存储服务器仅包含链的一小部分，从而激励使用分布式数据处理工具，如Hadoop MapReduce或Spark5。</p>
+<p>G.Peer改进III：单独承诺和认可</p>
+<p>在Fabric 1.2中，endorser peer也负责提交块。认可是一项昂贵的操作，承诺也是如此。虽然对一组背书者进行并发交易处理可能会提高应用程序性能，但在每个新节点上复制承诺的额外工作实际上无效了这一优势。因此，我们建议将这些角色分开。</p>
+<p>具体而言，在我们的设计中，提交者节点执行验证通道，然后将经过验证的块发送给背书者群集，这些背书者仅将更改应用于其世界状态而无需进一步验证。此步骤允许我们释放Peer的资源。请注意，这种可以扩展以满足需求的背书者群集只会将对等方的认可角色分割为专用硬件。此群集中的服务器不等同于Fabric 1.2中的完整版本的背书节点。</p>
+<p>H. Peer改进IV：并行化验证</p>
+<p>块和交易头验证（包括检查发件人的权限，执行认可策略和语法验证）都是高度可并行化的。我们通过引入完整的验证通道来扩展Fabric 1.2的并发性。</p>
+<p>具体而言，对于每个传入的块，一个go-routine被分配用于通过块验证阶段。随后，这些例程中的每一个都使用Fabric 1.2中已存在的goroutine池进行交易验证。因此，在任何给定时间，并行检查多个块及其交易的有效性。最后，所有读写集都由单个goroutine以正确的顺序依次验证。这使我们能够充分利用多核服务器CPU的潜力。但是，我们当前的实现不包括这样的存储系统。</p>
+<p>I. Peer增强 V: 缓存解析的区块</p>
+<p>Fabric使用gRPC在网络中让节点进行通信。Protocol Buffers被用来进行序列化。为了保证处理应用和软件升级，Fabric的区块结构是高度层级化的，每一个层级都是单独序列化和反序列化的。这将导致大量的内存将用来进行byte数组转成结构化的数据。而且，Fabric 1.2没有在缓存中存储之前解析的数据，因此当需要这些数据的时候，这些工作将被重复执行。</p>
+<p>为了缓解这个问题，我们计划用一个临时的缓存来存放解析的数据。区块会别缓存，无论当在校验管道还是通过区块号接收的时候。一旦区块的任何部分被解析了，它将会被存储到区块中以便再利用。我们用循环的缓存池实现这一功能，这是一个足够大的校验管道。无论区块是否被提交，一个新的区块可以被自动放进管道覆盖已经存在的位置的区块。由于在提交后不需要缓存，并且保证新块只在旧块离开管道后到达，所以这是一个安全的操作。注意解析操作只会在缓存中追加数据，不会修改。所以在校验通道里可以进行多线程的无锁操作。在最差的场景中，许多线程去读取同一个未被解析的数据，所有的程序并发的执行解析操作。接着最后写入缓存的线程获得胜利，这是没有问题的，因为大家执行的结果都是一致的。</p>
+<p>调用图标分析，即使进行了这些操作，由于解析操作，内存占用率在执行期间仍然非常高。这是继gRPC调用和加密计算之后的占据最大的一项操作。但是后面2个操作，不在本次工作范围内。</p>
+<h2 id="4-结果"><a href="#4-结果" class="headerlink" title="4. 结果"></a>4. 结果</h2><p>本节介绍了对我们的体系结构改进的实验性性能评估。我们使用了15台本地服务器，通过1 Gbit/s交换机连接。每台服务器配备两个2.10GHz的Intel R Xeon R CPU E5-2620 v2处理器，总共24个硬件线程和64 GB RAM。我们使用Fabric1.2作为基本情况，并逐步添加我们的改进以进行比较。默认情况下，fabric配置为使用leveldb作为对等状态数据库，排序服务将已完成的块存储在内存中，而不是磁盘上。此外，我们不使用Docker容器来运行整个系统，以避免额外的开销。</p>
+<p>虽然我们确保我们的实现不会更改fabric的验证行为，但所有测试都是使用不冲突且有效的交易运行的。这是因为有效交易必须经过每个验证检查，并且它们的写集将在提交期间应用于状态数据库。相反，可以删除无效的交易。因此，我们的结果评估了最坏情况下的性能。<br><img src="http://img.mochain.info/topjohn/blog/post/%E6%88%AA%E5%B1%8F2019-09-21%E4%B8%8A%E5%8D%8811.37.01.png" alt=""></p>
+<p>对于专门针对排序者或提交者实验，我们分离了各自的系统部分。在order实验中，我们从客户机向order发送预加载的背书交易，并让一个模拟提交者简单地丢弃创建的块。类似地，在提交者的基准测试期间，我们将预加载的块发送给提交者，并为背书者和丢弃已验证块的块存储创建mock。</p>
+<p>然后，对于端到端的设置，我们实现了完整的系统：背书者根据来自提交人的已验证块的复制世界状态从客户端背书交易建议；订购人从背书交易创建块并将它们发送给提交人；提交者验证并提交对其内存中世界状态的更改，并将已验证的块发送给背书者和块存储；块存储使用结构1.2数据管理将块存储在其文件系统中，状态存储在leveldb中。但是，我们没有为可伸缩分析实现分布式块存储；这超出了本工作的范围。</p>
+<p>为了进行公平的比较，我们对所有实验使用了相同的交易链码：每个交易模拟从一个帐户到另一个帐户的资金转移，读取并更改状态数据库中的两个键。这些交易的有效负载为2.9kb，这是典型的[3]。此外，我们使用默认的背书政策，即接受单一背书人签名。</p>
+<p>A. 通过GRPC传输数据块</p>
+<p>我们首先对GRPC的性能进行基准测试。我们预先创建了包含不同交易数的有效块，通过Fabric GRPC接口将它们从Orderer发送到Peer，然后立即丢弃它们。实验结果如图3所示。</p>
+<p>我们发现，对于从10到250个交易的块大小（这是在以下部分中导致最佳性能的大小），交易吞吐量超过40000个交易/秒是可持续的。与第IV-D节中的端到端测试结果相比，很明显，在我们的环境中，网络带宽和服务器机架中使用的1 Gbit/s交换机不是性能瓶颈。</p>
+<p><img src="http://img.mochain.info/topjohn/blog/post/%E6%88%AA%E5%B1%8F2019-09-21%E4%B8%8A%E5%8D%8811.56.15.png" alt=""></p>
+<p>B. 作为消息大小函数的订购方吞吐量</p>
+<p>在这个实验中，我们设置了多个客户机来向订购者发送事务，并监视发送100000个事务所需的时间。我们评估订单在订单1.2中的交易率，并将其与我们的改进进行比较：</p>
+<p>•opt o-i：仅向卡夫卡发布事务ID（第三-B节）</p>
+<p>•选择O-II：来自客户的并行传入交易建议（第III-C节）</p>
+<p>图4显示了不同负载大小的交易吞吐量。在Fabric1.2中，由于向Kafka发送大消息的开销，交易吞吐量随着负载大小的增加而降低。然而，当我们只将Turac ID发送给卡夫卡（OPT-O-1）时，对于4096 kb的有效负载大小，我们几乎可以将平均吞吐量（2.8×）增加三倍。添加优化o-2后，平均吞吐量比基础结构1.2提高4倍。特别是，对于2kb负载大小，我们将排序服务性能从6215个交易/秒提高到21719个交易/秒，比率接近3.5x。</p>
+<p>C. Peer实验</p>
+<p>在这一节中，我们描述了在孤立的单个Peer节点上的测试（我们在第IV-D节中展示了端到端评估的结果）。在这里，我们预先计算块并将它们发送给Peer，就像我们在第IV-A节的GRPC实验中所做的那样。然后Peer完全验证并提交块。</p>
+<p>与结构1.2相比，图中所示的三种配置累计包含了我们的改进（即，opt p-i i包含opt p-i，opt p-iii包含了先前的两种改进）：</p>
+<p>•opt p-i leveldb替换为内存哈希表<br>•opt p-ii验证和提交完全并行化；块存储和背书分离，通过远程GRPC传输，分离存储服务器<br>•opt p-iii所有解析的数据可以在校验和提交管道访问</p>
+<p><img src="http://img.mochain.info/topjohn/blog/post/%E6%88%AA%E5%B1%8F2019-09-21%E4%B8%8B%E5%8D%8812.49.19.png" alt=""></p>
+<p><img src="http://img.mochain.info/topjohn/blog/post/%E6%88%AA%E5%B1%8F2019-09-21%E4%B8%8B%E5%8D%8812.49.27.png" alt=""></p>
+<p>1）固定块大小的实验：图5和图6显示了一次运行100000个交易的验证和提交结果，重复1000次。交易是收集到100个交易块中。我们先讨论延迟，然后是吞吐量。由于批处理，我们显示每个块的延迟，而不是每个交易延迟。结果与我们自己设定的目标一致，即不因吞吐量增加而引入额外的延迟；事实上，我们的性能改进将对等延迟减少到原始值的三分之一（请注意，这些实验没有考虑网络延迟）。虽然opt p-ii中引入的管道生成了一些额外的延迟，但是其他的优化并不能补偿它。</p>
+<p>通过使用状态存储哈希表（opt p-i），我们能够将Fabric1.2对等机的吞吐量从3200个交易/秒增加到7500多个交易/秒。并行化Val-idation（optp-ii）每秒增加了大约2000个交易操作。这是因为，如图2所示，只有前两个验证步骤可以并行化和缩放。因此，整个管道性能取决于读写集验证和提交的吞吐量。虽然使用opt p-i时承诺几乎是免费的，但是直到在opt p-iii中引入解组缓存，optp-ii才有了回报。高速缓存大大减少了cpu的工作量，释放了并行验证额外块的资源。将所有Peer优化结合在一起，我们将Peer的提交性能提高了7倍，从大约3200个交易/秒提高到超过21000个交易/秒。</p>
+<p>6.我们实验确定在该块大小上Peer吞吐量最大化。</p>
+<p><img src="http://img.mochain.info/topjohn/blog/post/%E6%88%AA%E5%B1%8F2019-09-21%E4%B8%8B%E5%8D%881.07.25.png" alt=""></p>
+<p><img src="http://img.mochain.info/topjohn/blog/post/%E6%88%AA%E5%B1%8F2019-09-21%E4%B8%8B%E5%8D%881.08.06.png" alt=""></p>
+<p>2）参数敏感性：如第IV-C节所述，在Peer并行化块和交易验证至关重要。但是，不清楚要使性能最大化需要多少并行性。因此，我们探索一个Peer的性能可以通过改变两个参数来调谐的程度：</p>
+<p>•验证管道中同时引导块的go例程的数量</p>
+<p>•同时验证交易处理的go例程的数量</p>
+<p>我们使用信号量控制系统中活动go协程的数量，同时允许多个块同时进入验证管道。这允许我们通过两个独立的go例程池来控制块头验证和交易验证中的并行级别。</p>
+<p>对于100个交易的块大小，图7显示了改变go例程数量时的吞吐量。验证管道中的线程总数由两个独立轴的总和给出。例如，我们为管道中的25个交易验证go例程和31个并发块实现了最大吞吐量，总共为管道提供了56个go协程。当有太多线程时，我们会看到通过线程管理开销导致的性能小幅度下降，但是用太少的并行执行来耗尽cpu的代价是巨大的。因此，我们建议默认情况下，在给定的机器中，go例程的数量至少是物理线程的两倍。</p>
+<p>我们现在研究Peer吞吐量对块大小的依赖性。每个块大小实验是用先前测试的最佳调谐GO例程参数进行的。在24±2交易验证中使用的所有配置执行常规程序，并在管道中进行30±3个阻塞。同样，我们在给定大小的块中为一个基准测试运行分割100000个交易，并重复实验1000次。我们选择在对数尺度上扫描块大小空间以获得宽光谱的概述。</p>
+<p>结果如图8所示。我们发现，块大小为100个交易/块时，以每秒21000多个交易的速度提供最佳吞吐量。我们还研究了与这个块大小的小偏差。我们发现块大小在50到500之间的性能差异非常小，因此我们选择将块大小固定为100个交易。</p>
+<p>D.端到端吞吐量</p>
+<p>我们现在讨论通过组合所有优化（即opt）实现的端到端吞吐量。o-ii与opt相结合。p-iii，与我们对未改性织物1.2的测量结果相比。</p>
+<p>我们设置了一个使用三个zookeeper服务器和三个kafka服务器（默认主题复制因子为三）的集群的单个排序节点，并将其连接到Peer。来自此Peer的块被发送到单个数据存储服务器，该服务器将世界状态存储在leveldb中，并将块存储在文件系统中。对于扩展，五个背书者复制对等状态并提供足够的吞吐量来处理客户端背书负载。最后，客户机安装在自己的服务器上；该客户机从五个背书服务器请求背书，并将背书事务发送到排序服务。这总共使用15台服务器连接到本地数据中心的同一个1 Gbit/s交换机。我们从客户端向排序方发送总计100000个已背书的交易，排序者将这些交易批处理为100个大小的块，并将它们传递给Peer。为了估计吞吐量，我们测量Peer上提交的块之间的时间，并取一次运行的平均值。这些运行重复100次。表1显示，与我们的基线结构1.2基准相比，显著提高了6-7倍。</p>
+<h2 id="5-相关工作"><a href="#5-相关工作" class="headerlink" title="5. 相关工作"></a>5. 相关工作</h2><p>hyperledger fabric是一个最近才开发的系统，它的架构仍在快速发展和重大变化中。因此，对于系统的性能分析或架构改进的建议方面的工作相对较少。在这里，我们综述了提高Fabric性能的最新技术。</p>
+<p>最接近我们的工作是由thakkar等人[6]谁研究了各种配置参数对Fabric性能的影响。他们发现，主要的瓶颈是在背书策略验证期间重复验证x.509证书，对块中的交易进行顺序策略验证，以及在提交阶段进行状态验证。它们引入了对已验证的认可证书的积极缓存（合并到Fabric版本1.1中，因此是我们评估的一部分）、认可策略的并行验证以及批处理状态验证和承诺。这些改进使总吞吐量增加了16倍。我们还对提交方的验证进行了并行化，并进一步将状态数据库替换为更有效的数据结构，即哈希表。<br>hyperledger fabric是一个最近才开发的系统，它的架构仍在快速发展和重大变化中。因此，对于系统的性能分析或架构改进的建议方面的工作相对较少。在这里，我们综述了提高Fabric性能的最新技术。</p>
+<p>在最近的工作中，sharma等人[14]研究了使用数据库技术，即事务重新排序和提前中止，来提高fabric的性能。他们关于早期识别冲突交易的一些想法与我们的想法是正交的，可以纳入我们的解决方案。但是，有些想法，例如让排序服务删除冲突交易，与我们的解决方案不兼容。首先，我们故意不向排序者发送交易读写集，只发送交易id。其次，我们选择遵守fabric的设计目标，即将不同的任务分配给不同类型的节点，因此我们的排序服务不检查读写集的内容。未来工作的一个有趣方向是在不同的交易工作负载下比较这两种方法，以了解何时向排序服务发送完整交易详细信息的开销值得提前修剪冲突交易。</p>
+<p>众所周知，由于拜占庭容错协议（bft）的消息通信开销，fabric的order组件可能成为性能瓶颈。因此，在排序服务中使用bft协议的有效实现非常重要。sousa等人[3]研究了著名的bft-smart[15]实现作为fabric的一部分的使用，并表明，在单个数据中心内使用此实现，可以实现高达30000个交易/秒的吞吐量。然而，与我们的工作不同，Committer组件没有基准测试，端到端的性能也没有得到解决。</p>
+<p>Androulaki等人[16]研究了通道在Fabric上的应用。然而，这项工作并没有提出一个绩效评估，以定量地确定其方法的效益。</p>
+<p>raman等人[17]研究了当区块链用于存储大型数据集分析产生的中间结果时，使用有损压缩来降低结构背书人和验证人之间共享状态的通信成本。然而，他们的方法只适用于对有损压缩不敏感的场景，这不是基于区块链的应用程序的一般情况。</p>
+<p>一些研究已经检查了Fabric的性能，但没有提出内部结构的变化。例如，Dinh等人使用Blockbench[5]这一工具来研究私有区块链的性能，研究Fabric的性能，并将其与以太坊和奇偶校验的性能进行比较。他们发现，由于消息通道中的聚集，他们研究的结构版本没有扩展到超过16个节点。nasir等人[18]比较了fabric 0.6和1.0的性能，发现1.0版本的性能优于0.6版本，这并不奇怪。Baliga等人[19]表明，应用程序级参数（如交易的读写集大小、链码和事件负载大小）显著影响交易延迟。类似地，Pongnumkul等人[20]比较了Fabric和以太坊对于加密货币工作负载的性能，发现Fabric在所有指标上都优于以太坊。bergman[21]将fabric与apache cassandra在类似环境中的性能进行了比较，发现对于少量Peer节点，fabric在读重工作负载中的可线性化交易的延迟比cassandra低。另一方面，由于节点数量较多，或者写的工作负载很重，cassandra有更好的性能。</p>
+<h2 id="6-总结"><a href="#6-总结" class="headerlink" title="6. 总结"></a>6. 总结</h2><p>这项工作的主要贡献是展示如何对每一个错误的BuffStand框架，如HyffeDiger-Frand，可以重新设计，以支持每秒近20000个交易，一个比现有工作好7的因素。我们通过实现一系列独立的优化来实现这个目标，这些优化集中在I/O、缓存、并行性和高效的数据访问上。在我们的设计中，排序服务只接收交易id而不是完整的交易，并且Peer上的验证是高度并行化的。我们还使用主动缓存，并利用轻量级数据结构在关键路径上快速访问数据。在未来的工作中，我们希望通过以下方式进一步提高hyperledger fabric的性能：<br>•结合有效的bft一致性算法，如rcanopus[22]<br>•在不打开整个交易头的情况下，加快为排序服务提取交易ID•替换现有的加密计算库，提供更有效率的库<br>•通过分配一个单独的每个通道的排序和快速Peer服务器<br>•使用分布式框架，如apache spark[23]</p>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p>[1] V. Espinel, D. O’Halloran, E. Brynjolfsson, and D. O’Sullivan, “Deep shift, technology tipping points and societal impact,” in New York: World Economic Forum–Global Agenda Council on the Future of Software &amp; Society (REF 310815), 2015.<br>[2] M. Vukolic ́, “The quest for scalable blockchain fabric: Proof-of-work vs. bft replication,” in International Workshop on Open Problems in Network Security. Springer, 2015, pp. 112–125.<br>[3] J. Sousa, A. Bessani, and M. Vukolic, “A Byzantine fault-tolerant ordering service for the hyperledger fabric blockchain platform,” in 2018 48th Annual IEEE/IFIP International Conference on Dependable Systems and Networks (DSN). IEEE, 2018, pp. 51–58.<br>[4] M. Yin, D. Malkhi, M. K. Reiter, G. Golan Gueta, and I. Abraham, “HotStuff: BFT Consensus in the Lens of Blockchain,” arXiv preprint arXiv:1803.05069, 2018.<br>[5] T. T. A. Dinh, J. Wang, G. Chen, R. Liu, B. C. Ooi, and K.-L. Tan, “BLOCKBENCH: A Framework for Analyzing Private Blockchains,” Proceedings of the 2017 ACM International Conference on Management of Data - SIGMOD ’17, pp. 1085–1100, 2017.<br>[6] P. Thakkar, S. Nathan, and B. Vishwanathan, “Performance Benchmarking and Optimizing Hyperledger Fabric Blockchain Platform,” arXiv, 2018.<br>[7] Hyperledger Fabric, “[FAB-12221] Validator/Committer refactor - Hyperledger JIRA.” [Online]. Available: <a href="https://jira.hyperledger.org/" target="_blank" rel="noopener">https://jira.hyperledger.org/</a> browse/FAB- 12221?filter=12526<br>[8] C. Cachin, “Architecture of the hyperledger blockchain fabric,” in Workshop on Distributed Cryptocurrencies and Consensus Ledgers, vol. 310, 2016.<br>[9] E. Androulaki, A. Barger, V. Bortnikov, C. Cachin, K. Christidis, A. De Caro, D. Enyeart, C. Ferris, G. Laventman, Y. Manevich, S. Muralidharan, C. Murthy, B. Nguyen, M. Sethi, G. Singh, K. Smith, A. Sorniotti, C. Stathakopoulou, M. Vukolic ́, S. W. Cocco, and J. Yellick, “Hyperledger Fabric: A Distributed Operating System for Permissioned Blockchains,” Proceedings of the Thirteenth EuroSys Conference on - EuroSys ’18, pp. 1–15, 2018.<br>[10] ApacheFoundation,“ApacheKafka,ADistributedStreamingPlatform,” 2018. [Online]. Available: <a href="https://kafka.apache.org/" target="_blank" rel="noopener">https://kafka.apache.org/</a> (Accessed 2018-12- 05).<br>[11] Cloud Native Computing Foundation, “gRPC: A high performance, open-source universal RPC framework,” 2018. [Online]. Available: <a href="https://grpc.io/" target="_blank" rel="noopener">https://grpc.io/</a><br>[12] S. Bano, A. Sonnino, M. Al-Bassam, S. Azouvi, P. McCorry, S. Meik- lejohn, and G. Danezis, “Consensus in the age of blockchains,” arXiv preprint arXiv:1711.03936, 2017.<br>[13] Google Developers, “Protocol Buffers — Google Developers,” 2018. [Online]. Available: <a href="https://developers.google.com/protocol-buffers/?hl=" target="_blank" rel="noopener">https://developers.google.com/protocol-buffers/?hl=</a> en<br>[14] A. Sharma, F. M. Schuhknecht, D. Agrawal, and J. Dittrich, “How to databasify a blockchain: the case of hyperledger fabric,” arXiv preprint arXiv:1810.13177, 2018.<br>[15] A. Bessani, J. Sousa, and E. Alchieri, “State machine replication for the masses with BFT-SMART,” in DSN, 2014, pp. 355–362.<br>[16] E. Androulaki, C. Cachin, A. De Caro, and E. Kokoris-Kogias, “Channels: Horizontal scaling and confidentiality on permissioned blockchains,” in European Symposium on Research in Computer Se-<br>curity. Springer, 2018, pp. 111–131.<br>[17] R. K. Raman, R. Vaculin, M. Hind, S. L. Remy, E. K. Pissadaki, N. K. Bore, R. Daneshvar, B. Srivastava, and K. R. Varshney, “Trusted multi- party computation and verifiable simulations: A scalable blockchain approach,” arXiv preprint arXiv:1809.08438, 2018.<br>[18] Q. Nasir, I. A. Qasse, M. Abu Talib, and A. B. Nassif, “Performance analysis of hyperledger fabric platforms,” Security and Communication Networks, vol. 2018, 2018.<br>[19] A. Baliga, N. Solanki, S. Verekar, A. Pednekar, P. Kamat, and S. Chat- terjee, “Performance Characterization of Hyperledger Fabric,” in Crypto Valley Conference on Blockchain Technology, CVCBT 2018, 2018.<br>[20] S. Pongnumkul, C. Siripanpornchana, and S. Thajchayapong, “Performance analysis of private blockchain platforms in varying workloads,” in 2017 26th International Conference on Computer Communications and Networks, ICCCN 2017. IEEE, 7 2017, pp. 1–6.<br>[21] S. Bergman, “Permissioned blockchains and distributed databases: A performance study,” Master’s thesis, Linkoping University, 2018.<br>[22] S. Keshav, W. M. Golab, B. Wong, S. Rizvi, and S. Gorbunov, “RCano- pus: Making canopus resilient to failures and byzantine faults,” arXiv preprint arXiv:1810.09300, 2018.<br>[23] Apache Foundation, “Apache Spark - Unified Analytics Engine for Big Data,” 2018. [Online]. Available: <a href="https://spark.apache.org" target="_blank" rel="noopener">https://spark.apache.org</a></p>
+<p><img src="http://img.mochain.info/topjohn/blog/awesome_blockchain.jpg" alt="AwesomeBlockchain"></p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/2019/05/21/Service-Mesh的一点思考/" data-toggle="tooltip" data-placement="top" title="Service Mesh的一点思考">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                    <div class="comment">
+                        <div id="disqus_thread" class="disqus-thread"></div>
+                    </div>
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#摘要"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">摘要</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1-介绍"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">1. 介绍</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-Fabric架构"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">2. Fabric架构</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-设计"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">3. 设计</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#4-结果"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">4. 结果</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#5-相关工作"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">5. 相关工作</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#6-总结"><span class="toc-nav-number">7.</span> <span class="toc-nav-text">6. 总结</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#引用"><span class="toc-nav-number">8.</span> <span class="toc-nav-text">引用</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Fabric" title="Fabric">Fabric</a>
+                        
+                          <a class="tag" href="/tags/#Fabric 技术内幕" title="Fabric 技术内幕">Fabric 技术内幕</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://tech.hyperchain.cn" target="_blank">Qtech</a></li>
+                    
+                        <li><a href="http://www.liqilei.com/" target="_blank">李启雷的博客</a></li>
+                    
+                        <li><a href="http://qyuan.top/" target="_blank">清源的博客</a></li>
+                    
+                        <li><a href="https://www.chenquan.me/" target="_blank">Codestack</a></li>
+                    
+                        <li><a href="https://yushuangqi.com" target="_blank">虞双齐的博客</a></li>
+                    
+                        <li><a href="https://blog.terryding.com/" target="_blank">terryding</a></li>
+                    
+                        <li><a href="https://learnblockchain.cn/" target="_blank">深入浅出区块链</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus embedded js code start (one page only need to embed once) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "TopJohn";
+    var disqus_identifier = "https://www.xuanzhangjiong.top/2019/09/21/FastFabric-提升Hyperledger-Fabric性能到20000TPS/";
+    var disqus_url = "https://www.xuanzhangjiong.top/2019/09/21/FastFabric-提升Hyperledger-Fabric性能到20000TPS/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus embedded js code start end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/topjohn">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/xuanzhangjiong">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://github.com/TopJohn">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; TopJohn 2019 
+                    <br>
+                    本站文章，未经允许，不得转载。
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://www.xuanzhangjiong.top">TopJohn</a> | 
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="91px" height="20px" src="https://ghbtns.com/github-btn.html?user=TopJohn&repo=hexo-theme-topjohn&type=star&count=true">
+                    </iframe>
+                    <br>
+                    <span id="busuanzi_container_site_pv">
+                        本站总访问量<span id="busuanzi_value_site_pv"></span>次
+                    </span>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://www.xuanzhangjiong.top/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-66905395-1';
+    var _gaDomain = 'https://wwww.xuanzhangjiong.top';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'c2d1c0062682434e5ebc3ef3275eee5f';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<!-- <img src="https://www.xuanzhangjiong.top/img/icon_wechat.png" width="0" height="0" /> -->
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
