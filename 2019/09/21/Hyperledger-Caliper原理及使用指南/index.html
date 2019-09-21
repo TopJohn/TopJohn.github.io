@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="写个博客，记录自己在开发过程中的点点滴滴...">
+    <meta name="keyword" content="Golang Docker Kubernetes Java Hyperledger-Fabric Blockchain">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Hyperledger Caliper原理及使用指南 - TopJohn&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://www.xuanzhangjiong.top/2019/09/21/Hyperledger-Caliper原理及使用指南/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <link rel="stylesheet" href="/css/about.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('http://img.mochain.info/topjohn/blog/post/patrick-hendry-jS0ysot7MwE-unsplash%20%281%29.jpg')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header">
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Hyperledger Caliper" title="Hyperledger Caliper">Hyperledger Caliper</a>
+                            
+                        </div>
+                        <h1>Hyperledger Caliper原理及使用指南</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by TopJohn on
+                            2019-09-21
+                        </span>
+                        <br>
+                        <span id="busuanzi_container_page_pv">
+                            本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+                          </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">TopJohn&#39;s Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <!-- <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+                        
+                     -->
+                    
+                    
+                        <li>
+                            <a href="/">home</a>
+                        </li>
+                      
+                        <li>
+                            <a href="/archive">archives</a>
+                        </li>
+                      
+                        <li>
+                            <a href="/tags">tags</a>
+                        </li>
+                      
+                        <li>
+                            <a href="/about">about</a>
+                        </li>
+                      
+
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="Hyperledger-Caliper原理及使用指南"><a href="#Hyperledger-Caliper原理及使用指南" class="headerlink" title="Hyperledger Caliper原理及使用指南"></a>Hyperledger Caliper原理及使用指南</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>前段时间花了一段时间来研究Hyperledger Caliper的原理以及使用方式，研究的时候正处于Caliper改动较大的时候，因此也踩了不少的坑，也发现了一些问题，同时也加深了对这个项目的认识，在这里进行一下整理和归纳，以便大家能够更好地使用Caliper。</p>
+<p>先附上一张官方文档的架构图：</p>
+<p><img src="http://img.mochain.info/topjohn/blog/post/architecture.png" alt=""></p>
+<p>Hyperledger Caliper这个项目其主要的核心思想是实现一套通用的区块链性能测试框架，能够支持Hyperledger旗下的所有framework，但是也不限于下面的项目，也可以支持其他的区块链项目，不过需要自己实现adaptation Layer。目前，Caliper已经正式发布了v0.1.0版本，支持Hyperledger Fabric v1.0-v1.4.3、Sawtooth、Iroha、composer和burrow。</p>
+<p>Adaptation Layper（适配层）</p>
+<p>适配层类似编程语言中接口与实现中的实现部分，即各种区块链操作最后都会调用到你所指定的Adaptation Layper的具体实现去操作对应的区块链平台。</p>
+<p>Interface&amp;Core Layper（接口及核心层）</p>
+<p>下述内容摘自官方文档，该层核心思想是定义整个框架的相关流程，从初始化到测试到最后的统计及生成报告和相关的速率控制等实现，主体思想是定义整个核心流程代码。</p>
+<p>接口和核心层提供 Blockchain NBI、资源监控、性能监控、报告生成模块，并为上层应用提供四种相应的北向接口：</p>
+<p>Blockchain operating interfaces: 包含诸如在后端区块链上部署智能合约、调用合约、从账本查询状态等操作。<br>Resource Monitor: 包含启动/停止监视器和获取后端区块链系统资源消耗状态的操作，包括CPU、内存、网络IO等。现在提供两种监视器，一种是监视本地/远程docker容器，另一种则是监控本地进程。未来将实现更多功能。<br>Performance Analyzer: 包含读取预定义性能统计信息（包括TPS、延迟、成功交易数等）和打印基准测试结果的操作。在调用区块链北向接口时，每个交易的关键指标（如创建交易的时间、交易提交时间、交易返回结果等）都会被记录下来，并用于生成最终的预定义性能指标统计信息。<br>Report Generator: 生成HTML格式测试报告。</p>
+<p>Application Layer(应用层)</p>
+<p>应用层用于定义区块链网络的配置，测试的相关配置，指benchmark和network两个文件夹的配置。相关配置信息在此不进行展开。</p>
+<p><img src="http://img.mochain.info/topjohn/blog/post/test-framework.png" alt=""></p>
+<p>整个测试流程，主要包括3个阶段：</p>
+<ul>
+<li>准备阶段： 用于初始化整个区块链网络，读取配置文件，部署智能合约，启动监控组建等。</li>
+<li>测试阶段：根据定义好的benchmark配置文件，启动客户端子进程，执行相应的测试，返回统计结果。</li>
+<li>报告阶段：分析统计结果，生成html报告。</li>
+</ul>
+<p>测试客户端有2种，一种是local client，一种是zookeeper client，local client模式用于进行单机模式下的测试，zookeeper client模式用于解决单机性能不足，进行分布式的客户端测试。但是目前因为架构调整，zookeeper client这种模式将被废弃，作者尝试过此种模式的测试，但是存在一些问题<a href="https://github.com/hyperledger/caliper/issues/572" target="_blank" rel="noopener">https://github.com/hyperledger/caliper/issues/572</a>，在这里贴出来，有兴趣的朋友可以研究下，但是maintainer已经不做维护了。后续将会设计新的分布式测试方案，可以关注后期的设计。</p>
+<p>用户自己的定义的test case可以在benchmark文件夹中实现自己定义的相应JavaScript代码来实现相应的智能合约方法调用以及初始化和结束时要做的事情。</p>
+<h2 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h2><p>caliper项目中所有的代码都位于<code>caliper/packages</code>目录下：</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">├── caliper-<span class="keyword">burrow</span></span><br><span class="line"><span class="keyword">├── </span>caliper-cli</span><br><span class="line">├── caliper-composer</span><br><span class="line">├── caliper-core</span><br><span class="line">├── caliper-fabric</span><br><span class="line">├── caliper-iroha</span><br><span class="line">├── caliper-samples</span><br><span class="line">├── caliper-sawtooth</span><br><span class="line">└── caliper-tests-integration</span><br></pre></td></tr></table></figure>
+<p>其中包括各个adaptation Layper层：caliper-burrow、caliper-composer、caliper-fabric、caliper-iroha、caliper-sawtooth。</p>
+<p>caliper-cli：用于命令行参数解析。</p>
+<p>caliper-core：用于整个项目的核心流程接口的实现。</p>
+<p>caliper-samples；用于存放各种区块链网络的配置文件示例、测试文件的示例，以及各种智能合约。</p>
+<p>caliper-tests-integration：用于进行caliper的本地打包发布和安装。</p>
+<p><strong>在学习使用的时候可以重点关注fabric-samples文件夹下的相关配置，网络配置在network目录中，测试配置在benchmark文件夹中，智能合约文件在<code>src/contract</code>文件夹中。</strong></p>
+<h2 id="Caliper安装及使用"><a href="#Caliper安装及使用" class="headerlink" title="Caliper安装及使用"></a>Caliper安装及使用</h2><p>目前caliper有了较为丰富的安装方法，大家可以根据自己的喜好以及实际情况择优选择。</p>
+<p>Caliper目前已经将v0.1.0版本发布到了官方的npm server上了包名为<code>@hyperledger/caliper-cli</code>，将制作好的docker镜像发布到了docker hub，<code>hyperledger/caliper</code>，镜像包括了caliper的二进制文件。</p>
+<p>安装和使用caliper主要有3个步骤：</p>
+<ol>
+<li>安装可执行程序</li>
+<li>执行bind命令绑定对应的底层平台的sdk的版本</li>
+<li>开始测试</li>
+</ol>
+<h3 id="Caliper命令的使用"><a href="#Caliper命令的使用" class="headerlink" title="Caliper命令的使用"></a>Caliper命令的使用</h3><blockquote>
+<p>在这里介绍下npx命令，npx命令在下面主要是搜索node_modules中下载的caliper命令的作用，起到类似将caliper放到全局搜索路径的效果。</p>
+</blockquote>
+<h4 id="version命令"><a href="#version命令" class="headerlink" title="version命令"></a>version命令</h4><p>使用如下命令确认下载的caliper的版本：<br><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">user<span class="variable">@ubuntu</span><span class="symbol">:~/caliper-benchmarks</span><span class="variable">$ </span>npx caliper --version</span><br><span class="line">v<span class="number">0</span>.<span class="number">1.0</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="help命令"><a href="#help命令" class="headerlink" title="help命令"></a>help命令</h4><p>Cli提供了很多的辅助信息，可以使用–help进行查看。</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">user@ubuntu:~/caliper-benchmarks$ npx caliper --<span class="keyword">help</span></span><br><span class="line">caliper <span class="symbol">&lt;command&gt;</span></span><br><span class="line"></span><br><span class="line">Command<span class="variable">s:</span></span><br><span class="line">  caliper benchmark <span class="symbol">&lt;subcommand&gt;</span>   Caliper benchmark <span class="keyword">command</span></span><br><span class="line">  caliper bind [<span class="keyword">options</span>]           Bind Caliper <span class="keyword">to</span> <span class="keyword">a</span> specific SUT <span class="built_in">and</span> its SDK <span class="keyword">version</span></span><br><span class="line"></span><br><span class="line">Option<span class="variable">s:</span></span><br><span class="line">  --<span class="keyword">help</span>         Show <span class="keyword">help</span>  [boolean]</span><br><span class="line">  -v, --<span class="keyword">version</span>  Show <span class="keyword">version</span> <span class="keyword">number</span>  [boolean]</span><br><span class="line"></span><br><span class="line">Example<span class="variable">s:</span></span><br><span class="line">  caliper bind</span><br><span class="line">  caliper benchmark run</span><br><span class="line"></span><br><span class="line">For more information <span class="keyword">on</span> Hyperledger Caliper: http<span class="variable">s:</span>//hyperledger.github.io/caliper/</span><br></pre></td></tr></table></figure>
+<h4 id="Bind命令"><a href="#Bind命令" class="headerlink" title="Bind命令"></a>Bind命令</h4><p>bind命令用于指定caliper命令行操作的区块链平台的sdk类型及版本：</p>
+<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">user@ubuntu:~/caliper-benchmarks$ npx caliper <span class="keyword">bind</span> --help</span><br><span class="line"><span class="type">Usage</span>:</span><br><span class="line">  caliper <span class="keyword">bind</span> --caliper-<span class="keyword">bind</span>-sut fabric --caliper-<span class="keyword">bind</span>-sdk <span class="number">1</span>.<span class="number">4</span>.<span class="number">1</span> --caliper-<span class="keyword">bind</span>-cwd ./ --caliper-<span class="keyword">bind</span>-args=<span class="string">"-g"</span></span><br><span class="line"></span><br><span class="line"><span class="type">Options</span>:</span><br><span class="line">  --help               <span class="type">Show</span> help  [boolean]</span><br><span class="line">  -v, --version        <span class="type">Show</span> version number  [boolean]</span><br><span class="line">  --caliper-<span class="keyword">bind</span>-sut   <span class="type">The</span> name <span class="keyword">of</span> the platform to <span class="keyword">bind</span> to  [<span class="built_in">string</span>]</span><br><span class="line">  --caliper-<span class="keyword">bind</span>-sdk   <span class="type">Version</span> <span class="keyword">of</span> the platform <span class="type">SDK</span> to <span class="keyword">bind</span> to  [<span class="built_in">string</span>]</span><br><span class="line">  --caliper-<span class="keyword">bind</span>-cwd   <span class="type">The</span> working directory <span class="keyword">for</span> performing the <span class="type">SDK</span> install  [<span class="built_in">string</span>]</span><br><span class="line">  --caliper-<span class="keyword">bind</span>-args  <span class="type">Additional</span> arguments to pass to <span class="string">"npm install"</span>. <span class="type">Use</span> the <span class="string">"="</span> notation <span class="keyword">when</span> setting this parameter  [<span class="built_in">string</span>]</span><br></pre></td></tr></table></figure>
+<h4 id="benchmark命令"><a href="#benchmark命令" class="headerlink" title="benchmark命令"></a>benchmark命令</h4><p>benchmark命令也是整个命令的核心，用于执行相应的测试，需要指定工作目录，网络配置及测试配置。</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">user@ubuntu:~/caliper-benchmarks$ npx caliper benchmark run --<span class="keyword">help</span></span><br><span class="line">caliper benchmark run --caliper-workspace ~/myCaliperProject --caliper-benchconfig my-app-test-config.yaml --caliper-networkconfig my-sut-config.yaml</span><br><span class="line"></span><br><span class="line">Option<span class="variable">s:</span></span><br><span class="line">  --<span class="keyword">help</span>                   Show <span class="keyword">help</span>  [boolean]</span><br><span class="line">  -v, --<span class="keyword">version</span>            Show <span class="keyword">version</span> <span class="keyword">number</span>  [boolean]</span><br><span class="line">  --caliper-benchconfig    Path <span class="keyword">to</span> the benchmark workload <span class="keyword">file</span> that describes the test client(s), test rounds <span class="built_in">and</span> monitor.  [<span class="built_in">string</span>]</span><br><span class="line">  --caliper-networkconfig  Path <span class="keyword">to</span> the blockchain configuration <span class="keyword">file</span> that contains information required <span class="keyword">to</span> interact with the SUT  [<span class="built_in">string</span>]</span><br><span class="line">  --caliper-workspace      Workspace directory that contains <span class="keyword">all</span> configuration information  [<span class="built_in">string</span>]</span><br></pre></td></tr></table></figure>
+<h3 id="安装方式"><a href="#安装方式" class="headerlink" title="安装方式"></a>安装方式</h3><h4 id="从官方的NPM-Server下载安装"><a href="#从官方的NPM-Server下载安装" class="headerlink" title="从官方的NPM Server下载安装"></a>从官方的NPM Server下载安装</h4><p>目前这种方式已经非常方便了，可以直接用<code>npm install</code>安装，分为局部安装和全局安装2种方式。</p>
+<ol>
+<li>局部安装</li>
+</ol>
+<p>这种方式的好处是可以在同一台服务器上设置多个不同的测试客户端而且不会相互干扰。</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">user<span class="variable">@ubuntu</span><span class="symbol">:~/caliper-benchmarks</span><span class="variable">$ </span>npm init -y</span><br><span class="line">user<span class="variable">@ubuntu</span><span class="symbol">:~/caliper-benchmarks</span><span class="variable">$ </span>npm install --only=prod <span class="variable">@hyperledger</span>/caliper-cli</span><br><span class="line">user<span class="variable">@ubuntu</span><span class="symbol">:~/caliper-benchmarks</span><span class="variable">$ </span>npx caliper bind --caliper-bind-sut fabric --caliper-bind-sdk <span class="number">1.4</span>.<span class="number">0</span></span><br><span class="line">user<span class="variable">@ubuntu</span><span class="symbol">:~/caliper-benchmarks</span><span class="variable">$ </span>npx caliper benchmark run --caliper-workspace . --caliper-benchconfig benchmarks/scenario/simple/config.yaml --caliper-networkconfig networks/fabric/fabric-v1.<span class="number">4</span>/<span class="number">2</span>org1peergoleveldb/fabric-go.yaml</span><br></pre></td></tr></table></figure>
+<ol>
+<li>初始化npm项目</li>
+<li>安装Caliper命令行</li>
+<li>绑定所需要的平台SDK</li>
+<li><p>调用命令行进行测试</p>
+</li>
+<li><p>全局安装</p>
+</li>
+</ol>
+<p>全局安装不需要初始化。</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">user<span class="variable">@ubuntu</span><span class="symbol">:~</span><span class="variable">$ </span>npm install -g --only=prod <span class="variable">@hyperledger</span>/caliper-cli</span><br><span class="line">user<span class="variable">@ubuntu</span><span class="symbol">:~</span><span class="variable">$ </span>caliper bind --caliper-bind-sut fabric --caliper-bind-sdk <span class="number">1.4</span>.<span class="number">0</span> --caliper-bind-args=-g</span><br><span class="line">user<span class="variable">@ubuntu</span><span class="symbol">:~</span><span class="variable">$ </span>caliper benchmark run --caliper-workspace ~<span class="regexp">/caliper-benchmarks --caliper-benchconfig benchmarks/scenario</span><span class="regexp">/simple/config</span>.yaml --caliper-networkconfig networks/fabric/fabric-v1.<span class="number">4</span>/<span class="number">2</span>org1peergoleveldb/fabric-go.yaml</span><br></pre></td></tr></table></figure>
+<ol>
+<li>直接执行install进行全局安装</li>
+<li>指定所需要的平台SDK</li>
+<li>调用命令行进行测试</li>
+</ol>
+<h4 id="使用Docker镜像"><a href="#使用Docker镜像" class="headerlink" title="使用Docker镜像"></a>使用Docker镜像</h4><p>使用Docker镜像可以通过直接使用docker命令或者docker-compose的方式进行启动，只需要配置相应的环境变量以及将相关配置文件映射进容器即可。</p>
+<p>下面是docker命令的方式：</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">user<span class="variable">@ubuntu</span><span class="symbol">:~/caliper-benchmarks</span><span class="variable">$ </span>docker run \</span><br><span class="line">    -v .<span class="symbol">:/hyperledger/caliper/workspace</span> \</span><br><span class="line">    -e CALIPER_BIND_SUT=fabric \</span><br><span class="line">    -e CALIPER_BIND_SDK=<span class="number">1.4</span>.<span class="number">0</span> \</span><br><span class="line">    -e CALIPER_BENCHCONFIG=benchmarks/scenario/simple/config.yaml \</span><br><span class="line">    -e CALIPER_NETWORKCONFIG=networks/fabric/fabric-v1.<span class="number">4</span>/<span class="number">2</span>org1peergoleveldb/fabric-go.yaml \</span><br><span class="line">    --name caliper hyperledger/caliper</span><br></pre></td></tr></table></figure>
+<p>下面是docker-compose的方式：</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">version:</span> <span class="string">'2'</span></span><br><span class="line"></span><br><span class="line"><span class="symbol">services:</span></span><br><span class="line"><span class="symbol">    caliper:</span></span><br><span class="line"><span class="symbol">        container_name:</span> caliper</span><br><span class="line"><span class="symbol">        image:</span> hyperledger/caliper</span><br><span class="line"><span class="symbol">        environment:</span></span><br><span class="line">        - CALIPER_BIND_SUT=fabric</span><br><span class="line">        - CALIPER_BIND_SDK=<span class="number">1.4</span><span class="number">.0</span></span><br><span class="line">        - CALIPER_BENCHCONFIG=benchmarks<span class="meta-keyword">/scenario/</span>simple/config.yaml</span><br><span class="line">        - CALIPER_NETWORKCONFIG=networks<span class="meta-keyword">/fabric/</span>fabric-v1<span class="number">.4</span>/<span class="number">2</span>org1peergoleveldb/fabric-go.yaml</span><br><span class="line"><span class="symbol">        volumes:</span></span><br><span class="line">        - ~/caliper-benchmarks:<span class="meta-keyword">/home/</span>node<span class="meta-keyword">/hyperledger/</span>caliper/workspace</span><br></pre></td></tr></table></figure>
+<p>如果docker-compose的配置文件名为<code>docker-compose.yaml</code>，直接执行：<br><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">docker-compose up</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="从源代码安装"><a href="#从源代码安装" class="headerlink" title="从源代码安装"></a>从源代码安装</h4><ol>
+<li>首先需要在项目根目录进行全局的初始化操作。</li>
+</ol>
+<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">user@ubuntu:~/caliper$ <span class="built_in">npm</span> i &amp;&amp; <span class="built_in">npm</span> run repoclean -- --<span class="literal">yes</span> &amp;&amp; <span class="built_in">npm</span> run bootstrap</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>将npm包发布到本地npm仓库</li>
+</ol>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">user@ubuntu<span class="symbol">:~/caliper</span>$ cd ./packages/caliper-tests-integration</span><br><span class="line">user@ubuntu<span class="symbol">:~/caliper/packages/caliper-tests-integration</span>$ npm run start_verdaccio</span><br><span class="line">...</span><br><span class="line">[PM2] Spawning PM2 daemon with pm2_home=.pm2</span><br><span class="line">[PM2] PM2 Successfully daemonized</span><br><span class="line">[PM2] Starting /home/user/projects/caliper/packages/caliper-tests-integration/node_modules/.bin/verdaccio <span class="keyword">in</span> fork_mode (<span class="number">1</span> instance)</span><br><span class="line">[PM2] Done.</span><br><span class="line">┌───────────┬────┬──────┬────────┬────────┬─────────┬────────┬─────┬───────────┬────────┬──────────┐</span><br><span class="line">│ App name  │ id │ mode │ pid    │ status │ restart │ uptime │ cpu │ mem       │ user   │ watching │</span><br><span class="line">├───────────┼────┼──────┼────────┼────────┼─────────┼────────┼─────┼───────────┼────────┼──────────┤</span><br><span class="line">│ verdaccio │ <span class="number">0</span>  │ fork │ <span class="number">115203</span> │ online │ <span class="number">0</span>       │ 0s     │ <span class="number">3</span>%  │ <span class="number">25.8</span> MB   │ user   │ disabled │</span><br><span class="line">└───────────┴────┴──────┴────────┴────────┴─────────┴────────┴─────┴───────────┴────────┴──────────┘</span><br><span class="line"> Use <span class="string">`pm2 show &lt;id|name&gt;`</span> to get more details about an app</span><br><span class="line"> user@ubuntu<span class="symbol">:~/caliper/packages/caliper-tests-integration</span>$ npm run npm_publish_local</span><br><span class="line">...</span><br><span class="line">+ @hyperledger/caliper-core@0.<span class="number">1.0</span></span><br><span class="line">[PUBLISH] Published package @hyperledger/caliper-core@0.<span class="number">1.0</span></span><br><span class="line">...</span><br><span class="line">+ @hyperledger/caliper-fabric@0.<span class="number">1.0</span></span><br><span class="line">[PUBLISH] Published package @hyperledger/caliper-fabric@0.<span class="number">1.0</span></span><br><span class="line">...</span><br><span class="line">+ @hyperledger/caliper-cli@0.<span class="number">1.0</span></span><br><span class="line">[PUBLISH] Published package @hyperledger/caliper-cli@0.<span class="number">1.0</span></span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>下载caliper命令行并执行bind命令后即可进行测试</li>
+</ol>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">user<span class="variable">@ubuntu</span><span class="symbol">:~/caliper/packages/caliper-tests-integration</span><span class="variable">$ </span>npm install --registry=<span class="symbol">http:</span>/<span class="regexp">/localhost:4873 --only=prod @hyperledger/caliper</span>-cli</span><br><span class="line">user<span class="variable">@ubuntu</span><span class="symbol">:~/caliper/packages/caliper-tests-integration</span><span class="variable">$ </span>npx caliper bind --caliper-bind-sut fabric --caliper-bind-sdk <span class="number">1.4</span>.<span class="number">0</span></span><br><span class="line">user<span class="variable">@ubuntu</span><span class="symbol">:~/caliper/packages/caliper-tests-integration</span><span class="variable">$ </span>npx caliper benchmark run --caliper-workspace ../caliper-samples --caliper-benchconfig benchmark/simple/config.yaml --caliper-networkconfig network/fabric-v1.<span class="number">4</span>/<span class="number">2</span>org1peergoleveldb/fabric-node.yaml</span><br></pre></td></tr></table></figure>
+<h4 id="构建Docker镜像"><a href="#构建Docker镜像" class="headerlink" title="构建Docker镜像"></a>构建Docker镜像</h4><p>如果需要自己构建Docker镜像的话，请执行下述命令：</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">user<span class="variable">@ubuntu</span><span class="symbol">:~/caliper/packages/caliper-tests-integration</span><span class="variable">$ </span>npm run docker_build_local</span><br><span class="line">...</span><br><span class="line">Successfully tagged hyperledger/<span class="symbol">caliper:</span><span class="number">0</span>.<span class="number">1.0</span></span><br><span class="line">[BUILD] Built Docker image <span class="string">"hyperledger/caliper:0.1.0"</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果执行完了发布命令的话，请清理一下环境<br><code>user@ubuntu:~/caliper/packages/caliper-tests-integration$ npm run cleanup</code></p>
+</blockquote>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>上述是我结合官方文档以及自己在前两周使用Caliper的过程中的心得体会，但是受限于目前Caliper目前客户端的性能问题，我并未采用Caliper进行测试，而是采用了别的方式，会在后续博客中提到。目前Caliper测试Fabric v1.4以上版本使用的SDK采用的是SDK的高级API，封装效果好，但是测试结果发现，在8核16G的服务器上，测试的sendRate在800TPS左右的时候，服务器CPU就已经满负荷运行了，无法提升单机的发送速率，和社区开发者交流后证实，在此版本之前，Caliper单机发送速率通过多进程的方式是可以达到4000TPS的，所以目前作者仅仅采用Caliper进行测试网络的初始化、销毁以及部署智能合约等辅助操作。真正的测试需要社区排查解决CPU占用率过高的问题之后才能使用，我也会持续关注这个问题，个人认为是由于发送的时候建立了过多的event hub的连接导致的资源消耗过高的原因。</p>
+<p><img src="http://img.mochain.info/topjohn/blog/awesome_blockchain.jpg" alt="AwesomeBlockchain"></p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/2019/09/21/FastFabric-提升Hyperledger-Fabric性能到20000TPS/" data-toggle="tooltip" data-placement="top" title="FastFabric:提升Hyperledger Fabric性能到20000TPS">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                    <div class="comment">
+                        <div id="disqus_thread" class="disqus-thread"></div>
+                    </div>
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Hyperledger-Caliper原理及使用指南"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Hyperledger Caliper原理及使用指南</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#介绍"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">介绍</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#项目结构"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">项目结构</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Caliper安装及使用"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">Caliper安装及使用</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Caliper命令的使用"><span class="toc-nav-number">1.3.1.</span> <span class="toc-nav-text">Caliper命令的使用</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#version命令"><span class="toc-nav-number">1.3.1.1.</span> <span class="toc-nav-text">version命令</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#help命令"><span class="toc-nav-number">1.3.1.2.</span> <span class="toc-nav-text">help命令</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Bind命令"><span class="toc-nav-number">1.3.1.3.</span> <span class="toc-nav-text">Bind命令</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#benchmark命令"><span class="toc-nav-number">1.3.1.4.</span> <span class="toc-nav-text">benchmark命令</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#安装方式"><span class="toc-nav-number">1.3.2.</span> <span class="toc-nav-text">安装方式</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#从官方的NPM-Server下载安装"><span class="toc-nav-number">1.3.2.1.</span> <span class="toc-nav-text">从官方的NPM Server下载安装</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#使用Docker镜像"><span class="toc-nav-number">1.3.2.2.</span> <span class="toc-nav-text">使用Docker镜像</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#从源代码安装"><span class="toc-nav-number">1.3.2.3.</span> <span class="toc-nav-text">从源代码安装</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#构建Docker镜像"><span class="toc-nav-number">1.3.2.4.</span> <span class="toc-nav-text">构建Docker镜像</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#总结"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">总结</span></a></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Hyperledger Caliper" title="Hyperledger Caliper">Hyperledger Caliper</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://tech.hyperchain.cn" target="_blank">Qtech</a></li>
+                    
+                        <li><a href="http://www.liqilei.com/" target="_blank">李启雷的博客</a></li>
+                    
+                        <li><a href="http://qyuan.top/" target="_blank">清源的博客</a></li>
+                    
+                        <li><a href="https://www.chenquan.me/" target="_blank">Codestack</a></li>
+                    
+                        <li><a href="https://yushuangqi.com" target="_blank">虞双齐的博客</a></li>
+                    
+                        <li><a href="https://blog.terryding.com/" target="_blank">terryding</a></li>
+                    
+                        <li><a href="https://learnblockchain.cn/" target="_blank">深入浅出区块链</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus embedded js code start (one page only need to embed once) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "TopJohn";
+    var disqus_identifier = "https://www.xuanzhangjiong.top/2019/09/21/Hyperledger-Caliper原理及使用指南/";
+    var disqus_url = "https://www.xuanzhangjiong.top/2019/09/21/Hyperledger-Caliper原理及使用指南/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus embedded js code start end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/topjohn">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/xuanzhangjiong">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://github.com/TopJohn">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; TopJohn 2019 
+                    <br>
+                    本站文章，未经允许，不得转载。
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://www.xuanzhangjiong.top">TopJohn</a> | 
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="91px" height="20px" src="https://ghbtns.com/github-btn.html?user=TopJohn&repo=hexo-theme-topjohn&type=star&count=true">
+                    </iframe>
+                    <br>
+                    <span id="busuanzi_container_site_pv">
+                        本站总访问量<span id="busuanzi_value_site_pv"></span>次
+                    </span>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://www.xuanzhangjiong.top/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-66905395-1';
+    var _gaDomain = 'https://wwww.xuanzhangjiong.top';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'c2d1c0062682434e5ebc3ef3275eee5f';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<!-- <img src="https://www.xuanzhangjiong.top/img/icon_wechat.png" width="0" height="0" /> -->
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
