@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="写个博客，记录自己在开发过程中的点点滴滴...">
+    <meta name="keyword" content="Golang Docker Kubernetes Java Hyperledger-Fabric Blockchain">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          git-flow备忘录 - TopJohn&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://www.xuanzhangjiong.top/2019/10/11/git-flow备忘录/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <link rel="stylesheet" href="/css/about.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('http://img.mochain.info/topjohn/blog/post/stephen-kraakmo-eNZZNZA7p7c-unsplash%20%281%29.jpg')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header">
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Git" title="Git">Git</a>
+                            
+                        </div>
+                        <h1>git-flow备忘录</h1>
+                        <h2 class="subheading"></h2>
+                        <span class="meta">
+                            Posted by TopJohn on
+                            2019-10-11
+                        </span>
+                        <br>
+                        <span id="busuanzi_container_page_pv">
+                            本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+                          </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">TopJohn&#39;s Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <!-- <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+                        
+                     -->
+                    
+                    
+                        <li>
+                            <a href="/">home</a>
+                        </li>
+                      
+                        <li>
+                            <a href="/archive">archives</a>
+                        </li>
+                      
+                        <li>
+                            <a href="/tags">tags</a>
+                        </li>
+                      
+                        <li>
+                            <a href="/about">about</a>
+                        </li>
+                      
+
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="git-flow备忘录"><a href="#git-flow备忘录" class="headerlink" title="git-flow备忘录"></a>git-flow备忘录</h1><h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>git-flow是我十分喜爱的一个Git扩展工具，用它可以帮你规范整个开发流程，在小型开发团队中，个人认为十分有效，也十分符合之前翻译过的这篇<a href="https://nvie.com/posts/a-successful-git-branching-model/" target="_blank" rel="noopener">博客</a>的阐述，因此在这里再总结回顾一下。</p>
+<h2 id="关于"><a href="#关于" class="headerlink" title="关于"></a>关于</h2><p>git-flow一个git扩展集，按Vincent Driessen的分支模型提供高层次的库操作。这个备忘清淡展示了git-flow的基本操作和效果。</p>
+<h2 id="基础建议"><a href="#基础建议" class="headerlink" title="基础建议"></a>基础建议</h2><ul>
+<li>Git flow提供了极出色的命令帮助以及输出提示。请仔细阅读并观察发生了什么事情…</li>
+<li>macOS程序<strong>Sourcetree</strong>是一个极出色的git界面客户端，已经提供了git-flow的支持。</li>
+<li>Git-flow是一个基于归并的解决方案，它并没有提供重置（rebase）特性分支的能力。</li>
+</ul>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>你需要有一个可以工作的 git 作为前提。<br>Git flow 可以工作在 macOS, Linux 和 Windows之下:</p>
+<p>macOS<br>Homebrew<br><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="keyword">brew </span><span class="keyword">install </span>git-flow-avh</span><br></pre></td></tr></table></figure></p>
+<p>Macports<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$<span class="built_in"> port </span>install git-flow-avh</span><br></pre></td></tr></table></figure></p>
+<p>Linux<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apt-<span class="builtin-name">get</span> install git-flow</span><br></pre></td></tr></table></figure></p>
+<p>Windows (Cygwin)<br><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>wget -q -O - --no-check-certificate <span class="symbol">https:</span>/<span class="regexp">/raw.github.com/petervanderdoes</span><span class="regexp">/gitflow-avh/develop</span><span class="regexp">/contrib/gitflow</span>-installer.sh install stable | bash</span><br></pre></td></tr></table></figure></p>
+<p>安装 git-flow, 你需要 wget 和 util-linux。</p>
+<h2 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h2><p>为了自定义你的项目，Git flow 需要初始化过程。</p>
+<p>初始化<br>使用 git-flow，从初始化一个现有的 git 库内开始:</p>
+<p><code>git flow init</code><br>你必须回答几个关于分支的命名约定的问题。<br>建议使用默认值。</p>
+<h2 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h2><p>为即将发布的版本开发新功能特性。<br>这通常只存在开发者的库中。</p>
+<h3 id="增加新特性"><a href="#增加新特性" class="headerlink" title="增加新特性"></a>增加新特性</h3><p>新特性的开发是基于 ‘develop’ 分支的。</p>
+<p>通过下面的命令开始开发新特性：</p>
+<p><code>git flow feature start MYFEATURE</code><br>这个操作创建了一个基于’develop’的特性分支，并切换到这个分支之下。</p>
+<h3 id="完成新特性"><a href="#完成新特性" class="headerlink" title="完成新特性"></a>完成新特性</h3><p>完成开发新特性。这个动作执行下面的操作.</p>
+<p>合并 MYFEATURE 分支到 ‘develop’<br>删除这个新特性分支<br>切换回 ‘develop’ 分支<br><code>git flow feature finish MYFEATURE</code><br>发布新特性<br>你是否合作开发一项新特性？<br>发布新特性分支到远程服务器，所以，其它用户也可以使用这分支。</p>
+<p><code>git flow feature publish MYFEATURE</code><br>取得一个发布的新特性分支<br>取得其它用户发布的新特性分支，并签出远程的变更。</p>
+<p><code>git flow feature pull origin MYFEATURE</code><br>你可以使用 git flow feature track MYFEATURE 跟踪在origin上的特性分支。</p>
+<h2 id="作一个release版本"><a href="#作一个release版本" class="headerlink" title="作一个release版本"></a>作一个release版本</h2><p>支持一个新的用于生产环境的发布版本。<br>允许修正小问题，并为发布版本准备元数据。</p>
+<h3 id="开始准备release版本"><a href="#开始准备release版本" class="headerlink" title="开始准备release版本"></a>开始准备release版本</h3><p>开始准备release版本，使用 git flow release 命令.</p>
+<p>它从 ‘develop’ 分支开始创建一个 release 分支。<br><code>git flow release start RELEASE [BASE]</code><br>你可以选择提供一个 [BASE]参数，即提交记录的 sha-1 hash 值，来开启动 release 分支. 这个提交记录的 sha-1 hash 值必须是’develop’ 分支下的。</p>
+<p>创建 release 分支之后立即发布允许其它用户向这个 release 分支提交内容是个明智的做法。命令十分类似发布新特性：</p>
+<p><code>git flow release publish RELEASE</code><br>(你可以通过<code>git flow release track RELEASE</code>命令签出 release 版本的远程变更)</p>
+<h3 id="完成-release-版本"><a href="#完成-release-版本" class="headerlink" title="完成 release 版本"></a>完成 release 版本</h3><p>完成 release 版本是一个大 git 分支操作。它执行下面几个动作：</p>
+<p>归并 release 分支到 ‘master’ 分支<br>用 release 分支名打 Tag<br>归并 release 分支到 ‘develop’<br>移除 release 分支<br><code>git flow release finish RELEASE</code></p>
+<h2 id="紧急修复"><a href="#紧急修复" class="headerlink" title="紧急修复"></a>紧急修复</h2><p>紧急修复来自这样的需求：生产环境的版本处于一个不预期状态，需要立即修正。<br> 有可能是需要修正 master 分支上某个 TAG 标记的生产版本。</p>
+<p>开始 git flow 紧急修复<br>像其它 git flow 命令一样, 紧急修复分支开始自：</p>
+<p><code>git flow hotfix start VERSION [BASENAME]</code><br>VERSION 参数标记着修正版本。你可以从 [BASENAME]开始，[BASENAME]为finish release时填写的版本号</p>
+<p>完成紧急修复<br>当完成紧急修复分支，代码归并回 develop 和 master 分支。相应地，master 分支打上修正版本的 TAG。</p>
+<p><code>git flow hotfix finish VERSION</code></p>
+<h2 id="Backlog"><a href="#Backlog" class="headerlink" title="Backlog"></a>Backlog</h2><p>并非所有可用的命令都涵盖在这里，这里包含有最重要的部分命令。<br>你依旧可以继续使用你所知道和了解的 git 命令， git flow 只是一个工具集合。<br>‘support’ 功能只是测试版本, 不建议使用。</p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/2019/10/11/Fabric中的使用到的测试框架/" data-toggle="tooltip" data-placement="top" title="Fabric中的使用到的测试框架">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                    <div class="comment">
+                        <div id="disqus_thread" class="disqus-thread"></div>
+                    </div>
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#git-flow备忘录"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">git-flow备忘录</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#摘要"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">摘要</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#关于"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">关于</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#基础建议"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">基础建议</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#安装"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">安装</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#开始"><span class="toc-nav-number">1.5.</span> <span class="toc-nav-text">开始</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#特性"><span class="toc-nav-number">1.6.</span> <span class="toc-nav-text">特性</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#增加新特性"><span class="toc-nav-number">1.6.1.</span> <span class="toc-nav-text">增加新特性</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#完成新特性"><span class="toc-nav-number">1.6.2.</span> <span class="toc-nav-text">完成新特性</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#作一个release版本"><span class="toc-nav-number">1.7.</span> <span class="toc-nav-text">作一个release版本</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#开始准备release版本"><span class="toc-nav-number">1.7.1.</span> <span class="toc-nav-text">开始准备release版本</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#完成-release-版本"><span class="toc-nav-number">1.7.2.</span> <span class="toc-nav-text">完成 release 版本</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#紧急修复"><span class="toc-nav-number">1.8.</span> <span class="toc-nav-text">紧急修复</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Backlog"><span class="toc-nav-number">1.9.</span> <span class="toc-nav-text">Backlog</span></a></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Git" title="Git">Git</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://tech.hyperchain.cn" target="_blank">Qtech</a></li>
+                    
+                        <li><a href="http://www.liqilei.com/" target="_blank">李启雷的博客</a></li>
+                    
+                        <li><a href="http://qyuan.top/" target="_blank">清源的博客</a></li>
+                    
+                        <li><a href="https://www.chenquan.me/" target="_blank">Codestack</a></li>
+                    
+                        <li><a href="https://yushuangqi.com" target="_blank">虞双齐的博客</a></li>
+                    
+                        <li><a href="https://blog.terryding.com/" target="_blank">terryding</a></li>
+                    
+                        <li><a href="https://learnblockchain.cn/" target="_blank">深入浅出区块链</a></li>
+                    
+                        <li><a href="https://dbarobin.com/" target="_blank">Robin</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus embedded js code start (one page only need to embed once) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "TopJohn";
+    var disqus_identifier = "https://www.xuanzhangjiong.top/2019/10/11/git-flow备忘录/";
+    var disqus_url = "https://www.xuanzhangjiong.top/2019/10/11/git-flow备忘录/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus embedded js code start end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                    <li>
+                        <a href="/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/topjohn">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/xuanzhangjiong">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://github.com/TopJohn">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; TopJohn 2019 
+                    <br>
+                    本站文章，未经允许，不得转载。
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://www.xuanzhangjiong.top">TopJohn</a> | 
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="91px" height="20px" src="https://ghbtns.com/github-btn.html?user=TopJohn&repo=hexo-theme-topjohn&type=star&count=true">
+                    </iframe>
+                    <br>
+                    <span id="busuanzi_container_site_pv">
+                        本站总访问量<span id="busuanzi_value_site_pv"></span>次
+                    </span>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://www.xuanzhangjiong.top/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-66905395-1';
+    var _gaDomain = 'https://wwww.xuanzhangjiong.top';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'c2d1c0062682434e5ebc3ef3275eee5f';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<!-- <img src="https://www.xuanzhangjiong.top/img/icon_wechat.png" width="0" height="0" /> -->
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

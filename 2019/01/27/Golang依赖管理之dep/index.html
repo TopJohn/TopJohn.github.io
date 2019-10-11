@@ -243,9 +243,9 @@
 <p>dep是一个“官方的试验”。正如Go 1.11的到来，Go的工具链已经试验性地采用了一种大幅剥离dep的方法。作为结果，我们将继续开发dep,但是整体工作主要还是指向开发Go工具链中的替代原型为主（这里指的是Go 1.11的go modules的一个竞争对手，新的dep）。</p>
 <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>强烈推荐你使用release版本。Release的二进制在<a href="https://github.com/golang/dep/releases" target="_blank" rel="noopener">release</a>页中可以下载。</p>
 <p>在MacOS中你可以采用Homebrew安装或者更新release的版本：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> brew install dep</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> brew upgrade dep</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> brew install dep</span><br><span class="line"><span class="meta">$</span> brew upgrade dep</span><br></pre></td></tr></table></figure>
 <p>在其他操作系统上你可以采用<code>install.sh</code>脚本进行安装：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh</span><br></pre></td></tr></table></figure>
 <p><code>install.sh</code>脚本会默认将其安装在<code>$GOPATH/bin</code>目录中，或者 你可以设置特殊的环境变量<code>INSTALL_DIRECTORY</code>来改改变安装路径。</p>
 <p>如果你的操作系统是<code>install.sh</code>脚步不支持的，你需要手动构建它或者通知开发团队将你对应的操作系统加入到release列表中。</p>
 <p>如果你是一名极客，对dep感兴趣的话，你可以通过<code>go get</code>来安装：</p>
