@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          2019年展望 - TopJohn&#39;s Blog
+          mockery介绍及使用 - TopJohn&#39;s Blog
         
     </title>
 
-    <link rel="canonical" href="https://www.xuanzhangjiong.top/2019/01/03/2019年展望/">
+    <link rel="canonical" href="https://www.xuanzhangjiong.top/2019/10/12/mockery介绍及使用/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -71,7 +71,7 @@
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('http://img.mochain.info/topjohn/blog/post/header.jpg')
+            background-image: url('http://img.mochain.info/topjohn/blog/post/1321570850886_.pic_hd.jpg')
             /*post*/
         
     }
@@ -88,14 +88,14 @@
                     <div class="post-heading">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#随笔" title="随笔">随笔</a>
+                              <a class="tag" href="/tags/#Go" title="Go">Go</a>
                             
                         </div>
-                        <h1>2019年展望</h1>
-                        <h2 class="subheading">2019年的展望和规划</h2>
+                        <h1>mockery介绍及使用</h1>
+                        <h2 class="subheading"></h2>
                         <span class="meta">
                             Posted by TopJohn on
-                            2019-01-03
+                            2019-10-12
                         </span>
                         <br>
                         <span id="busuanzi_container_page_pv">
@@ -234,31 +234,22 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h1 id="2019年展望"><a href="#2019年展望" class="headerlink" title="2019年展望"></a>2019年展望</h1><p>2019年对技术追求的想法更为强烈了，希望新的一年自己在技术上能有所突破，在一个领域有所建树。在研究生期间，我曾坚持过1年的博客写作，那时也小有成就，但是工作之后便没有坚持了，折腾了一年多，希望能够重新把这个习惯养成，在这里分享技术总结，分享人生感悟。</p>
-<h2 id="Hyperledger-Fabric"><a href="#Hyperledger-Fabric" class="headerlink" title="Hyperledger Fabric"></a>Hyperledger Fabric</h2><p>因为17年开始参与开源社区，对<code>Hyperledger Fabric</code>项目也算是断断续续有过研究，2019年，我会在这里持续分享Hyperledger Fabric相关的2个系列的原创技术文章，也算是对自己一次系统的复习和总结：</p>
-<ul>
-<li><code>Hyperledger Fabric</code>入门与实战</li>
-<li><code>Hyperledger Fabric</code>技术内幕</li>
-</ul>
-<p>同时，闲暇之余，我会翻译<code>Hyperledger Fabric</code>官方文档给大家，同时会翻译一些设计文档以及国外的相关论文，让大家更好地了解<code>Hyperledger Fabric</code>这个项目，同时也算是对自己的一次挑战，看看自己能否坚持下来。</p>
-<ul>
-<li><a href="https://hyperledger-fabric.readthedocs.io/en/latest/" target="_blank" rel="noopener">官方文档的翻译</a></li>
-<li>相关设计文档的翻译</li>
-<li>相关论文的翻译</li>
-</ul>
-<h2 id="容器相关技术"><a href="#容器相关技术" class="headerlink" title="容器相关技术"></a>容器相关技术</h2><p>容器和容器的编排一直感兴趣的技术方向，18年对Docker熟练了，但是 19年希望对相关技术有系统的学习，这块我会边学边记录。</p>
-<ul>
-<li>Docker</li>
-<li>Kubernetes</li>
-<li>Rancher</li>
-</ul>
-<h2 id="Algorithm"><a href="#Algorithm" class="headerlink" title="Algorithm"></a>Algorithm</h2><p>算法一直是我曾经觉得最遥远的，最不实用的，但是接触了区块链之后，很长一段时间只徘徊在工程实现上，没有深入了解算法实现，才醒悟过来。一个有理论保障的算法，才是工程实现的灵魂。一大把年纪了，19年怎么也得看两篇论文学习一下。正好接触的<code>Hyperledger Fabric</code>中涉及了几个方向：</p>
-<ul>
-<li>SBFT</li>
-<li>RAFT</li>
-</ul>
-<h2 id="技术杂谈"><a href="#技术杂谈" class="headerlink" title="技术杂谈"></a>技术杂谈</h2><p>记录一些前端、后端和运维相关的技术分享，聊聊家常。</p>
-<p>我会在我的<a href="https://github.com/TopJohn" target="_blank" rel="noopener">Github</a>上分享学习总结过程中的相关代码，也希望新的一年，能够结交一些新的朋友一起交流技术，聊聊人生。</p>
+                <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>mockery，Golang的一种用于模拟实例的自动生成工具。</p>
+<p>mockery为golang提供了自动生成接口实例的能力。它删除了用于模拟的样板代码。</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>执行<code>go get github.com/vektra/mockery/.../</code>，安装到<code>$GOPATH/bin/mockery</code></p>
+<h1 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h1><p>最简单的例子</p>
+<p>例如在<code>string.go</code>中</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> test</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Stringer <span class="keyword">interface</span> &#123;</span><br><span class="line">	String() <span class="keyword">string</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行：<code>mockery -name=Stringer</code>，然后将会生成下列内容<code>mocks/Stringer.go</code>：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> mocks</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"github.com/stretchr/testify/mock"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Stringer <span class="keyword">struct</span> &#123;</span><br><span class="line">	mock.Mock</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m *Stringer)</span> <span class="title">String</span><span class="params">()</span> <span class="title">string</span></span> &#123;</span><br><span class="line">	ret := m.Called()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> r0 <span class="keyword">string</span></span><br><span class="line">	<span class="keyword">if</span> rf, ok := ret.Get(<span class="number">0</span>).(<span class="function"><span class="keyword">func</span><span class="params">()</span> <span class="title">string</span>); <span class="title">ok</span></span> &#123;</span><br><span class="line">		r0 = rf()</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		r0 = ret.Get(<span class="number">0</span>).(<span class="keyword">string</span>)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> r0</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来的例子</p>
+<p>参见&lt;github.com/jaytaylor/mockery-example&gt;获取完整的运行例子。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"fmt"</span></span><br><span class="line"></span><br><span class="line">	<span class="string">"github.com/aws/aws-sdk-go/aws"</span></span><br><span class="line">	<span class="string">"github.com/aws/aws-sdk-go/service/s3"</span></span><br><span class="line">	<span class="string">"github.com/jaytaylor/mockery-example/mocks"</span></span><br><span class="line">	<span class="string">"github.com/stretchr/testify/mock"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	mockS3 := &amp;mocks.S3API&#123;&#125;</span><br><span class="line"></span><br><span class="line">	mockResultFn := <span class="function"><span class="keyword">func</span><span class="params">(input *s3.ListObjectsInput)</span> *<span class="title">s3</span>.<span class="title">ListObjectsOutput</span></span> &#123;</span><br><span class="line">		output := &amp;s3.ListObjectsOutput&#123;&#125;</span><br><span class="line">		output.SetCommonPrefixes([]*s3.CommonPrefix&#123;</span><br><span class="line">			&amp;s3.CommonPrefix&#123;</span><br><span class="line">				Prefix: aws.String(<span class="string">"2017-01-01"</span>),</span><br><span class="line">			&#125;,</span><br><span class="line">		&#125;)</span><br><span class="line">		<span class="keyword">return</span> output</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// NB: .Return(...) must return the same signature as the method being mocked.</span></span><br><span class="line">	<span class="comment">//     In this case it's (*s3.ListObjectsOutput, error).</span></span><br><span class="line">	mockS3.On(<span class="string">"ListObjects"</span>, mock.MatchedBy(<span class="function"><span class="keyword">func</span><span class="params">(input *s3.ListObjectsInput)</span> <span class="title">bool</span></span> &#123;</span><br><span class="line">		<span class="keyword">return</span> input.Delimiter != <span class="literal">nil</span> &amp;&amp; *input.Delimiter == <span class="string">"/"</span> &amp;&amp; input.Prefix == <span class="literal">nil</span></span><br><span class="line">	&#125;)).Return(mockResultFn, <span class="literal">nil</span>)</span><br><span class="line"></span><br><span class="line">	listingInput := &amp;s3.ListObjectsInput&#123;</span><br><span class="line">		Bucket:    aws.String(<span class="string">"foo"</span>),</span><br><span class="line">		Delimiter: aws.String(<span class="string">"/"</span>),</span><br><span class="line">	&#125;</span><br><span class="line">	listingOutput, err := mockS3.ListObjects(listingInput)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="built_in">panic</span>(err)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> _, x := <span class="keyword">range</span> listingOutput.CommonPrefixes &#123;</span><br><span class="line">		fmt.Printf(<span class="string">"common prefix: %+v\n"</span>, *x)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="导入"><a href="#导入" class="headerlink" title="导入"></a>导入</h1><p>mockery将接口用到的包自动导入以此保证类型正确。然后，它将通过imports 包运行输出以删除所有不必要的导入（因为它们会导致编译错误）。</p>
+<h1 id="类型"><a href="#类型" class="headerlink" title="类型"></a>类型</h1><p>mockery应该能够处理所有类型。如果不能的话，你可以反馈。</p>
+<h1 id="返回值提供功能"><a href="#返回值提供功能" class="headerlink" title="返回值提供功能"></a>返回值提供功能</h1><p>如果您的测试需要访问参数以计算返回值，则将返回值设置为一个将方法的参数作为自己的参数并返回返回值的函数。例如，给定此接口：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> test</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Proxy <span class="keyword">interface</span> &#123;</span><br><span class="line">  passthrough(s <span class="keyword">string</span>) <span class="keyword">string</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>该参数可以作为返回值传递：<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> . <span class="string">"github.com/stretchr/testify/mock"</span></span><br><span class="line"></span><br><span class="line">Mock.On(<span class="string">"passthrough"</span>, AnythingOfType(<span class="string">"string"</span>)).Return(<span class="function"><span class="keyword">func</span><span class="params">(s <span class="keyword">string</span>)</span> <span class="title">string</span></span> &#123;</span><br><span class="line">    <span class="keyword">return</span> s</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
 
                 
 
@@ -266,10 +257,10 @@
                 <!-- Pager -->
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/2019/01/15/Fabric与dep/" data-toggle="tooltip" data-placement="top" title="Fabric与dep">&larr; Previous Post</a>
-                        </li>
                     
+                        <li class="next">
+                            <a href="/2019/10/11/counterfeiter介绍及使用/" data-toggle="tooltip" data-placement="top" title="counterfeiter介绍及使用">Next Post &rarr;</a>
+                        </li>
                     
                 </ul>
 
@@ -298,7 +289,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#2019年展望"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">2019年展望</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Hyperledger-Fabric"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">Hyperledger Fabric</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#容器相关技术"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">容器相关技术</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Algorithm"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">Algorithm</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#技术杂谈"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">技术杂谈</span></a></li></ol></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#介绍"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">介绍</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#安装"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">安装</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#例子"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">例子</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#导入"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">导入</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#类型"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">类型</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#返回值提供功能"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">返回值提供功能</span></a></li></ol>
         
         </div>
       </aside>
@@ -318,7 +309,7 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#随笔" title="随笔">随笔</a>
+                          <a class="tag" href="/tags/#Go" title="Go">Go</a>
                         
                     </div>
                 </section>
@@ -361,8 +352,8 @@
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "TopJohn";
-    var disqus_identifier = "https://www.xuanzhangjiong.top/2019/01/03/2019年展望/";
-    var disqus_url = "https://www.xuanzhangjiong.top/2019/01/03/2019年展望/";
+    var disqus_identifier = "https://www.xuanzhangjiong.top/2019/10/12/mockery介绍及使用/";
+    var disqus_url = "https://www.xuanzhangjiong.top/2019/10/12/mockery介绍及使用/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
