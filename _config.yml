@@ -3,9 +3,9 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: 开源技术实验室
+title: TopJohn 个人小站
 subtitle: 'TopJohn 个人小站'
-description: '爱折腾 爱开源'
+description: '爱折腾 爱开源 分享个人技术感悟和生活'
 keywords:
 author: TopJohn
 language: zh-CN
@@ -98,7 +98,8 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: butterfly
+#theme: butterfly
+theme: anzhiyu
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
